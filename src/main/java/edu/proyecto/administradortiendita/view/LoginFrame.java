@@ -1,11 +1,10 @@
 package edu.proyecto.administradortiendita.view;
 
 import edu.proyecto.administradortiendita.controller.login.AutenticacionController;
-import edu.proyecto.administradortiendita.controller.sesion.Sesion;
 import javax.swing.JOptionPane;
 
 /**
- * 
+ *
  * Ventana principal mostrada al iniciar la aplicación. Muestra un formulario
  * básico de inicio sesión requiriendo un nombre de usuario y una contraseña.
  *
@@ -14,7 +13,7 @@ import javax.swing.JOptionPane;
 public class LoginFrame extends javax.swing.JFrame {
 
     private AutenticacionController autController = new AutenticacionController();
-    
+
     /**
      * Creates new form Login
      */
@@ -96,19 +95,14 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onLoginClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onLoginClick
-        
-        if(autController.login(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
-            
-            // TODO: Mostrar la página de inicio (dashboard)
-            
-            JOptionPane.showMessageDialog(this, "Iniciaste sesión. \n" +
-                    "Bievenido " + Sesion.instance().getUsuario().getNombre());
-            
-        }
-        else {
+
+        if (autController.login(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
+            dispose();
+            new HomeFrame(autController).setVisible(true);
+        } else {
             JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
         }
-        
+
     }//GEN-LAST:event_onLoginClick
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
