@@ -5,6 +5,10 @@
 package edu.proyecto.administradortiendita.view;
 
 import edu.proyecto.administradortiendita.controller.login.AutenticacionController;
+import helpers.Confirmation;
+import helpers.ConfirmationModal;
+import java.awt.event.ActionEvent;
+import javax.swing.JDialog;
 
 /**
  *
@@ -64,9 +68,21 @@ public class HomeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        dispose();
-        authController.logout();
-        new LoginFrame().setVisible(true);
+        ConfirmationModal modal = new ConfirmationModal(this, "¿Estás seguro de que desea cerrar la sesión?", new Confirmation() {
+            @Override
+            public void onConfirm(JDialog component, ActionEvent evt) {
+                component.dispose();
+                dispose();
+                authController.logout();
+                new LoginFrame().setVisible(true);
+            }
+
+            @Override
+            public void onCancel(JDialog component, ActionEvent evt) {
+                component.dispose();
+            }
+        });
+        modal.setVisible(true);
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
