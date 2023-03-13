@@ -7,6 +7,8 @@ package edu.proyecto.administradortiendita.view;
 import edu.proyecto.administradortiendita.controller.login.AutenticacionController;
 import helpers.Confirmation;
 import helpers.ConfirmationModal;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import javax.swing.JDialog;
 
@@ -25,6 +27,11 @@ public class HomeFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.authController = authController;
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(0, 0);
+        this.setSize(dimension.width, dimension.height);
+        this.setResizable(false);
+        this.setTitle("Tiendita de la esquina");
     }
 
     /**
@@ -51,17 +58,17 @@ public class HomeFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(261, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(32, 32, 32)
                 .addComponent(logoutBtn)
-                .addGap(19, 19, 19))
+                .addContainerGap(1166, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addComponent(logoutBtn)
-                .addContainerGap(259, Short.MAX_VALUE))
+                .addContainerGap(467, Short.MAX_VALUE)
+                .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         pack();
