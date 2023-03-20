@@ -33,6 +33,7 @@ public class HomeFrame extends javax.swing.JFrame {
         this.setSize(dimension.width, dimension.height);
         this.setResizable(false);
         this.setTitle("Tiendita de la esquina");
+        this.setVisible(true);
         
         
         usuarioLbl.setText(Sesion.instance().getUsuario().getNombre());
