@@ -6,4 +6,4 @@
 
 
 
-[https://www.goconqr.com/en/mindmap/38670150/librerias](mapa mental)
+[mapa mental](https://www.goconqr.com/en/mindmap/38670150/librerias)
