@@ -1,5 +1,6 @@
 package edu.proyecto.administradortiendita.view;
 
+import edu.proyecto.administradortiendita.ConexionDB;
 import edu.proyecto.administradortiendita.controller.login.AutenticacionController;
 import javax.swing.JOptionPane;
 
@@ -18,8 +19,13 @@ public class LoginFrame extends javax.swing.JFrame {
      * Creates new form Login
      */
     public LoginFrame() {
+        
+        ConexionDB conexion = ConexionDB.getInstance();
+              
         initComponents();
         setLocationRelativeTo(null);
+        
+        conexion.closeConnection();
     }
 
     /**
