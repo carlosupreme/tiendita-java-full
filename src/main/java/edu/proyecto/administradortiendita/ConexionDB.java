@@ -21,7 +21,7 @@ public class ConexionDB {
          // Establecer la conexión con la base de datos
          String url = "jdbc:mysql://localhost:3306/tiendita";
          String username = "root";
-         String password = "093iliMmc*";
+         String password = System.getenv("DB_PASSWORD");
          conn = DriverManager.getConnection(url, username, password);
          
          System.out.println("Conexión establecida.");
