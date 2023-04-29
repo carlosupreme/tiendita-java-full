@@ -15,6 +15,7 @@
                 <exec.appArgs></exec.appArgs>
                 <exec.mainClass>edu.proyecto.administradortiendita.AdministradorTiendita</exec.mainClass>
                 <exec.executable>java</exec.executable>
+                <Env.DB_PASSWORD>carlos1030</Env.DB_PASSWORD>
             </properties>
         </action>
         <action>
