@@ -25,7 +25,6 @@ public class LoginFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         
-        conexion.closeConnection();
     }
 
     /**
