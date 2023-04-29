@@ -1,6 +1,6 @@
-package edu.proyecto.administradortiendita.controller.sesion;
+package app;
 
-import edu.proyecto.administradortiendita.model.Usuario;
+import models.Usuario;
 
 /**
  *

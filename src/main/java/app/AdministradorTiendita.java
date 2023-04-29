@@ -1,6 +1,6 @@
-package edu.proyecto.administradortiendita;
+package app;
 
-import edu.proyecto.administradortiendita.view.LoginFrame;
+import views.LoginFrame;
 
 /**
  * 
