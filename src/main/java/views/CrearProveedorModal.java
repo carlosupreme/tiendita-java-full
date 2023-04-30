@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package edu.proyecto.administradortiendita.view;
+package views;
 
-import edu.proyecto.administradortiendita.model.Proveedor;
 import java.sql.SQLException;
-import repository.ProveedorRepository;
+import models.Proveedor;
+import repositories.ProveedorRepository;
 
 /**
  *

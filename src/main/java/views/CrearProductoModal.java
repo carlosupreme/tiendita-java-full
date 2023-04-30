@@ -1,8 +1,8 @@
-package edu.proyecto.administradortiendita.view;
+package views;
 
-import edu.proyecto.administradortiendita.model.Producto;
 import java.sql.SQLException;
-import repository.ProductoRepository;
+import models.Producto;
+import repositories.ProductoRepository;
 
 public class CrearProductoModal extends javax.swing.JDialog {
 

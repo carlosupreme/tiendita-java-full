@@ -1,7 +1,7 @@
-package edu.proyecto.administradortiendita.view;
+package views;
 
-import edu.proyecto.administradortiendita.ConexionDB;
-import edu.proyecto.administradortiendita.controller.login.AutenticacionController;
+import app.ConexionDB;
+import controllers.AutenticacionController;
 import javax.swing.JOptionPane;
 
 /**

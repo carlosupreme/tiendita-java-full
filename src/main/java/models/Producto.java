@@ -1,4 +1,4 @@
-package edu.proyecto.administradortiendita.model;
+package models;
 
 public class Producto {
     private int id;
