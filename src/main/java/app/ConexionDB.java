@@ -4,8 +4,8 @@
  */
 package app;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.*;
-
 /**
  *
  * @author gusam
@@ -19,11 +19,12 @@ public class ConexionDB {
         try {
             // Cargar el driver de MySQL
             Class.forName("com.mysql.cj.jdbc.Driver");
+            Dotenv dotenv = Dotenv.configure().load();
 
             // Establecer la conexión con la base de datos
-            String url = "jdbc:mysql://" + System.getenv("DB_HOST") + ":" + System.getenv("DB_PORT") + "/" + System.getenv("DB_DATABASE");
-            String username = System.getenv("DB_USERNAME");
-            String password = System.getenv("DB_PASSWORD");
+            String url = "jdbc:mysql://" + dotenv.get("DB_HOST") + ":" + dotenv.get("DB_PORT") + "/" + dotenv.get("DB_DATABASE");
+            String username = dotenv.get("DB_USERNAME");
+            String password = dotenv.get("DB_PASSWORD");
             conn = DriverManager.getConnection(url, username, password);
 
             System.out.println("Conexión establecida.");
