@@ -3,8 +3,6 @@ package models;
 public class Producto {
     private int id;
     private int proveedorId;
-
-   
     private String nombre;
     private String descripcion;
     private double precio;
@@ -49,5 +47,9 @@ public class Producto {
 
     public void setPrecio(double precio) {
         this.precio = precio;
+    }
+    
+    public String toString(){
+        return "{id: " + id + ", nombre: " + nombre + ", descripcion: " + descripcion + ", precio: " + precio + ", proveedor_id: " + proveedorId + "}";
     }
 }

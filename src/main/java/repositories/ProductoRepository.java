@@ -1,26 +1,68 @@
-
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package repositories;
 
-
-import app.ConexionDB;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.List;
 import models.Producto;
 
-public class ProductoRepository {
-    //set the id from sql last register
-    private static int currentId = 0;
-    
-    public void save(Producto producto) throws SQLException{
-      Connection conexion = ConexionDB.getInstance().getConnection(); 
-      Statement st =  conexion.createStatement();
-      
-      st.executeUpdate("INSERT INTO producto " + "VALUES ("+currentId+", '"+ producto.getNombre()+"', '"+ producto.getDescripcion()+"', "+ producto.getPrecio()+ ", "+ producto.getProveedorId() +")");
-      ProductoRepository.currentId += 1;
+public class ProductoRepository implements Repository<Producto> {
+
+    private final Connection connection;
+
+    public ProductoRepository(Connection connection) {
+        this.connection = connection;
+    }
+
+    @Override
+    public void save(Producto producto) throws SQLException {
+        int currentId = getLastId() + 1;
+        PreparedStatement st = connection.prepareStatement("INSERT INTO producto (id, nombre, descripcion, precio, id_proveedor) VALUES (?, ?, ?, ?, ?)");
+
+        st.setInt(1, currentId);
+        st.setString(2, producto.getNombre());
+        st.setString(3, producto.getDescripcion());
+        st.setDouble(4, producto.getPrecio());
+        st.setInt(5, producto.getProveedorId());
+        st.executeUpdate();
+
+        producto.setId(currentId);
+        System.out.println(producto);
+    }
+
+    @Override
+    public List<Producto> findAll() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Producto findById(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void update(Producto producto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean delete(int id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private int getLastId() {
+        int id = 0;
+        try {
+            PreparedStatement st = connection.prepareStatement("SELECT MAX(id) FROM producto");
+            ResultSet result = st.executeQuery();
+            if (result.next()) {
+                id = result.getInt(1);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Error al obtener id:\n" + ex.getMessage());
+        }
+        return id;
     }
 }
