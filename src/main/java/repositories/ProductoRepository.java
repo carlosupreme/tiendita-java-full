@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import models.Producto;
 
@@ -33,7 +35,28 @@ public class ProductoRepository implements Repository<Producto> {
 
     @Override
     public List<Producto> findAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Producto> all = new ArrayList<>();
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM producto");
+
+            while (rs.next()) {
+                Producto producto = new Producto();
+                producto.setId(rs.getInt("id"));
+                producto.setNombre(rs.getString("nombre"));
+                producto.setDescripcion(rs.getString("descripcion"));
+                producto.setPrecio(rs.getDouble("precio"));
+                producto.setProveedorId(rs.getInt("id_proveedor"));
+
+                all.add(producto);
+            }
+
+        } catch (SQLException ex) {
+            System.err.println("Error obteniendo todos los registros de la tabla productos\n" + ex.getMessage());
+        }
+
+        return all;
     }
 
     @Override
