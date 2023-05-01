@@ -61,7 +61,23 @@ public class ProductoRepository implements Repository<Producto> {
 
     @Override
     public Producto findById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Producto producto = null;
+
+        try {
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM producto WHERE id = " + id);
+            rs.next();
+            producto = new Producto();
+            producto.setId(rs.getInt("id"));
+            producto.setNombre(rs.getString("nombre"));
+            producto.setDescripcion(rs.getString("descripcion"));
+            producto.setPrecio(rs.getDouble("precio"));
+            producto.setProveedorId(rs.getInt("id_proveedor"));
+        } catch (SQLException ex) {
+            System.err.println("Error finbyid" + ex.getMessage());
+        }
+
+        return producto;
     }
 
     @Override

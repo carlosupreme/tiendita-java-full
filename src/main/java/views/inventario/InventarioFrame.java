@@ -15,8 +15,9 @@ import repositories.ProductoRepository;
 
 public class InventarioFrame extends javax.swing.JFrame {
 
-    private AutenticacionController authController;
-    private ProductoRepository productoRepository;
+    private final AutenticacionController authController;
+    private final ProductoRepository productoRepository;
+    DefaultTableModel model;
 
     public InventarioFrame(AutenticacionController authController) {
         initComponents();
@@ -24,6 +25,7 @@ public class InventarioFrame extends javax.swing.JFrame {
         InventarioFrame frame = this;
         this.authController = authController;
         this.productoRepository = new ProductoRepository(ConexionDB.getInstance().getConnection());
+        model = (DefaultTableModel) table.getModel();
         loadEntries();
 
         TableActionEvent actionEvent = new TableActionEvent() {
@@ -37,7 +39,6 @@ public class InventarioFrame extends javax.swing.JFrame {
                 if (table.isEditing()) {
                     table.getCellEditor().stopCellEditing();
                 }
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
 
                 ConfirmationModal modal = new ConfirmationModal(frame, "¿Estás seguro de que desea eliminar la fila #" + row + "?", new Confirmation() {
                     @Override
@@ -58,12 +59,12 @@ public class InventarioFrame extends javax.swing.JFrame {
                     }
                 });
                 modal.setVisible(true);
-
             }
 
             @Override
             public void onShow(int row) {
-                System.out.println("show: " + row);
+                int id = (int) model.getValueAt(row, 0);
+                new VerProductoModal(frame, productoRepository.findById(id)).setVisible(true);
             }
         };
 
@@ -73,7 +74,6 @@ public class InventarioFrame extends javax.swing.JFrame {
     }
 
     private void loadEntries() {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         ArrayList<Object[]> data = new ArrayList<>();
         productoRepository.findAll().stream().forEach(producto -> {
