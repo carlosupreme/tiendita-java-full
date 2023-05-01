@@ -61,7 +61,9 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public Proveedor findById(int id) throws SQLException, ValidationModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Proveedor proveedor = new Proveedor();
+        proveedor.setNombre("mock");
+        return proveedor;
     }
 
     @Override

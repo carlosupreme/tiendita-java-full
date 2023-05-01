@@ -93,17 +93,25 @@ public class InventarioFrame extends javax.swing.JFrame {
         ArrayList<Object[]> data = new ArrayList<>();
         try {
             productoRepository.findAll().stream().forEach(producto -> {
-                Object[] row = new Object[6];
-                row[0] = producto.getId();
-                row[1] = producto.getNombre();
-                row[2] = producto.getDescripcion();
-                row[3] = producto.getPrecio();
-                row[4] = producto.getProveedorId();
-                row[5] = "";
-                data.add(row);
+                try {
+                    Object[] row = new Object[6];
+                    row[0] = producto.getId();
+                    row[1] = producto.getNombre();
+                    row[2] = producto.getDescripcion();
+                    row[3] = producto.getPrecio();
+                    row[4] = proveedorRepository.findById(producto.getProveedorId()).getNombre();
+                    row[5] = "";
+                    data.add(row);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(rootPane, "ERROR BBDD:");
+                    System.err.println(ex.getMessage());
+                } catch (ValidationModelException ex) {
+                    JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                }
             });
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD:" + ex.getMessage());
+            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD:");
+            System.err.println(ex.getMessage());
         } catch (ValidationModelException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
