@@ -1,5 +1,6 @@
 package repositories;
 
+import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,10 +19,10 @@ public class ProductoRepository implements Repository<Producto> {
     }
 
     @Override
-    public void save(Producto producto) throws SQLException {
+    public void save(Producto producto) throws SQLException, ValidationModelException {
         int currentId = getLastId() + 1;
-        PreparedStatement st = connection.prepareStatement("INSERT INTO producto (id, nombre, descripcion, precio, id_proveedor) VALUES (?, ?, ?, ?, ?)");
-
+        PreparedStatement st;
+        st = connection.prepareStatement("INSERT INTO producto (id, nombre, descripcion, precio, id_proveedor) VALUES (?, ?, ?, ?, ?)");
         st.setInt(1, currentId);
         st.setString(2, producto.getNombre());
         st.setString(3, producto.getDescripcion());
@@ -34,82 +35,65 @@ public class ProductoRepository implements Repository<Producto> {
     }
 
     @Override
-    public List<Producto> findAll() {
+    public List<Producto> findAll() throws SQLException, ValidationModelException {
         List<Producto> all = new ArrayList<>();
 
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM producto");
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM producto");
 
-            while (rs.next()) {
-                Producto producto = new Producto();
-                producto.setId(rs.getInt("id"));
-                producto.setNombre(rs.getString("nombre"));
-                producto.setDescripcion(rs.getString("descripcion"));
-                producto.setPrecio(rs.getDouble("precio"));
-                producto.setProveedorId(rs.getInt("id_proveedor"));
+        while (rs.next()) {
+            Producto producto = new Producto();
+            producto.setId(rs.getInt("id"));
+            producto.setNombre(rs.getString("nombre"));
+            producto.setDescripcion(rs.getString("descripcion"));
+            producto.setPrecio(rs.getDouble("precio"));
+            producto.setProveedorId(rs.getInt("id_proveedor"));
 
-                all.add(producto);
-            }
-
-        } catch (SQLException ex) {
-            System.err.println("Error obteniendo todos los registros de la tabla productos\n" + ex.getMessage());
+            all.add(producto);
         }
 
         return all;
     }
 
     @Override
-    public Producto findById(int id) {
-        Producto producto = null;
-
-        try {
-            Statement stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM producto WHERE id = " + id);
-            rs.next();
-            producto = new Producto();
-            producto.setId(rs.getInt("id"));
-            producto.setNombre(rs.getString("nombre"));
-            producto.setDescripcion(rs.getString("descripcion"));
-            producto.setPrecio(rs.getDouble("precio"));
-            producto.setProveedorId(rs.getInt("id_proveedor"));
-        } catch (SQLException ex) {
-            System.err.println("Error finbyid" + ex.getMessage());
+    public Producto findById(int id) throws SQLException, ValidationModelException {
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM producto WHERE id = " + id);
+        if (!rs.next()) {
+            return null;
         }
+        Producto producto = new Producto();
+        producto.setId(rs.getInt("id"));
+        producto.setNombre(rs.getString("nombre"));
+        producto.setDescripcion(rs.getString("descripcion"));
+        producto.setPrecio(rs.getDouble("precio"));
+        producto.setProveedorId(rs.getInt("id_proveedor"));
 
         return producto;
     }
 
     @Override
-    public void update(int id, Producto producto) {
-         try {
-            PreparedStatement st = connection.prepareStatement("UPDATE producto SET nombre = ?, descripcion = ?, precio = ?, id_proveedor = ? WHERE id = ?");
-            st.setString(1, producto.getNombre());
-            st.setString(2, producto.getDescripcion());
-            st.setDouble(3, producto.getPrecio());
-            st.setInt(4, producto.getProveedorId());
-            st.setInt(5, id);
+    public void update(int id, Producto producto) throws SQLException {
 
-            st.executeUpdate();
-            
-             System.out.println("Producto id: " + id + " Actualizado correctamente a : " + producto);
-        } catch (SQLException ex) {
-            System.err.println("Error finbyid" + ex.getMessage());
-        }
+        PreparedStatement st = connection.prepareStatement("UPDATE producto SET nombre = ?, descripcion = ?, precio = ?, id_proveedor = ? WHERE id = ?");
+        st.setString(1, producto.getNombre());
+        st.setString(2, producto.getDescripcion());
+        st.setDouble(3, producto.getPrecio());
+        st.setInt(4, producto.getProveedorId());
+        st.setInt(5, id);
+
+        st.executeUpdate();
+
+        System.out.println("Producto id: " + id + " Actualizado correctamente a : " + producto);
     }
 
     @Override
-    public boolean delete(int id) {
-        boolean deleted = false;
-        try {
-            PreparedStatement st = connection.prepareStatement("DELETE FROM producto where id = ?");
-            st.setInt(1, id);
-            st.executeUpdate();
-            deleted = true;
-        } catch (SQLException ex) {
-            System.err.println("Error eliminando registro" + ex.getMessage());
-        }
-        return deleted;
+    public boolean delete(int id) throws SQLException {
+        PreparedStatement st = connection.prepareStatement("DELETE FROM producto where id = ?");
+        st.setInt(1, id);
+        st.executeUpdate();
+
+        return true;
     }
 
     private int getLastId() {

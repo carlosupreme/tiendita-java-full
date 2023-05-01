@@ -2,11 +2,13 @@ package views.inventario;
 
 import app.ConexionDB;
 import controllers.AutenticacionController;
+import exceptions.ValidationModelException;
 import helpers.Confirmation;
 import helpers.ConfirmationModal;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -44,12 +46,14 @@ public class InventarioFrame extends javax.swing.JFrame {
                 ConfirmationModal modal = new ConfirmationModal(frame, "¿Estás seguro de que desea eliminar la fila #" + row + "?", new Confirmation() {
                     @Override
                     public void onConfirm(JDialog component, ActionEvent evt) {
-                        component.dispose();
-                        int id = (int) model.getValueAt(row, 0);
-                        if (productoRepository.delete(id)) {
-                            loadEntries();
-                            JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
-                        } else {
+                        try {
+                            component.dispose();
+                            int id = (int) model.getValueAt(row, 0);
+                            if (productoRepository.delete(id)) {
+                                loadEntries();
+                                JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
+                            }
+                        } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(frame, "No se eliminó");
                         }
                     }
@@ -65,7 +69,13 @@ public class InventarioFrame extends javax.swing.JFrame {
             @Override
             public void onShow(int row) {
                 int id = (int) model.getValueAt(row, 0);
-                new VerProductoModal(frame, productoRepository.findById(id)).setVisible(true);
+                try {
+                    new VerProductoModal(frame, productoRepository.findById(id)).setVisible(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(frame, "Error BBDD: " + ex.getMessage());
+                } catch (ValidationModelException ex) {
+                    JOptionPane.showMessageDialog(frame, ex.getMessage());
+                }
             }
         };
 
@@ -77,16 +87,22 @@ public class InventarioFrame extends javax.swing.JFrame {
     private void loadEntries() {
         model.setRowCount(0);
         ArrayList<Object[]> data = new ArrayList<>();
-        productoRepository.findAll().stream().forEach(producto -> {
-            Object[] row = new Object[6];
-            row[0] = producto.getId();
-            row[1] = producto.getNombre();
-            row[2] = producto.getDescripcion();
-            row[3] = producto.getPrecio();
-            row[4] = producto.getProveedorId();
-            row[5] = "";
-            data.add(row);
-        });
+        try {
+            productoRepository.findAll().stream().forEach(producto -> {
+                Object[] row = new Object[6];
+                row[0] = producto.getId();
+                row[1] = producto.getNombre();
+                row[2] = producto.getDescripcion();
+                row[3] = producto.getPrecio();
+                row[4] = producto.getProveedorId();
+                row[5] = "";
+                data.add(row);
+            });
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD:" + ex.getMessage());
+        } catch (ValidationModelException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        }
 
         for (Object[] row : data) {
             model.addRow(row);

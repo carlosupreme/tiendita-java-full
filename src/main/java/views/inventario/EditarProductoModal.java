@@ -1,5 +1,7 @@
 package views.inventario;
 
+import exceptions.ValidationModelException;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import models.Producto;
 import repositories.ProductoRepository;
@@ -14,11 +16,18 @@ public class EditarProductoModal extends javax.swing.JDialog {
         initComponents();
         this.productoRepository = productoRepository;
         productoId = id;
-        Producto producto = productoRepository.findById(id);
-        nombre.setText(producto.getNombre());
-        descripcion.setText(producto.getDescripcion());
-        precio.setText(String.valueOf(producto.getPrecio()));
-        proveedorId.setText(String.valueOf(producto.getProveedorId()));
+
+        try {
+            Producto producto = productoRepository.findById(id);
+            nombre.setText(producto.getNombre());
+            descripcion.setText(producto.getDescripcion());
+            precio.setText(String.valueOf(producto.getPrecio()));
+            proveedorId.setText(String.valueOf(producto.getProveedorId()));
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(parent, "Error de BBDD: " + ex.getMessage());
+        } catch (ValidationModelException ex) {
+
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -160,18 +169,29 @@ public class EditarProductoModal extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void editarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBtnActionPerformed
-        //TODO: AGREGAR VALIDACION
-        Producto producto = new Producto();
-        producto.setId(productoId);
-        producto.setNombre(nombre.getText());
-        producto.setDescripcion(descripcion.getText());
-        producto.setPrecio(Double.parseDouble(precio.getText()));
-        producto.setProveedorId(Integer.parseInt(proveedorId.getText()));
+        try {
+            //TODO: AGREGAR VALIDACION
+            Producto producto = new Producto();
+            producto.setId(productoId);
+            producto.setNombre(nombre.getText());
+            producto.setDescripcion(descripcion.getText());
+            producto.setPrecio(Double.parseDouble(precio.getText()));
+            producto.setProveedorId(Integer.parseInt(proveedorId.getText()));
 
-        productoRepository.update(productoId, producto);
-        
-        dispose();
-        JOptionPane.showMessageDialog(rootPane, "Editado correctamente");
+            productoRepository.update(productoId, producto);
+
+            dispose();
+            JOptionPane.showMessageDialog(rootPane, "Editado correctamente");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agergó el producto");
+            System.err.println(e.getMessage());
+        } catch (ValidationModelException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+            JOptionPane.showMessageDialog(rootPane, "El precio debe ser un numero valido mayor a 0");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "El proveedor es requerido");
+        }
     }//GEN-LAST:event_editarBtnActionPerformed
 
     private void proveedorIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedorIdActionPerformed
