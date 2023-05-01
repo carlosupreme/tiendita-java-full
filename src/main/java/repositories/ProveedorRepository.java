@@ -61,8 +61,18 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public Proveedor findById(int id) throws SQLException, ValidationModelException {
-        Proveedor proveedor = new Proveedor();
-        proveedor.setNombre("mock");
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedor WHERE id = " + id);
+        if (!rs.next()) {
+            return null;
+        }
+        Proveedor proveedor = new Proveedor(); 
+        proveedor.setId(rs.getInt("id"));
+        proveedor.setNombre(rs.getString("nombre"));
+        proveedor.setDireccion(rs.getString("direccion"));
+        proveedor.setCorreoElectronico(rs.getString("correo_electronico"));
+        proveedor.setNumeroTelefonico(rs.getInt("numero_telefonico"));
+
         return proveedor;
     }
 

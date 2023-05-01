@@ -38,7 +38,7 @@ public class InventarioFrame extends javax.swing.JFrame {
             @Override
             public void onEdit(int row) {
                 int id = (int) model.getValueAt(row, 0);
-                new EditarProductoModal(frame, productoRepository, id).setVisible(true);
+                new EditarProductoModal(frame, productoRepository, proveedorRepository, id).setVisible(true);
             }
 
             @Override
@@ -74,9 +74,10 @@ public class InventarioFrame extends javax.swing.JFrame {
             public void onShow(int row) {
                 int id = (int) model.getValueAt(row, 0);
                 try {
-                    new VerProductoModal(frame, productoRepository.findById(id)).setVisible(true);
+                    new VerProductoModal(frame, productoRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(frame, "Error BBDD: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(frame, "Error BBDD");
+                    System.err.println(ex.getMessage());
                 } catch (ValidationModelException ex) {
                     JOptionPane.showMessageDialog(frame, ex.getMessage());
                 }
@@ -103,14 +104,14 @@ public class InventarioFrame extends javax.swing.JFrame {
                     row[5] = "";
                     data.add(row);
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "ERROR BBDD:");
+                    JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
                     System.err.println(ex.getMessage());
                 } catch (ValidationModelException ex) {
                     JOptionPane.showMessageDialog(rootPane, ex.getMessage());
                 }
             });
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD:");
+            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
             System.err.println(ex.getMessage());
         } catch (ValidationModelException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());

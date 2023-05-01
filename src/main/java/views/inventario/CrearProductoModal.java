@@ -171,7 +171,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
-        //TODO: AGREGAR VALIDACION
         try {
 
             ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();

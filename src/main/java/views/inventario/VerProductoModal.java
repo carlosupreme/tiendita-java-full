@@ -1,6 +1,10 @@
 package views.inventario;
 
+import exceptions.ValidationModelException;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import models.Producto;
+import repositories.ProveedorRepository;
 
 /**
  *
@@ -8,18 +12,23 @@ import models.Producto;
  */
 public class VerProductoModal extends javax.swing.JDialog {
 
-    public VerProductoModal(java.awt.Frame parent, Producto producto) {
+    public VerProductoModal(java.awt.Frame parent, Producto producto, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
-        
+
         idLbl.setText(String.valueOf(producto.getId()));
         nombreLbl.setText(producto.getNombre());
         descripcionLbl.setText(producto.getDescripcion());
         precioLbl.setText(String.valueOf(producto.getPrecio()));
-        String proveedor = String.valueOf(producto.getProveedorId());
-        proveedorLbl.setText(proveedor);
-        
-        
+
+        try {
+            proveedorLbl.setText(proveedorRepository.findById(producto.getProveedorId()).getNombre());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(parent, "ERROR DB");
+            System.err.println(ex.getMessage());
+        } catch (ValidationModelException ex) {
+            JOptionPane.showMessageDialog(parent, ex.getMessage());
+        }
     }
 
     /**
