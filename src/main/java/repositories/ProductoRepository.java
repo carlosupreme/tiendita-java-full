@@ -71,7 +71,15 @@ public class ProductoRepository implements Repository<Producto> {
 
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        boolean deleted = false;
+        try {
+            Statement st = connection.createStatement();
+            st.executeUpdate("DELETE FROM producto WHERE id = " + id);
+            deleted = true;
+        } catch (SQLException ex) {
+            System.err.println("Error eliminando registro" + ex.getMessage());
+        }
+        return deleted;
     }
 
     private int getLastId() {

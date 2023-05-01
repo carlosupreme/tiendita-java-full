@@ -9,6 +9,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProductoRepository;
 
@@ -42,7 +43,13 @@ public class InventarioFrame extends javax.swing.JFrame {
                     @Override
                     public void onConfirm(JDialog component, ActionEvent evt) {
                         component.dispose();
-                        model.removeRow(row);
+                        int id = (int) model.getValueAt(row, 0);
+                        if (productoRepository.delete(id)) {
+                            loadEntries();
+                            JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
+                        } else {
+                            JOptionPane.showMessageDialog(frame, "No se eliminó");
+                        }
                     }
 
                     @Override
@@ -66,6 +73,8 @@ public class InventarioFrame extends javax.swing.JFrame {
     }
 
     private void loadEntries() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
         ArrayList<Object[]> data = new ArrayList<>();
         productoRepository.findAll().stream().forEach(producto -> {
             Object[] row = new Object[6];
@@ -78,7 +87,6 @@ public class InventarioFrame extends javax.swing.JFrame {
             data.add(row);
         });
 
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
         for (Object[] row : data) {
             model.addRow(row);
         }
@@ -194,9 +202,6 @@ public class InventarioFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_crearBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-        model.setRowCount(0);
-        
         loadEntries();
     }//GEN-LAST:event_refreshBtnActionPerformed
 
