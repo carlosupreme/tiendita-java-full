@@ -73,8 +73,9 @@ public class ProductoRepository implements Repository<Producto> {
     public boolean delete(int id) {
         boolean deleted = false;
         try {
-            Statement st = connection.createStatement();
-            st.executeUpdate("DELETE FROM producto WHERE id = " + id);
+            PreparedStatement st = connection.prepareStatement("DELETE FROM producto where id = ?");
+            st.setInt(1, id);
+            st.executeUpdate();
             deleted = true;
         } catch (SQLException ex) {
             System.err.println("Error eliminando registro" + ex.getMessage());
