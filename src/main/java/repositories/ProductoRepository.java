@@ -96,18 +96,13 @@ public class ProductoRepository implements Repository<Producto> {
         return true;
     }
 
-    private int getLastId() {
-        int id = 0;
-        try {
-            PreparedStatement st = connection.prepareStatement("SELECT MAX(id) FROM producto");
-            ResultSet result = st.executeQuery();
-            if (result.next()) {
-                id = result.getInt(1);
-            }
-
-        } catch (SQLException ex) {
-            System.err.println("Error al obtener id:\n" + ex.getMessage());
+    private int getLastId() throws SQLException {
+        PreparedStatement st = connection.prepareStatement("SELECT MAX(id) FROM producto");
+        ResultSet result = st.executeQuery();
+        if (result.next()) {
+            return result.getInt(1);
         }
-        return id;
+
+        return 0;
     }
 }

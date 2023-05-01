@@ -2,18 +2,41 @@ package views.inventario;
 
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import models.Producto;
 import repositories.ProductoRepository;
+import repositories.ProveedorRepository;
 
 public class CrearProductoModal extends javax.swing.JDialog {
 
-    private ProductoRepository productoRepository;
+    private final ProductoRepository productoRepository;
+    private final ProveedorRepository proveedorRepository;
 
-    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository) {
+    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
         this.productoRepository = productoRepository;
+        this.proveedorRepository = proveedorRepository;
+
+        getProveedoresIds();
+    }
+
+    private void getProveedoresIds() {
+        try {
+            proveedorRepository.findAll().forEach(proveedor -> {
+                DefaultComboBoxModel<ProveedorItem> model = (DefaultComboBoxModel) proveedorSelect.getModel();
+                ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
+                model.insertElementAt(item, 0);
+            });
+
+        } catch (SQLException ex) {
+            Logger.getLogger(CrearProductoModal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidationModelException ex) {
+            Logger.getLogger(CrearProductoModal.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -31,7 +54,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
         cancelarBtn = new javax.swing.JButton();
         agregarBtn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        proveedorId = new javax.swing.JTextField();
+        proveedorSelect = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -67,9 +90,9 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
         jLabel6.setText("Proveedor");
 
-        proveedorId.addActionListener(new java.awt.event.ActionListener() {
+        proveedorSelect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proveedorIdActionPerformed(evt);
+                proveedorSelectActionPerformed(evt);
             }
         });
 
@@ -78,33 +101,34 @@ public class CrearProductoModal extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(155, Short.MAX_VALUE)
+                .addContainerGap(131, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(151, 151, 151))
             .addGroup(layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addComponent(cancelarBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel6))
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(precio))
-                    .addComponent(descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(agregarBtn)
-                        .addGap(33, 33, 33))
-                    .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
-                    .addComponent(proveedorId))
-                .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(85, 85, 85)
+                        .addComponent(cancelarBtn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(precio))
+                            .addComponent(descripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(agregarBtn)
+                                .addGap(33, 33, 33))
+                            .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
+                            .addComponent(proveedorSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -127,7 +151,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(proveedorId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(proveedorSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelarBtn)
@@ -149,11 +173,14 @@ public class CrearProductoModal extends javax.swing.JDialog {
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         //TODO: AGREGAR VALIDACION
         try {
+
+            ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
+
             Producto producto = new Producto();
             producto.setNombre(nombre.getText());
             producto.setDescripcion(descripcion.getText());
             producto.setPrecio(Double.parseDouble(precio.getText()));
-            producto.setProveedorId(Integer.parseInt(proveedorId.getText()));
+            producto.setProveedorId(proveedorItem.getId());
 
             productoRepository.save(producto);
 
@@ -171,9 +198,9 @@ public class CrearProductoModal extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_agregarBtnActionPerformed
 
-    private void proveedorIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedorIdActionPerformed
+    private void proveedorSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedorSelectActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_proveedorIdActionPerformed
+    }//GEN-LAST:event_proveedorSelectActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarBtn;
@@ -187,6 +214,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField nombre;
     private javax.swing.JTextField precio;
-    private javax.swing.JTextField proveedorId;
+    private javax.swing.JComboBox<String> proveedorSelect;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,16 +1,18 @@
 package repositories;
 
+import exceptions.ValidationModelException;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface Repository<Model> {
 
-    public void save(Model model) throws Exception;
+    public void save(Model model) throws SQLException, ValidationModelException;
 
-    public List<Model> findAll() throws Exception;
+    public List<Model> findAll() throws SQLException, ValidationModelException;
 
-    public Model findById(int id) throws Exception;
+    public Model findById(int id) throws SQLException, ValidationModelException;
 
-    public void update(int id, Model model) throws Exception;
+    public void update(int id, Model model) throws SQLException;
 
-    public boolean delete(int id) throws Exception;
+    public boolean delete(int id) throws SQLException;
 }

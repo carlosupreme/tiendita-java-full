@@ -14,11 +14,14 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProductoRepository;
+import repositories.ProveedorRepository;
 
 public class InventarioFrame extends javax.swing.JFrame {
 
     private final AutenticacionController authController;
     private final ProductoRepository productoRepository;
+    private final ProveedorRepository proveedorRepository;
+
     DefaultTableModel model;
 
     public InventarioFrame(AutenticacionController authController) {
@@ -27,6 +30,7 @@ public class InventarioFrame extends javax.swing.JFrame {
         InventarioFrame frame = this;
         this.authController = authController;
         this.productoRepository = new ProductoRepository(ConexionDB.getInstance().getConnection());
+        this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
         model = (DefaultTableModel) table.getModel();
         loadEntries();
 
@@ -214,7 +218,7 @@ public class InventarioFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
-        CrearProductoModal crearProductoModal = new CrearProductoModal(this, productoRepository);
+        CrearProductoModal crearProductoModal = new CrearProductoModal(this, productoRepository, proveedorRepository);
         crearProductoModal.setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
