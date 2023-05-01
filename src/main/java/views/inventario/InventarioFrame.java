@@ -31,7 +31,8 @@ public class InventarioFrame extends javax.swing.JFrame {
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                System.out.println("edit: " + row);
+                int id = (int) model.getValueAt(row, 0);
+                new EditarProductoModal(frame, productoRepository, id).setVisible(true);
             }
 
             @Override

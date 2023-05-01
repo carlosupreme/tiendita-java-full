@@ -1,7 +1,6 @@
 package app;
 
-import controllers.AutenticacionController;
-import views.inventario.InventarioFrame;
+import views.LoginFrame;
 
 /**
  * 
@@ -15,7 +14,7 @@ public class AdministradorTiendita {
         
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new InventarioFrame(new AutenticacionController()).setVisible(true);
+            new LoginFrame().setVisible(true);
         });
     }
 }
