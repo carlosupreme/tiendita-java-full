@@ -3,6 +3,7 @@ package models;
 public class Producto {
     
     private int id;
+    private int codigoBarras;
     private int proveedorId;
    
     private String nombre;
