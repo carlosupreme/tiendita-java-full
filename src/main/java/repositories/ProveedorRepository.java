@@ -49,7 +49,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
         List<Proveedor> all = new ArrayList<>();
 
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedor");        
+        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedor");
 
         while (rs.next()) {
             Proveedor proveedor = new Proveedor();
@@ -67,8 +67,9 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public Proveedor findById(int id) throws SQLException, ValidationModelException {
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedor WHERE id = " + id);
+        PreparedStatement st = connection.prepareStatement("SELECT * FROM proveedor WHERE id = ?");
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
         if (!rs.next()) {
             return null;
         }
@@ -83,12 +84,21 @@ public class ProveedorRepository implements Repository<Proveedor> {
     }
 
     @Override
-    public void update(int id, Proveedor model) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(int id, Proveedor proveedor) throws SQLException {
+        PreparedStatement st = connection.prepareStatement("UPDATE producto SET nombre = ?, descripcion = ?, precio = ?, id_proveedor = ? WHERE id = ?");
+        st.setString(1, proveedor.getNombre());
+        st.setString(2, proveedor.getDireccion());
+        st.setString(3, proveedor.getCorreoElectronico());
+        st.setInt(4, proveedor.getNumeroTelefonico());
+        st.setInt(5, id);
+
+        st.executeUpdate();
     }
 
     @Override
     public void delete(int id) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        PreparedStatement st = connection.prepareStatement("DELETE FROM proveedor WHERE id = ? LIMIT 1");
+        st.setInt(1, id);
+        st.executeUpdate();
     }
 }
