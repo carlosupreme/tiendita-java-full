@@ -14,5 +14,5 @@ public interface Repository<Model> {
 
     public void update(int id, Model model) throws SQLException;
 
-    public boolean delete(int id) throws SQLException;
+    public void delete(int id) throws SQLException;
 }

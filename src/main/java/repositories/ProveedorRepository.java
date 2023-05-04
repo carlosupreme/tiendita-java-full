@@ -24,17 +24,23 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public void save(Proveedor proveedor) throws SQLException, ValidationModelException {
-        int currentId = getLastId() + 1;
-        PreparedStatement st;
-        st = connection.prepareStatement("INSERT INTO proveedor (id, nombre, direccion, correo_electronico, numero_telefonico) VALUES (?, ?, ?, ?, ?)");
-        st.setInt(1, currentId);
-        st.setString(2, proveedor.getNombre());
-        st.setString(3, proveedor.getDireccion());
-        st.setString(4, proveedor.getCorreoElectronico());
-        st.setInt(5, proveedor.getNumeroTelefonico());
-        st.executeUpdate();
+        PreparedStatement st = connection.prepareStatement("INSERT INTO proveedor (nombre, direccion, correo_electronico, numero_telefonico) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        st.setString(1, proveedor.getNombre());
+        st.setString(2, proveedor.getDireccion());
+        st.setString(3, proveedor.getCorreoElectronico());
+        st.setInt(4, proveedor.getNumeroTelefonico());
 
-        proveedor.setId(currentId);
+        if (st.executeUpdate() == 0) {
+            throw new SQLException("No se creó el proveedor.");
+        }
+
+        ResultSet generatedKeys = st.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            proveedor.setId(generatedKeys.getInt(1));
+        } else {
+            throw new SQLException("No se obtuvo el ID");
+        }
+
         System.out.println(proveedor);
     }
 
@@ -43,7 +49,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
         List<Proveedor> all = new ArrayList<>();
 
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedor");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedor");        
 
         while (rs.next()) {
             Proveedor proveedor = new Proveedor();
@@ -66,7 +72,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
         if (!rs.next()) {
             return null;
         }
-        Proveedor proveedor = new Proveedor(); 
+        Proveedor proveedor = new Proveedor();
         proveedor.setId(rs.getInt("id"));
         proveedor.setNombre(rs.getString("nombre"));
         proveedor.setDireccion(rs.getString("direccion"));
@@ -82,18 +88,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
+    public void delete(int id) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    private int getLastId() throws SQLException {
-        PreparedStatement st = connection.prepareStatement("SELECT MAX(id) FROM proveedor");
-        ResultSet result = st.executeQuery();
-        if (result.next()) {
-            return result.getInt(1);
-        }
-
-        return 0;
-    }
-
 }

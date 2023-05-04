@@ -20,17 +20,23 @@ public class ProductoRepository implements Repository<Producto> {
 
     @Override
     public void save(Producto producto) throws SQLException, ValidationModelException {
-        int currentId = getLastId() + 1;
-        PreparedStatement st;
-        st = connection.prepareStatement("INSERT INTO producto (id, nombre, descripcion, precio, id_proveedor) VALUES (?, ?, ?, ?, ?)");
-        st.setInt(1, currentId);
-        st.setString(2, producto.getNombre());
-        st.setString(3, producto.getDescripcion());
-        st.setDouble(4, producto.getPrecio());
-        st.setInt(5, producto.getProveedorId());
-        st.executeUpdate();
+        PreparedStatement st = connection.prepareStatement("INSERT INTO producto (nombre, descripcion, precio, id_proveedor) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        st.setString(1, producto.getNombre());
+        st.setString(2, producto.getDescripcion());
+        st.setDouble(3, producto.getPrecio());
+        st.setInt(4, producto.getProveedorId());
 
-        producto.setId(currentId);
+        if (st.executeUpdate() == 0) {
+            throw new SQLException("No se creó el producto.");
+        }
+
+        ResultSet generatedKeys = st.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            producto.setId(generatedKeys.getInt(1));
+        } else {
+            throw new SQLException("No se obtuvo el ID");
+        }
+
         System.out.println(producto);
     }
 
@@ -57,8 +63,9 @@ public class ProductoRepository implements Repository<Producto> {
 
     @Override
     public Producto findById(int id) throws SQLException, ValidationModelException {
-        Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM producto WHERE id = " + id);
+        PreparedStatement st = connection.prepareStatement("SELECT * FROM producto WHERE id = ?");
+        st.setInt(1, id);
+        ResultSet rs = st.executeQuery();
         if (!rs.next()) {
             return null;
         }
@@ -88,21 +95,9 @@ public class ProductoRepository implements Repository<Producto> {
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        PreparedStatement st = connection.prepareStatement("DELETE FROM producto where id = ?");
+    public void delete(int id) throws SQLException {
+        PreparedStatement st = connection.prepareStatement("DELETE FROM producto WHERE id = ? LIMIT 1");
         st.setInt(1, id);
         st.executeUpdate();
-
-        return true;
-    }
-
-    private int getLastId() throws SQLException {
-        PreparedStatement st = connection.prepareStatement("SELECT MAX(id) FROM producto");
-        ResultSet result = st.executeQuery();
-        if (result.next()) {
-            return result.getInt(1);
-        }
-
-        return 0;
     }
 }
