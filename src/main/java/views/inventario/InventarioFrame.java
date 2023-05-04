@@ -53,10 +53,9 @@ public class InventarioFrame extends javax.swing.JFrame {
                         try {
                             component.dispose();
                             int id = (int) model.getValueAt(row, 0);
-                            if (productoRepository.delete(id)) {
-                                loadEntries();
-                                JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
-                            }
+                            productoRepository.delete(id);
+                            loadEntries();
+                            JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
                         } catch (SQLException ex) {
                             JOptionPane.showMessageDialog(frame, "No se eliminó");
                         }

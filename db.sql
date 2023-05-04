@@ -3,7 +3,8 @@
 -- Host: localhost    Database: tiendita
 -- ------------------------------------------------------
 -- Server version	8.0.33
-
+DROP SCHEMA IF EXISTS tiendita;
+CREATE SCHEMA tiendita;
 use tiendita;
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -49,7 +50,7 @@ DROP TABLE IF EXISTS `producto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `producto` (
-  `id` int NOT NULL,
+  `id` int NOT NULL auto_increment,
   `nombre` varchar(255) DEFAULT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `precio` decimal(10,2) DEFAULT NULL,
@@ -77,7 +78,7 @@ DROP TABLE IF EXISTS `proveedor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `proveedor` (
-  `id` int NOT NULL,
+  `id` int NOT NULL auto_increment,
   `nombre` varchar(255) DEFAULT NULL,
   `direccion` varchar(255) DEFAULT NULL,
   `correo_electronico` varchar(255) DEFAULT NULL,
@@ -103,7 +104,7 @@ DROP TABLE IF EXISTS `venta`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `venta` (
-  `id` int NOT NULL,
+  `id` int NOT NULL auto_increment,
   `id_producto` int DEFAULT NULL,
   `fecha` date DEFAULT NULL,
   `precio_venta` decimal(10,2) DEFAULT NULL,
