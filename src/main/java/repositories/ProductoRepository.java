@@ -20,7 +20,7 @@ public class ProductoRepository implements Repository<Producto> {
 
     @Override
     public void save(Producto producto) throws SQLException, ValidationModelException {
-        PreparedStatement st = connection.prepareStatement("INSERT INTO producto (nombre, descripcion, precio, id_proveedor) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement st = connection.prepareStatement("INSERT INTO producto (nombre, descripcion, precio, id_proveedor) VALUES (?, ?, ?, ?)");
         st.setString(1, producto.getNombre());
         st.setString(2, producto.getDescripcion());
         st.setDouble(3, producto.getPrecio());
@@ -28,13 +28,6 @@ public class ProductoRepository implements Repository<Producto> {
 
         if (st.executeUpdate() == 0) {
             throw new SQLException("No se creó el producto.");
-        }
-
-        ResultSet generatedKeys = st.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            producto.setId(generatedKeys.getInt(1));
-        } else {
-            throw new SQLException("No se obtuvo el ID");
         }
 
         System.out.println(producto);
