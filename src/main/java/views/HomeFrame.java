@@ -4,6 +4,7 @@
  */
 package views;
 
+import views.inventario.InventarioFrame;
 import app.Sesion;
 import controllers.AutenticacionController;
 import helpers.Confirmation;

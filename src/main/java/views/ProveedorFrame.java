@@ -4,6 +4,7 @@
  */
 package views;
 
+import app.ConexionDB;
 import controllers.AutenticacionController;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -14,10 +15,9 @@ import repositories.ProveedorRepository;
  * @author ili
  */
 public class ProveedorFrame extends javax.swing.JFrame {
-    
+
     private AutenticacionController authController;
     private ProveedorRepository proveedorRepository;
-    
 
     /**
      * Creates new form ProveedorFrame
@@ -26,8 +26,8 @@ public class ProveedorFrame extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.authController = authController;
-        this.proveedorRepository = new ProveedorRepository();
-        
+        this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
+
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         this.setLocation(0, 0);
         this.setSize(dimension.width, dimension.height);

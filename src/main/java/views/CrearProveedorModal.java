@@ -13,6 +13,7 @@ import repositories.ProveedorRepository;
  * @author ili
  */
 public class CrearProveedorModal extends javax.swing.JDialog {
+
     private ProveedorRepository proveedorRepository;
 
     /**
@@ -21,7 +22,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     public CrearProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
-        this.proveedorRepository= proveedorRepository;
+        this.proveedorRepository = proveedorRepository;
     }
 
     /**
@@ -148,17 +149,17 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         try {
-         Proveedor proveedor = new Proveedor(); //agregar validacion
-        proveedor.setNombre(nombre.getText());
-        proveedor.setDireccion(direccion.getText());
-        proveedor.setCorreoElectronico(correoE.getText());
-        proveedor.setNumeroTelefonico(Integer.parseInt(numTelefono.getText()));
-        
-        proveedorRepository.save(proveedor);
-        nombre.setText("");
-        direccion.setText("");
-        correoE.setText("");
-        numTelefono.setText("");
+            Proveedor proveedor = new Proveedor(); //agregar validacion
+            proveedor.setNombre(nombre.getText());
+            proveedor.setDireccion(direccion.getText());
+            proveedor.setCorreoElectronico(correoE.getText());
+            proveedor.setNumeroTelefonico(Integer.parseInt(numTelefono.getText()));
+
+            proveedorRepository.save(proveedor);
+            nombre.setText("");
+            direccion.setText("");
+            correoE.setText("");
+            numTelefono.setText("");
         } catch (NumberFormatException | SQLException e) {
             System.err.println(e.getMessage());
         }
