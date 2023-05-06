@@ -55,8 +55,8 @@ public class ProveedorRepository implements Repository<Proveedor> {
             proveedor.setId(rs.getInt("id"));
             proveedor.setNombre(rs.getString("nombre"));
             proveedor.setDireccion(rs.getString("direccion"));
-            proveedor.setCorreoElectronico(rs.getString("email"));
-            proveedor.setNumeroTelefonico(rs.getInt("telefono"));
+            proveedor.setEmail(rs.getString("email"));
+            proveedor.setTelefono(rs.getInt("telefono"));
 
             all.add(proveedor);
         }
@@ -85,8 +85,8 @@ public class ProveedorRepository implements Repository<Proveedor> {
         PreparedStatement st = connection.prepareStatement("UPDATE producto SET nombre = ?, descripcion = ?, precio = ?, id_proveedor = ? WHERE id = ?");
         st.setString(1, proveedor.getNombre());
         st.setString(2, proveedor.getDireccion());
-        st.setString(3, proveedor.getCorreoElectronico());
-        st.setInt(4, proveedor.getNumeroTelefonico());
+        st.setString(3, proveedor.getEmail());
+        st.setInt(4, proveedor.getTelefono());
         st.setInt(5, id);
 
         st.executeUpdate();

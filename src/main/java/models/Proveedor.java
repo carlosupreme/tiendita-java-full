@@ -1,25 +1,30 @@
 package models;
 
+import exceptions.ValidationModelException;
+
 /**
  *
  * @author ili
  */
 public class Proveedor {
+
     private int id;
     private String nombre;
     private String direccion;
-    private String correoElectronico;
-    private int numeroTelefonico;
-    
-    public Proveedor (){
-        
+    private String email;
+    private int telefono;
+
+    public Proveedor() {
     }
- 
+
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id) throws ValidationModelException {
+        if (id < 0) {
+            throw new ValidationModelException("El id del producto debe ser positivo");
+        }
         this.id = id;
     }
 
@@ -27,7 +32,10 @@ public class Proveedor {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(String nombre) throws ValidationModelException {
+        if (nombre == null || !nombre.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$")) {
+            throw new ValidationModelException("el nombre no debe contener caracteres especiales  ");
+        }
         this.nombre = nombre;
     }
 
@@ -35,25 +43,33 @@ public class Proveedor {
         return direccion;
     }
 
-    public void setDireccion(String direccion) {
+    public void setDireccion(String direccion) throws ValidationModelException {
+        if (direccion == null || !direccion.matches("^(?=.*[^ \\d])[\\w#]+$")) {
+            throw new ValidationModelException("La direccion debe contener al menos 2 caracteres validos ");
+        }
         this.direccion = direccion;
     }
 
-    public String getCorreoElectronico() {
-        return correoElectronico;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCorreoElectronico(String correoElectronico) {
-        this.correoElectronico = correoElectronico;
+    public void setEmail(String email) throws ValidationModelException {
+        if (email == null || !email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+            throw new ValidationModelException("email debe contener un dominio valido");
+        }
+        this.email = email;
     }
 
-    public int getNumeroTelefonico() {
-        return numeroTelefonico;
+    public int getTelefono() {
+        return telefono;
     }
 
-    public void setNumeroTelefonico(int numeroTelefonico) {
-        this.numeroTelefonico = numeroTelefonico;
+    public void setTelefono(int telefono) throws ValidationModelException {
+        if (String.valueOf(telefono).length() != 10) {
+            throw new ValidationModelException("El telefono debe contener al menos 10 numeros");
+        }
+        this.telefono = telefono;
     }
-    
-    
+
 }
