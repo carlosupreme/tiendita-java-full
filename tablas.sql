@@ -22,9 +22,8 @@ CREATE TABLE productos (
 
 CREATE TABLE usuarios (
   id INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(255) NOT NULL UNIQUE,
   nombre VARCHAR(255) NOT NULL,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  telefono VARCHAR(15) NOT NULL,
   password VARCHAR(255) NOT NULL,
   rol ENUM('administrador', 'cajero') NOT NULL
 );
