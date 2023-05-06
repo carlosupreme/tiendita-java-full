@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Producto;
 
-public class ProductoRepository implements Repository<Producto> {
+public class ProductoRepository implements CrudRepository<Producto> {
 
     private final Connection connection;
 

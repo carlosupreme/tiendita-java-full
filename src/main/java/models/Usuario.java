@@ -10,24 +10,10 @@ public class Usuario {
 
     private String username;
     private String nombre;
-    private String apellidos;
-
-    public Usuario(String username, String nombre, String apellidos) {
-        this.username = username;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getApellidos() {
-        return apellidos;
-    }
+    private String email;
+    private String telefono;
+    private String password;
+    
+    
 
 }

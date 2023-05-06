@@ -14,7 +14,7 @@ import models.Proveedor;
  *
  * @author ili
  */
-public class ProveedorRepository implements Repository<Proveedor> {
+public class ProveedorRepository implements CrudRepository<Proveedor> {
 
     private final Connection connection;
 
