@@ -1,4 +1,4 @@
-package views.inventario;
+package views.tabla;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,9 +51,9 @@ public class PanelAction extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        verBtn = new views.inventario.ActionButton();
-        editarBtn = new views.inventario.ActionButton();
-        eliminarBtn = new views.inventario.ActionButton();
+        verBtn = new views.tabla.ActionButton();
+        editarBtn = new views.tabla.ActionButton();
+        eliminarBtn = new views.tabla.ActionButton();
 
         verBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eye.png"))); // NOI18N
         verBtn.setPreferredSize(new java.awt.Dimension(32, 32));
@@ -117,8 +117,8 @@ public class PanelAction extends javax.swing.JPanel {
     }//GEN-LAST:event_eliminarBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private views.inventario.ActionButton editarBtn;
-    private views.inventario.ActionButton eliminarBtn;
-    private views.inventario.ActionButton verBtn;
+    private views.tabla.ActionButton editarBtn;
+    private views.tabla.ActionButton eliminarBtn;
+    private views.tabla.ActionButton verBtn;
     // End of variables declaration//GEN-END:variables
 }
