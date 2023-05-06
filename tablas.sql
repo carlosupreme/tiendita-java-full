@@ -12,7 +12,7 @@ CREATE TABLE productos (
   codigo_barras VARCHAR(13) NOT NULL UNIQUE,
   precio_publico DECIMAL(10,2) NOT NULL,
   precio_coste DECIMAL(10,2) NOT NULL,
-  id_proveedor INT NOT NULL,
+  id_proveedor INT,
   fecha_caducidad TIMESTAMP NOT NULL,
   cantidad_stock INT NOT NULL,
   categoria VARCHAR(50) NOT NULL,
@@ -27,16 +27,16 @@ CREATE TABLE usuarios (
   email VARCHAR(255) UNIQUE NOT NULL,
   telefono VARCHAR(15) NOT NULL,
   password VARCHAR(255) NOT NULL,
-  rol ENUM('administrador', 'cajero') NOT NULL,
+  rol ENUM('administrador', 'cajero') NOT NULL
 );
 
 CREATE TABLE ventas (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   fecha TIMESTAMP NOT NULL,
   total DECIMAL(10,2) NOT NULL,
-  usuario_id INT NOT NULL,
+  usuario_id INT,
   forma_pago VARCHAR(50),
-  FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE detalles_venta (
@@ -54,7 +54,7 @@ CREATE TABLE compras (
   id_proveedor INT NOT NULL,
   forma_pago VARCHAR(50),
   total DECIMAL(10,2) NOT NULL,
-  FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+  FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE detalles_compra (
@@ -65,4 +65,3 @@ CREATE TABLE detalles_compra (
   FOREIGN KEY (id_compra) REFERENCES compras(id) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (id_producto) REFERENCES productos(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
-
