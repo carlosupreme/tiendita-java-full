@@ -46,8 +46,8 @@ public class ProductoRepository implements Repository<Producto> {
         
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM productos");
-        // Producto producto = new Producto();
-        while (rs.next()) {
+        
+        while(rs.next()) {
             Producto producto = new Producto();
             mapResultSet(rs, producto);
             

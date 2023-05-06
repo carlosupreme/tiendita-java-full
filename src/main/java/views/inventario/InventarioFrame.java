@@ -3,14 +3,10 @@ package views.inventario;
 import app.ConexionDB;
 import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
-import helpers.Confirmation;
-import helpers.ConfirmationModal;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProductoRepository;
@@ -48,26 +44,18 @@ public class InventarioFrame extends javax.swing.JFrame {
                     table.getCellEditor().stopCellEditing();
                 }
 
-                ConfirmationModal modal = new ConfirmationModal(frame, "¿Estás seguro de que desea eliminar la fila #" + row + "?", new Confirmation() {
-                    @Override
-                    public void onConfirm(JDialog component, ActionEvent evt) {
-                        try {
-                            component.dispose();
-                            int id = (int) model.getValueAt(row, 0);
-                            productoRepository.delete(id);
-                            loadEntries();
-                            JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(frame, "No se eliminó");
-                        }
-                    }
+                int option = JOptionPane.showConfirmDialog(InventarioFrame.this, "¿Estás seguro de que desea eliminar la fila #" + row + "?");
 
-                    @Override
-                    public void onCancel(JDialog component, ActionEvent evt) {
-                        component.dispose();
+                if (option == JOptionPane.YES_OPTION) {
+                    try {
+                        int id = (int) model.getValueAt(row, 0);
+                        productoRepository.delete(id);
+                        loadEntries();
+                        JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(frame, "No se eliminó");
                     }
-                });
-                modal.setVisible(true);
+                }
             }
 
             @Override
