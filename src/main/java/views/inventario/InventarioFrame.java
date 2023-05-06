@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 
+@SuppressWarnings("serial")
 public class InventarioFrame extends javax.swing.JFrame {
 
     private final AutenticacionController authController;
@@ -92,13 +93,13 @@ public class InventarioFrame extends javax.swing.JFrame {
         model.setRowCount(0);
         ArrayList<Object[]> data = new ArrayList<>();
         try {
-            productoRepository.findAll().stream().forEach(producto -> {
+            productoRepository.findAll().forEach(producto -> {
                 try {
                     Object[] row = new Object[6];
                     row[0] = producto.getId();
                     row[1] = producto.getNombre();
-                    row[2] = producto.getDescripcion();
-                    row[3] = producto.getPrecio();
+                    row[2] = producto.getEdicion();
+                    row[3] = producto.getPrecioPublico();
                     row[4] = proveedorRepository.findById(producto.getProveedorId()).getNombre();
                     row[5] = "";
                     data.add(row);
@@ -159,7 +160,7 @@ public class InventarioFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Nombre", "Descripcion", "Precio", "Proveedor", "Acciones"
+                "ID", "Nombre", "Edicion", "Precio", "Proveedor", "Acciones"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -226,7 +227,7 @@ public class InventarioFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
-        CrearProductoModal crearProductoModal = new CrearProductoModal(this, productoRepository, proveedorRepository);
+        CrearProductoModal crearProductoModal = new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository);
         crearProductoModal.setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
