@@ -14,11 +14,17 @@ CREATE TABLE productos (
   precio_coste DECIMAL(10,2) NOT NULL,
   id_proveedor INT,
   fecha_caducidad TIMESTAMP NOT NULL,
-  cantidad_stock INT NOT NULL,
   categoria VARCHAR(50) NOT NULL,
   marca VARCHAR(50) NOT NULL,
   edicion VARCHAR(50) NOT NULL,
   FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+CREATE TABLE inventario (
+  id_producto INT NOT NULL PRIMARY KEY,
+  stock INT NOT NULL,
+  stock_minimo INT NOT NULL,
+  FOREIGN KEY (id_producto) REFERENCES productos(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE usuarios (
