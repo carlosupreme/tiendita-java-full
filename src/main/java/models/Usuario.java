@@ -43,6 +43,9 @@ public class Usuario {
     }
 
     public void setNombre(String nombre) throws ValidationModelException {
+        if (nombre == null || !nombre.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$")) {
+            throw new ValidationModelException("el nombre no debe contener caracteres especiales  ");
+        }
         this.nombre = nombre;
     }
 
@@ -51,10 +54,9 @@ public class Usuario {
     }
 
     public void setPassword(String password) throws ValidationModelException {
-        if (password == null || !password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
-            throw new ValidationModelException("La contraseña debe contener minimo 8 caracteres, una minuscula, una mayuscula, un numero y un caracter especial");
+        if (password == null || password.isEmpty() || password.length() < 8 || !password.matches(".*\\d.*") || !password.matches(".*[a-zA-Z].*")) {
+            throw new ValidationModelException("La contraseña debe ser de al menos 8 caracteres");
         }
-        
         this.password = password;
     }
 
