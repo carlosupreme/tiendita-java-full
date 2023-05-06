@@ -22,12 +22,11 @@ public class InventarioFrame extends javax.swing.JFrame {
     private final ProductoRepository productoRepository;
     private final ProveedorRepository proveedorRepository;
 
-    DefaultTableModel model;
+    private final DefaultTableModel model;
 
     public InventarioFrame(AutenticacionController authController) {
         initComponents();
         fullScreen();
-        InventarioFrame frame = this;
         this.authController = authController;
         this.productoRepository = new ProductoRepository(ConexionDB.getInstance().getConnection());
         this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
@@ -38,7 +37,7 @@ public class InventarioFrame extends javax.swing.JFrame {
             @Override
             public void onEdit(int row) {
                 int id = (int) model.getValueAt(row, 0);
-                new EditarProductoModal(frame, productoRepository, proveedorRepository, id).setVisible(true);
+                new EditarProductoModal(InventarioFrame.this, productoRepository, proveedorRepository, id).setVisible(true);
             }
 
             @Override
@@ -54,9 +53,9 @@ public class InventarioFrame extends javax.swing.JFrame {
                     try {
                         productoRepository.delete(id);
                         loadEntries();
-                        JOptionPane.showMessageDialog(frame, "Eliminado correctamente");
+                        JOptionPane.showMessageDialog(InventarioFrame.this, "Eliminado correctamente");
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(frame, "No se eliminó");
+                        JOptionPane.showMessageDialog(InventarioFrame.this, "No se eliminó");
                     }
                 }
             }
@@ -65,12 +64,12 @@ public class InventarioFrame extends javax.swing.JFrame {
             public void onShow(int row) {
                 int id = (int) model.getValueAt(row, 0);
                 try {
-                    new VerProductoModal(frame, productoRepository.findById(id), proveedorRepository).setVisible(true);
+                    new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(frame, "Error BBDD");
+                    JOptionPane.showMessageDialog(InventarioFrame.this, "Error BBDD");
                     System.err.println(ex.getMessage());
                 } catch (ValidationModelException ex) {
-                    JOptionPane.showMessageDialog(frame, ex.getMessage());
+                    JOptionPane.showMessageDialog(InventarioFrame.this, ex.getMessage());
                 }
             }
         };

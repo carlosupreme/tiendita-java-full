@@ -4,6 +4,7 @@
  */
 package views;
 
+import views.proveedor.ProveedorFrame;
 import app.Sesion;
 import controllers.AutenticacionController;
 import java.awt.Dimension;
