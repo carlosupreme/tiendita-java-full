@@ -1,9 +1,11 @@
 package models;
 
+import exceptions.ValidationModelException;
+
 /**
  *
  * Contiene información personal del usuario de la sesión global
- * 
+ *
  * @author Raul
  */
 public class Usuario {
@@ -18,7 +20,10 @@ public class Usuario {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(int id) throws ValidationModelException {
+        if (id < 0) {
+            throw new ValidationModelException("El id debe ser unsigned");
+        }
         this.id = id;
     }
 
@@ -26,7 +31,10 @@ public class Usuario {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username) throws ValidationModelException {
+        if (username == null || !username.matches("^[a-zA-Z0-9_]{4,}$")) {
+            throw new ValidationModelException("El username deber ser sin caracteres especiales minimo 4 caracteres");
+        }
         this.username = username;
     }
 
@@ -34,7 +42,7 @@ public class Usuario {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(String nombre) throws ValidationModelException {
         this.nombre = nombre;
     }
 
@@ -42,7 +50,11 @@ public class Usuario {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password) throws ValidationModelException {
+        if (password == null || !password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+            throw new ValidationModelException("La contraseña debe contener minimo 8 caracteres, una minuscula, una mayuscula, un numero y un caracter especial");
+        }
+        
         this.password = password;
     }
 
@@ -52,6 +64,6 @@ public class Usuario {
 
     public void setRol(Rol rol) {
         this.rol = rol;
-    } 
+    }
 
 }
