@@ -1,7 +1,6 @@
 package controllers;
 
 import app.Sesion;
-import models.Usuario;
 
 /**
  * 
@@ -14,18 +13,7 @@ public class AutenticacionController {
     
     public boolean login(String username, String password) {
         
-        // Autenticación básica sin acceder a una base de datos
-        
-        if("usuario".equals(username) && "contraseña".equals(password)) {
-            
-            Sesion.instance().setUsuario(
-                    new Usuario("Usuario", "Carlos", "Alberto"));
-            
-            return true;
-            
-        }
-        
-        return false;
+        return true;
         
     }
     
