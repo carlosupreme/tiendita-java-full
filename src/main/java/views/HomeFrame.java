@@ -4,13 +4,13 @@
  */
 package views;
 
-import views.proveedor.ProveedorFrame;
 import app.Sesion;
 import controllers.AutenticacionController;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import views.inventario.InventarioFrame;
+import views.proveedor.ProveedorFrame;
 
 /**
  *
@@ -34,7 +34,6 @@ public class HomeFrame extends javax.swing.JFrame {
         this.setSize(dimension.width, dimension.height);
         this.setResizable(false);
         this.setTitle("Tiendita de la esquina");
-        this.setVisible(true);
 
         usuarioLbl.setText(Sesion.instance().getUsuario().getNombre());
     }

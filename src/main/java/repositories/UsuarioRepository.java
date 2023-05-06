@@ -58,6 +58,20 @@ public class UsuarioRepository implements Repository<Usuario> {
         return usuario;
     }
 
+    public Usuario findByUsername(String username) throws SQLException, ValidationModelException {
+        PreparedStatement st = connection.prepareStatement("SELECT * FROM usuarios WHERE username = ?");
+        st.setString(1, username);
+        ResultSet rs = st.executeQuery();
+
+        if (!rs.next()) {
+            return null;
+        }
+
+        Usuario usuario = new Usuario();
+        mapResultSet(rs, usuario);
+        return usuario;
+    }
+
     @Override
     public void update(int id, Usuario model) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

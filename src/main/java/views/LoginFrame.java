@@ -2,6 +2,7 @@ package views;
 
 import app.ConexionDB;
 import controllers.AutenticacionController;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -11,17 +12,15 @@ import javax.swing.JOptionPane;
  *
  * @author Raul
  */
+@SuppressWarnings("serial")
 public class LoginFrame extends javax.swing.JFrame {
 
-    private final AutenticacionController autController = new AutenticacionController();
+    private final AutenticacionController authController;
 
-    /**
-     * Creates new form Login
-     */
     public LoginFrame() {
-        
-        ConexionDB conexion = ConexionDB.getInstance();
-              
+
+        this.authController = new AutenticacionController(ConexionDB.getInstance().getConnection());
+
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -137,13 +136,19 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onLoginClick(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onLoginClick
+        String username = usernameField.getText();
+        String password = String.valueOf(passwordField.getPassword());
+        try {
+            if (authController.login(username, password)) {
+                dispose();
+                new HomeFrame(authController).setVisible(true);
+            }
 
-        if (autController.login(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
-            dispose();
-            HomeFrame homeFrame;
-            homeFrame = new HomeFrame(autController);
-        } else {
-            JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
+        } catch (RuntimeException e) {
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos");
+            System.err.println(ex.getMessage());
         }
 
     }//GEN-LAST:event_onLoginClick
