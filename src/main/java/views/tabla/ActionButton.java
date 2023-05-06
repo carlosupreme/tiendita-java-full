@@ -1,4 +1,4 @@
-package views.inventario;
+package views.tabla;
 
 import java.awt.Color;
 import java.awt.Graphics;

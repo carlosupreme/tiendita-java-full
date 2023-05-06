@@ -11,6 +11,9 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
+import views.tabla.TableActionCellEditor;
+import views.tabla.TableActionCellRender;
+import views.tabla.TableActionEvent;
 
 @SuppressWarnings("serial")
 public class InventarioFrame extends javax.swing.JFrame {
@@ -44,11 +47,11 @@ public class InventarioFrame extends javax.swing.JFrame {
                     table.getCellEditor().stopCellEditing();
                 }
 
-                int option = JOptionPane.showConfirmDialog(InventarioFrame.this, "¿Estás seguro de que desea eliminar la fila #" + row + "?");
+                int id = (int) model.getValueAt(row, 0);
+                int option = JOptionPane.showConfirmDialog(InventarioFrame.this, "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente", JOptionPane.YES_NO_OPTION);
 
                 if (option == JOptionPane.YES_OPTION) {
                     try {
-                        int id = (int) model.getValueAt(row, 0);
                         productoRepository.delete(id);
                         loadEntries();
                         JOptionPane.showMessageDialog(frame, "Eliminado correctamente");

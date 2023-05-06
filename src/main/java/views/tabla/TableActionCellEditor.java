@@ -1,5 +1,6 @@
-package views.inventario;
+package views.tabla;
 
+import views.tabla.PanelAction;
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
