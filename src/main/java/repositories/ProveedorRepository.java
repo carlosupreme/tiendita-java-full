@@ -24,40 +24,39 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public void save(Proveedor proveedor) throws SQLException, ValidationModelException {
-        PreparedStatement st = connection.prepareStatement("INSERT INTO proveedor (nombre, direccion, correo_electronico, numero_telefonico) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-        st.setString(1, proveedor.getNombre());
-        st.setString(2, proveedor.getDireccion());
-        st.setString(3, proveedor.getCorreoElectronico());
-        st.setInt(4, proveedor.getNumeroTelefonico());
-
-        if (st.executeUpdate() == 0) {
-            throw new SQLException("No se creó el proveedor.");
-        }
-
-        ResultSet generatedKeys = st.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            proveedor.setId(generatedKeys.getInt(1));
-        } else {
-            throw new SQLException("No se obtuvo el ID");
-        }
-
-        System.out.println(proveedor);
+//        PreparedStatement st = connection.prepareStatement("INSERT INTO proveedor (nombre, direccion, email, telefono) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+//        st.setString(1, proveedor.getNombre());
+//        st.setString(2, proveedor.getDireccion());
+//        st.setString(3, proveedor.getCorreoElectronico());
+//        st.setInt(4, proveedor.getNumeroTelefonico());
+//
+//        if (st.executeUpdate() == 0) {
+//            throw new SQLException("No se creó el proveedor.");
+//        }
+//
+//        ResultSet generatedKeys = st.getGeneratedKeys();
+//        if (generatedKeys.next()) {
+//            proveedor.setId(generatedKeys.getInt(1));
+//        } else {
+//            throw new SQLException("No se obtuvo el ID");
+//        }
+//
+//        System.out.println(proveedor);
     }
 
     @Override
     public List<Proveedor> findAll() throws SQLException, ValidationModelException {
         List<Proveedor> all = new ArrayList<>();
-
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedor");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedores");
 
         while (rs.next()) {
             Proveedor proveedor = new Proveedor();
             proveedor.setId(rs.getInt("id"));
             proveedor.setNombre(rs.getString("nombre"));
             proveedor.setDireccion(rs.getString("direccion"));
-            proveedor.setCorreoElectronico(rs.getString("correo_electronico"));
-            proveedor.setNumeroTelefonico(rs.getInt("numero_telefonico"));
+            proveedor.setCorreoElectronico(rs.getString("email"));
+            proveedor.setNumeroTelefonico(rs.getInt("telefono"));
 
             all.add(proveedor);
         }
@@ -67,18 +66,16 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public Proveedor findById(int id) throws SQLException, ValidationModelException {
-        PreparedStatement st = connection.prepareStatement("SELECT * FROM proveedor WHERE id = ?");
+        PreparedStatement st = connection.prepareStatement("SELECT * FROM proveedores WHERE id = ?");
         st.setInt(1, id);
         ResultSet rs = st.executeQuery();
+
         if (!rs.next()) {
             return null;
         }
         Proveedor proveedor = new Proveedor();
         proveedor.setId(rs.getInt("id"));
         proveedor.setNombre(rs.getString("nombre"));
-        proveedor.setDireccion(rs.getString("direccion"));
-        proveedor.setCorreoElectronico(rs.getString("correo_electronico"));
-        proveedor.setNumeroTelefonico(rs.getInt("numero_telefonico"));
 
         return proveedor;
     }

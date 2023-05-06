@@ -3,12 +3,14 @@ package views.inventario;
 import exceptions.ValidationModelException;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import models.Producto;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 
+@SuppressWarnings("serial")
 public class EditarProductoModal extends javax.swing.JDialog {
 
     private final ProductoRepository productoRepository;
@@ -24,8 +26,14 @@ public class EditarProductoModal extends javax.swing.JDialog {
         try {
             Producto producto = productoRepository.findById(id);
             nombre.setText(producto.getNombre());
-            descripcion.setText(producto.getDescripcion());
-            precio.setText(String.valueOf(producto.getPrecio()));
+            codigoBarras.setText(producto.getCodigoBarras());
+            fechaCaducidad.setText(producto.getFechaCaducidad().toString());
+            precio.setText(String.valueOf(producto.getPrecioPublico()));
+            costo.setText(String.valueOf(producto.getCosto()));
+            categoria.setText(producto.getCategoria());
+            marca.setText(producto.getMarca());
+            edicion.setText(producto.getEdicion());
+
             getProveedoresIds(producto.getProveedorId());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "Error de BBDD");
@@ -39,6 +47,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
     private void getProveedoresIds(int proveedorIdSelected) {
         try {
             proveedorRepository.findAll().forEach(proveedor -> {
+                @SuppressWarnings("unchecked")
                 DefaultComboBoxModel<ProveedorItem> model = (DefaultComboBoxModel) proveedorSelect.getModel();
                 ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
                 model.insertElementAt(item, 0);
@@ -64,14 +73,23 @@ public class EditarProductoModal extends javax.swing.JDialog {
         nombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        descripcion = new javax.swing.JTextField();
+        fechaCaducidad = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         precio = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         cancelarBtn = new javax.swing.JButton();
         editarBtn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         proveedorSelect = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        costo = new javax.swing.JTextField();
+        codigoBarras = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        categoria = new javax.swing.JTextField();
+        marca = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        edicion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -81,11 +99,9 @@ public class EditarProductoModal extends javax.swing.JDialog {
 
         jLabel2.setText("Nombre");
 
-        jLabel3.setText("Descripcion");
+        jLabel3.setText("Fecha de caducidad");
 
-        jLabel4.setText("Precio");
-
-        jLabel5.setText("$");
+        jLabel4.setText("Precio $");
 
         cancelarBtn.setText("Cancelar");
         cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -103,62 +119,120 @@ public class EditarProductoModal extends javax.swing.JDialog {
 
         jLabel6.setText("Proveedor");
 
+        jLabel8.setText("Costo $");
+
+        jLabel9.setText("Codigo de barras");
+
+        jLabel10.setText("Categoria");
+
+        jLabel11.setText("Marca");
+
+        jLabel12.setText("Edicion");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(81, Short.MAX_VALUE)
+                .addContainerGap(422, Short.MAX_VALUE)
+                .addComponent(cancelarBtn)
+                .addGap(128, 128, 128)
+                .addComponent(editarBtn)
+                .addContainerGap(421, Short.MAX_VALUE))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(40, 40, 40)
+                .addComponent(proveedorSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(411, 411, 411))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(cancelarBtn)
-                        .addGap(128, 128, 128)
-                        .addComponent(editarBtn))
+                        .addGap(288, 288, 288)
+                        .addComponent(jLabel4)
+                        .addGap(30, 30, 30)
+                        .addComponent(precio))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel2))
                         .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(proveedorSelect, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(precio, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))
-                            .addComponent(descripcion)
-                            .addComponent(nombre))))
-                .addContainerGap(80, Short.MAX_VALUE))
-            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(fechaCaducidad)
+                            .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(54, 54, 54)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel9))))
+                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(categoria)
+                    .addComponent(codigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel8)
+                        .addGap(24, 24, 24)
+                        .addComponent(costo, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel11))
+                        .addGap(32, 32, 32)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(edicion)
+                            .addComponent(marca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(183, 183, 183))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(38, 38, 38)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(codigoBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10)
+                            .addComponent(categoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(nombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(fechaCaducidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(marca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel11))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(edicion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(18, 18, 18)
+                    .addComponent(jLabel8)
+                    .addComponent(costo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
                     .addComponent(proveedorSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editarBtn)
                     .addComponent(cancelarBtn))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,12 +247,16 @@ public class EditarProductoModal extends javax.swing.JDialog {
             ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
 
             Producto producto = new Producto();
-            producto.setId(productoId);
-            producto.setNombre(nombre.getText());
-            producto.setDescripcion(descripcion.getText());
-            producto.setPrecio(Double.parseDouble(precio.getText()));
             producto.setProveedorId(proveedorItem.getId());
-
+            producto.setNombre(nombre.getText());
+            producto.setCodigoBarras(codigoBarras.getText());
+            producto.setFechaCaducidad(LocalDate.parse(fechaCaducidad.getText()));
+            producto.setPrecioPublico(Double.parseDouble(precio.getText()));
+            producto.setCosto(Double.parseDouble(costo.getText()));
+            producto.setCategoria(categoria.getText());
+            producto.setMarca(marca.getText());
+            producto.setEdicion(edicion.getText());
+            
             productoRepository.update(productoId, producto);
 
             dispose();
@@ -197,14 +275,23 @@ public class EditarProductoModal extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelarBtn;
-    private javax.swing.JTextField descripcion;
+    private javax.swing.JTextField categoria;
+    private javax.swing.JTextField codigoBarras;
+    private javax.swing.JTextField costo;
+    private javax.swing.JTextField edicion;
     private javax.swing.JButton editarBtn;
+    private javax.swing.JTextField fechaCaducidad;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JTextField marca;
     private javax.swing.JTextField nombre;
     private javax.swing.JTextField precio;
     private javax.swing.JComboBox<String> proveedorSelect;

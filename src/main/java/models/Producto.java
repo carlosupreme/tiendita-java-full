@@ -1,14 +1,22 @@
 package models;
 
 import exceptions.ValidationModelException;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
-public class Producto {
+public final class Producto {
 
     private int id;
     private int proveedorId;
     private String nombre;
-    private String descripcion;
-    private double precio;
+    private String codigoBarras;
+    private double precioPublico;
+    private double costo;
+    private LocalDate fechaCaducidad;
+    private String categoria;
+    private String marca;
+    private String edicion;
 
     public int getId() {
         return id;
@@ -37,38 +45,92 @@ public class Producto {
     }
 
     public void setNombre(String nombre) throws ValidationModelException {
-        String regex = "^(?=.{2,})([a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ]+(\\s+[a-zA-Z0-9ÑñáÁéÉíÍóÓúÚ]+)*)$";
-        if (nombre == null || !nombre.matches(regex)) {
-            throw new ValidationModelException("El nombre'" + nombre + "' del producto debe contener al menos 2 letras o numeros");
-        }
+        ensureValidText(nombre, "nombre");
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getCodigoBarras() {
+        return codigoBarras;
     }
 
-    public void setDescripcion(String descripcion) throws ValidationModelException {
-        String regex = "^(?=.{2,})([a-zA-Z0-9ÑñáÁéÉíÍóÓúÚ]+(\\s+[a-zA-Z0-9ÑñáÁéÉíÍóÓúÚ]+)*)$";
-        if (descripcion == null || !descripcion.matches(regex)) {
-            throw new ValidationModelException("La descripcion '" + descripcion + "' del producto debe contener al menos 2 letras o numeros");
+    public void setCodigoBarras(String codigoBarras) throws ValidationModelException {
+        if (!codigoBarras.matches("^(\\d{8}|\\d{12}|\\d{13})$")) {
+            throw new ValidationModelException("El codigo de barras '" + codigoBarras + "' no cumple el estandar EAN-13 o UPC-A");
         }
-        this.descripcion = descripcion;
+
+        this.codigoBarras = codigoBarras;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrecioPublico() {
+        return precioPublico;
     }
 
-    public void setPrecio(double precio) throws ValidationModelException {
-        if (precio <= 0) {
-            throw new ValidationModelException("El precio '" + precio + "' debe ser mayor a 0");
+    public void setPrecioPublico(double precioPublico) throws ValidationModelException {
+        if (precioPublico <= 0) {
+            throw new ValidationModelException("El precio '" + precioPublico + "' debe ser mayor a 0");
         }
-        this.precio = precio;
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        this.precioPublico = Double.parseDouble(df.format(precioPublico));
     }
 
-    @Override
-    public String toString() {
-        return "{id: " + id + ", nombre: " + nombre + ", descripcion: " + descripcion + ", precio: " + precio + ", proveedor_id: " + proveedorId + "}";
+    public double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(double costo) throws ValidationModelException {
+        if (costo <= 0) {
+            throw new ValidationModelException("El costo '" + costo + "' debe ser mayor a 0");
+        }
+
+        DecimalFormat df = new DecimalFormat("#.##");
+        this.costo = Double.parseDouble(df.format(costo));
+    }
+
+    public LocalDate getFechaCaducidad() {
+        return fechaCaducidad;
+    }
+
+    public String getFechaCaducidadFormateada() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return fechaCaducidad.format(formatter);
+    }
+
+    public void setFechaCaducidad(LocalDate fechaCaducidad) {
+        this.fechaCaducidad = fechaCaducidad;
+    }
+
+    public String getCategoria() {
+        return categoria;
+    }
+
+    public void setCategoria(String categoria) throws ValidationModelException {
+        ensureValidText(categoria, "categoria");
+        this.categoria = categoria;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) throws ValidationModelException {
+        ensureValidText(marca, "marca");
+        this.marca = marca;
+    }
+
+    public String getEdicion() {
+        return edicion;
+    }
+
+    public void setEdicion(String edicion) throws ValidationModelException {
+        ensureValidText(edicion, "edicion");
+        this.edicion = edicion;
+    }
+
+    private void ensureValidText(String t, String prop) throws ValidationModelException {
+        String regex = "^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$";
+        if (t == null || !t.matches(regex)) {
+            throw new ValidationModelException(prop + " '" + t + "' del producto debe contener al menos 2 letras o numeros sin caracteres especiales");
+        }
     }
 }
