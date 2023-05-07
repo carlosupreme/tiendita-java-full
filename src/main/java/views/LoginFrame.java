@@ -14,13 +14,13 @@ import javax.swing.JOptionPane;
  */
 @SuppressWarnings("serial")
 public class LoginFrame extends javax.swing.JFrame {
-
+    
     private final AutenticacionController authController;
-
+    
     public LoginFrame() {
-
+        
         this.authController = new AutenticacionController(ConexionDB.getInstance().getConnection());
-
+        
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -42,7 +42,7 @@ public class LoginFrame extends javax.swing.JFrame {
         usernameLabel = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        registerBtn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -103,10 +103,15 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel1.setText("BIENVENIDOS AL SISTEMA DE VENTAS");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 420, 40));
 
-        jButton1.setBackground(new java.awt.Color(51, 153, 255));
-        jButton1.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
-        jButton1.setText("Registrarse");
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, -1, -1));
+        registerBtn.setBackground(new java.awt.Color(51, 153, 255));
+        registerBtn.setFont(new java.awt.Font("Segoe UI Historic", 1, 18)); // NOI18N
+        registerBtn.setText("Registrarse");
+        registerBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                registerBtnActionPerformed(evt);
+            }
+        });
+        jPanel2.add(registerBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 90, -1, -1));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imgboard.png"))); // NOI18N
         jLabel6.setText("jLabel6");
@@ -143,7 +148,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 dispose();
                 new HomeFrame(authController).setVisible(true);
             }
-
+            
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(rootPane, e.getMessage());
         } catch (SQLException ex) {
@@ -161,8 +166,12 @@ public class LoginFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordFieldActionPerformed
 
+    private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
+        dispose();
+        new RegisterFrame().setVisible(true);
+    }//GEN-LAST:event_registerBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -176,6 +185,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JButton loginBtn;
     private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel passwordLabel;
+    private javax.swing.JButton registerBtn;
     private javax.swing.JTextField usernameField;
     private javax.swing.JLabel usernameLabel;
     // End of variables declaration//GEN-END:variables
