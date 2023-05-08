@@ -4,7 +4,10 @@
  */
 package views.proveedor;
 
+import controllers.AutenticacionController;
+import exceptions.ValidationModelException;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import models.Proveedor;
 import repositories.ProveedorRepository;
 
@@ -13,7 +16,7 @@ import repositories.ProveedorRepository;
  * @author ili
  */
 public class CrearProveedorModal extends javax.swing.JDialog {
-
+    
     private final ProveedorRepository proveedorRepository;
 
     /**
@@ -144,27 +147,30 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     private void direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_direccionActionPerformed
-
+    
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
         dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelarBtnActionPerformed
-
+    
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         try {
-            Proveedor proveedor = new Proveedor(); //agregar validacion
+            Proveedor proveedor = new Proveedor();
             proveedor.setNombre(nombre.getText());
             proveedor.setDireccion(direccion.getText());
             proveedor.setEmail(correoE.getText());
             proveedor.setTelefono(Integer.parseInt(numTelefono.getText()));
-
+            
             proveedorRepository.save(proveedor);
-            nombre.setText("");
-            direccion.setText("");
-            correoE.setText("");
-            numTelefono.setText("");
-        } catch (NumberFormatException | SQLException e) {
+            
+            dispose();
+            JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
+            new ProveedorFrame(new AutenticacionController()).setVisible(true);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agergó el proveedor");
             System.err.println(e.getMessage());
+        } catch (ValidationModelException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_agregarBtnActionPerformed

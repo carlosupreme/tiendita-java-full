@@ -71,7 +71,14 @@ public class ProveedorFrame extends javax.swing.JFrame {
             @Override
             public void onShow(int row) {
                 int id = (int) model.getValueAt(row, 0);
-                new VerProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
+                try {
+                    new VerProveedorModal(ProveedorFrame.this, proveedorRepository.findById(id), proveedorRepository).setVisible(true);
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(ProveedorFrame.this, "Error BBDD");
+                    System.err.println(ex.getMessage());
+                } catch (ValidationModelException ex) {
+                    JOptionPane.showMessageDialog(ProveedorFrame.this, ex.getMessage());
+                }
             }
         };
 
@@ -113,7 +120,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "I.d", "Nombre", "Correo", "Telefono", "Direccion", "Acciones"
+                "I.d", "Nombre", "Direccion", "Correo", "Telefono", "Acciones"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -124,6 +131,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        table.setRowHeight(40);
         jScrollPane1.setViewportView(table);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
