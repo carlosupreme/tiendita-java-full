@@ -4,7 +4,7 @@
  */
 package views.proveedor;
 
-import app.ConexionDB;
+import db.ConexionDB;
 import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
 import java.awt.Dimension;

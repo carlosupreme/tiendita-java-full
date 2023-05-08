@@ -1,6 +1,6 @@
 package controllers;
 
-import app.ConexionDB;
+import db.ConexionDB;
 import app.Sesion;
 
 /**

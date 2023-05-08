@@ -1,6 +1,6 @@
 package views;
 
-import app.ConexionDB;
+import db.ConexionDB;
 import controllers.AutenticacionController;
 import javax.swing.JOptionPane;
 
