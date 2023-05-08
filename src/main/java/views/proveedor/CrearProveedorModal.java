@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package views;
+package views.proveedor;
 
 import java.sql.SQLException;
 import models.Proveedor;
@@ -14,10 +14,13 @@ import repositories.ProveedorRepository;
  */
 public class CrearProveedorModal extends javax.swing.JDialog {
 
-    private ProveedorRepository proveedorRepository;
+    private final ProveedorRepository proveedorRepository;
 
     /**
      * Creates new form CrearProveedorModal
+     *
+     * @param parent
+     * @param proveedorRepository
      */
     public CrearProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository) {
         super(parent, true);
@@ -152,8 +155,8 @@ public class CrearProveedorModal extends javax.swing.JDialog {
             Proveedor proveedor = new Proveedor(); //agregar validacion
             proveedor.setNombre(nombre.getText());
             proveedor.setDireccion(direccion.getText());
-            proveedor.setCorreoElectronico(correoE.getText());
-            proveedor.setNumeroTelefonico(Integer.parseInt(numTelefono.getText()));
+            proveedor.setEmail(correoE.getText());
+            proveedor.setTelefono(Integer.parseInt(numTelefono.getText()));
 
             proveedorRepository.save(proveedor);
             nombre.setText("");
@@ -165,7 +168,6 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         }
         // TODO add your handling code here:
     }//GEN-LAST:event_agregarBtnActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarBtn;

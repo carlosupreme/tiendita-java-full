@@ -4,26 +4,26 @@
  */
 package views;
 
-import views.inventario.InventarioFrame;
+import views.proveedor.ProveedorFrame;
 import app.Sesion;
 import controllers.AutenticacionController;
-import helpers.Confirmation;
-import helpers.ConfirmationModal;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import views.inventario.InventarioFrame;
 
 /**
  *
  * @author carlos
  */
+@SuppressWarnings("serial")
 public class HomeFrame extends javax.swing.JFrame {
 
-    private AutenticacionController authController;
+    private final AutenticacionController authController;
 
     /**
      * Creates new form HomeFrame
+     * @param authController
      */
     public HomeFrame(AutenticacionController authController) {
         initComponents();
@@ -35,8 +35,7 @@ public class HomeFrame extends javax.swing.JFrame {
         this.setResizable(false);
         this.setTitle("Tiendita de la esquina");
         this.setVisible(true);
-        
-        
+
         usuarioLbl.setText(Sesion.instance().getUsuario().getNombre());
     }
 
@@ -178,28 +177,21 @@ public class HomeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        ConfirmationModal modal = new ConfirmationModal(this, "¿Estás seguro de que desea cerrar la sesión?", new Confirmation() {
-            @Override
-            public void onConfirm(JDialog component, ActionEvent evt) {
-                component.dispose();
-                dispose();
-                authController.logout();
-                new LoginFrame().setVisible(true);
-            }
 
-            @Override
-            public void onCancel(JDialog component, ActionEvent evt) {
-                component.dispose();
-            }
-        });
-        modal.setVisible(true);
+        int option = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que desea cerrar la sesión?");
+
+        if (option == JOptionPane.YES_OPTION) {
+            dispose();
+            authController.logout();
+            new LoginFrame().setVisible(true);
+        }
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
         dispose();
-        ProveedorFrame prov= new ProveedorFrame(authController);
+        ProveedorFrame prov = new ProveedorFrame(authController);
         prov.setVisible(true);
-        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_proveedoresBtnActionPerformed
 
@@ -209,8 +201,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
         dispose();
-        InventarioFrame inventarioFrame = new InventarioFrame(authController);
-        inventarioFrame.setVisible(true);
+        new InventarioFrame(authController).setVisible(true);
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void cobrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cobrarBtnActionPerformed

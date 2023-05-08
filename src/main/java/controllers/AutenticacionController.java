@@ -2,7 +2,6 @@ package controllers;
 
 import app.ConexionDB;
 import app.Sesion;
-import models.Usuario;
 
 /**
  * 

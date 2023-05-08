@@ -6,10 +6,7 @@ package app;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.*;
-/**
- *
- * @author gusam
- */
+
 public class ConexionDB {
 
     private static ConexionDB instance = null;

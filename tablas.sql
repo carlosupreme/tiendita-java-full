@@ -8,16 +8,22 @@ CREATE TABLE proveedores (
 
 CREATE TABLE productos (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  proveedor_id INT,
   nombre VARCHAR(255) NOT NULL,
   codigo_barras VARCHAR(13) NOT NULL UNIQUE,
   precio_publico DECIMAL(10,2) NOT NULL,
+<<<<<<< HEAD
   precio_coste DECIMAL(10,2) NOT NULL,
   id_proveedor INT,
   fecha_caducidad TIMESTAMP NOT NULL,
+=======
+  costo DECIMAL(10,2) NOT NULL,
+  fecha_caducidad DATE DEFAULT NULL,
+>>>>>>> 8624bfcf92d4f515a5c1ec2aea1876ffd44b336a
   categoria VARCHAR(50) NOT NULL,
-  marca VARCHAR(50) NOT NULL,
-  edicion VARCHAR(50) NOT NULL,
-  FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
+  marca VARCHAR(255) NOT NULL, 
+  edicion VARCHAR(255) NOT NULL,
+  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE inventario (
