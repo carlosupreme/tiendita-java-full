@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Raul
  */
-public class CompraRepository implements CrudRepository<CompraRepository> {
+public class CompraRepository implements Repository<CompraRepository> {
 
     @Override
     public void save(CompraRepository model) throws SQLException, ValidationModelException {

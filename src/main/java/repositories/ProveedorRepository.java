@@ -14,7 +14,7 @@ import models.Proveedor;
  *
  * @author ili
  */
-public class ProveedorRepository implements CrudRepository<Proveedor> {
+public class ProveedorRepository implements Repository<Proveedor> {
 
     private final Connection connection;
 
@@ -24,24 +24,7 @@ public class ProveedorRepository implements CrudRepository<Proveedor> {
 
     @Override
     public void save(Proveedor proveedor) throws SQLException, ValidationModelException {
-//        PreparedStatement st = connection.prepareStatement("INSERT INTO proveedor (nombre, direccion, email, telefono) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-//        st.setString(1, proveedor.getNombre());
-//        st.setString(2, proveedor.getDireccion());
-//        st.setString(3, proveedor.getCorreoElectronico());
-//        st.setInt(4, proveedor.getNumeroTelefonico());
-//
-//        if (st.executeUpdate() == 0) {
-//            throw new SQLException("No se creó el proveedor.");
-//        }
-//
-//        ResultSet generatedKeys = st.getGeneratedKeys();
-//        if (generatedKeys.next()) {
-//            proveedor.setId(generatedKeys.getInt(1));
-//        } else {
-//            throw new SQLException("No se obtuvo el ID");
-//        }
-//
-//        System.out.println(proveedor);
+        
     }
 
     @Override

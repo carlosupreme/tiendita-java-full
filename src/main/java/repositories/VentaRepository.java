@@ -11,7 +11,7 @@ import models.Venta;
  *
  * @author Raul
  */
-public class VentaRepository implements CrudRepository<Venta> {
+public class VentaRepository implements Repository<Venta> {
 
     @Override
     public void save(Venta model) throws SQLException {
