@@ -12,14 +12,9 @@ CREATE TABLE productos (
   nombre VARCHAR(255) NOT NULL,
   codigo_barras VARCHAR(13) NOT NULL UNIQUE,
   precio_publico DECIMAL(10,2) NOT NULL,
-<<<<<<< HEAD
-  precio_coste DECIMAL(10,2) NOT NULL,
+  costo DECIMAL(10,2) NOT NULL,
   id_proveedor INT,
   fecha_caducidad TIMESTAMP NOT NULL,
-=======
-  costo DECIMAL(10,2) NOT NULL,
-  fecha_caducidad DATE DEFAULT NULL,
->>>>>>> 8624bfcf92d4f515a5c1ec2aea1876ffd44b336a
   categoria VARCHAR(50) NOT NULL,
   marca VARCHAR(255) NOT NULL, 
   edicion VARCHAR(255) NOT NULL,
@@ -29,7 +24,6 @@ CREATE TABLE productos (
 CREATE TABLE inventario (
   id_producto INT NOT NULL PRIMARY KEY,
   stock INT NOT NULL,
-  stock_minimo INT NOT NULL,
   FOREIGN KEY (id_producto) REFERENCES productos(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
