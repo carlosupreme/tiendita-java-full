@@ -39,7 +39,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
             proveedor.setNombre(rs.getString("nombre"));
             proveedor.setDireccion(rs.getString("direccion"));
             proveedor.setEmail(rs.getString("email"));
-            proveedor.setTelefono(rs.getInt("telefono"));
+            proveedor.setTelefono(rs.getString("telefono"));
 
             all.add(proveedor);
         }
@@ -54,13 +54,13 @@ public class ProveedorRepository implements Repository<Proveedor> {
         ResultSet rs = st.executeQuery();
 
         if (!rs.next()) {
-            return null;
+            return null; 
         }
         Proveedor proveedor = new Proveedor();
         proveedor.setId(rs.getInt("id"));
         proveedor.setNombre(rs.getString("nombre"));
 
-        return proveedor;
+        return proveedor; 
     }
 
     @Override
@@ -69,7 +69,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
         st.setString(1, proveedor.getNombre());
         st.setString(2, proveedor.getDireccion());
         st.setString(3, proveedor.getEmail());
-        st.setInt(4, proveedor.getTelefono());
+        st.setString(4, proveedor.getTelefono());
         st.setInt(5, id);
 
         st.executeUpdate();

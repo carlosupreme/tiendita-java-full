@@ -2,7 +2,6 @@ package app;
 
 import db.PreparedStatementMapper;
 import models.Proveedor;
-import views.LoginFrame;
 
 /**
  *
