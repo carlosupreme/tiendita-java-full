@@ -7,42 +7,44 @@ import java.util.Map;
 
 public class PreparedStatementMapper<T> {
 
-    private final Connection connection = ConexionDB.getInstance().getConnection();
+    //private final Connection connection = ConexionDB.getInstance().getConnection();
+    private final Connection connection = null;
     private final String tableName;
 
-    public PreparedStatementMapper(Connection connection, String tableName) {
+    public PreparedStatementMapper(String tableName) {
         this.tableName = tableName;
     }
 
     public int insertar(T object) throws SQLException {
         String query = construirSQLInsert(object);
         int filasAfectadas;
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            establecerParametrosPreparados(statement, object);
-            filasAfectadas = statement.executeUpdate();
+        try (PreparedStatement st = connection.prepareStatement(query)) {
+            setParametrosPreparados(st, object);
+            filasAfectadas = st.executeUpdate();
         }
         return filasAfectadas;
     }
 
-    private String construirSQLInsert(T object) {
-        StringBuilder columns = new StringBuilder();
-        StringBuilder values = new StringBuilder();
+    public String construirSQLInsert(T object) {
+        StringBuilder columnas = new StringBuilder();
+        StringBuilder valores = new StringBuilder();
         for (Field field : object.getClass().getDeclaredFields()) {
-            if (columns.length() > 0) {
-                columns.append(", ");
-                values.append(", ");
+            if (columnas.length() > 0) {
+                columnas.append(", ");
+                valores.append(", ");
             }
-            columns.append(field.getName()
+            columnas.append(field.getName()
                     .replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase());
-            values.append("?");
+            valores.append("?");
         }
         return String.format("INSERT INTO %s (%s) VALUES (%s)",
-                tableName, columns.toString(), values.toString());
+                tableName, columnas.toString(), valores.toString());
     }
 
-    private void establecerParametrosPreparados(PreparedStatement statement, 
+    private void setParametrosPreparados(PreparedStatement statement, 
             T object) throws SQLException {
         Map<String, Object> map = getValoresAtributos(object);
+        
         for (int i = 1; i <= map.size(); i++) {
             Object value = map.get("atributo" + i);
             if (value instanceof String) {

@@ -12,9 +12,14 @@ public class Proveedor {
     private String nombre;
     private String direccion;
     private String email;
-    private int telefono;
+    private String telefono;
 
-    public Proveedor() {
+    public Proveedor(int id, String nombre, String direccion, String email, String telefono) {
+        this.id = id;
+        this.nombre = nombre;
+        this.direccion = direccion;
+        this.email = email;
+        this.telefono = telefono;
     }
 
     public int getId() {
@@ -61,12 +66,12 @@ public class Proveedor {
         this.email = email;
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) throws ValidationModelException {
-        if (String.valueOf(telefono).length() != 10) {
+    public void setTelefono(String telefono) throws ValidationModelException {
+        if (telefono.length() != 10) {
             throw new ValidationModelException("El telefono debe contener al menos 10 numeros");
         }
         this.telefono = telefono;
