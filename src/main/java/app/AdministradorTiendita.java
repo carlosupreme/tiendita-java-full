@@ -21,7 +21,7 @@ public class AdministradorTiendita {
         PreparedStatementMapper<Proveedor> pSt = 
                 new PreparedStatementMapper<>("proveedores");
         
-        System.out.println(pSt.construirSQLInsert(p));
+        System.out.println(pSt.buildInsertQuery(p));
         
     }
 }

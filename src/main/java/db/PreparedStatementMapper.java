@@ -2,8 +2,6 @@ package db;
 
 import java.lang.reflect.Field;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PreparedStatementMapper<T> {
 
@@ -15,65 +13,55 @@ public class PreparedStatementMapper<T> {
         this.tableName = tableName;
     }
 
-    public int insertar(T object) throws SQLException {
-        String query = construirSQLInsert(object);
-        int filasAfectadas;
-        try (PreparedStatement st = connection.prepareStatement(query)) {
-            setParametrosPreparados(st, object);
-            filasAfectadas = st.executeUpdate();
+    public int insert(T object) throws SQLException {
+        String query = buildInsertQuery(object);
+        int rowsAffected;
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            setStatementParameters(statement, object);
+            rowsAffected = statement.executeUpdate();
         }
-        return filasAfectadas;
+        return rowsAffected;
     }
 
-    public String construirSQLInsert(T object) {
-        StringBuilder columnas = new StringBuilder();
-        StringBuilder valores = new StringBuilder();
-        for (Field field : object.getClass().getDeclaredFields()) {
-            if (columnas.length() > 0) {
-                columnas.append(", ");
-                valores.append(", ");
-            }
-            columnas.append(field.getName()
-                    .replaceAll("([a-z])([A-Z]+)", "$1_$2").toLowerCase());
-            valores.append("?");
-        }
-        return String.format("INSERT INTO %s (%s) VALUES (%s)",
-                tableName, columnas.toString(), valores.toString());
-    }
-
-    private void setParametrosPreparados(PreparedStatement statement, 
-            T object) throws SQLException {
-        Map<String, Object> map = getValoresAtributos(object);
-        
-        for (int i = 1; i <= map.size(); i++) {
-            Object value = map.get("atributo" + i);
-            if (value instanceof String) {
-                statement.setString(i, (String) value);
-            } else if (value instanceof Integer) {
-                statement.setInt(i, (Integer) value);
-            } else if (value instanceof Double) {
-                statement.setDouble(i, (Double) value);
-            } else if (value instanceof Timestamp) {
-                statement.setTimestamp(i, (Timestamp) value);
-            } else if (value instanceof Date) {
-                statement.setDate(i, (Date) value);
-            }
-        }
-    }
-
-    private Map<String, Object> getValoresAtributos(T object) {
-        Map<String, Object> map = new HashMap<>();
+    private void setStatementParameters(PreparedStatement statement, T object) throws SQLException {
         int i = 1;
-        for (Field field : object.getClass().getDeclaredFields()) {
+        Field[] fields = object.getClass().getDeclaredFields();
+        for (Field field : fields) {
             field.setAccessible(true);
             try {
                 Object value = field.get(object);
-                map.put("atributo" + i, value);
+                if (value instanceof String) {
+                    statement.setString(i, (String) value);
+                } else if (value instanceof Integer) {
+                    statement.setInt(i, (Integer) value);
+                } else if (value instanceof Double) {
+                    statement.setDouble(i, (Double) value);
+                } else if (value instanceof Timestamp) {
+                    statement.setTimestamp(i, (Timestamp) value);
+                } else if (value instanceof Date) {
+                    statement.setDate(i, (Date) value);
+                }
                 i++;
             } catch (IllegalAccessException e) {
                 // Ignorar campos inaccesibles
             }
         }
-        return map;
     }
+
+    public String buildInsertQuery(T object) {
+        StringBuilder columns = new StringBuilder();
+        StringBuilder values = new StringBuilder();
+        for (Field field : object.getClass().getDeclaredFields()) {
+            if (columns.length() > 0) {
+                columns.append(", ");
+                values.append(", ");
+            }
+            columns.append(field.getName());
+            values.append("?");
+        }
+        return String.format("INSERT INTO %s (%s) VALUES (%s)",
+                tableName, columns.toString(), values.toString());
+    }
+
 }
+
