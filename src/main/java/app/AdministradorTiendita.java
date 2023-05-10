@@ -1,6 +1,9 @@
 package app;
 
 import db.PreparedStatementMapper;
+import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Proveedor;
 import views.LoginFrame;
 
@@ -22,7 +25,16 @@ public class AdministradorTiendita {
         PreparedStatementMapper<Proveedor> pSt = 
                 new PreparedStatementMapper<>("proveedores");
         
-        System.out.println(pSt.getSqlString(p));
+        for(Field f : p.getClass().getDeclaredFields()) {
+            try {
+                f.setAccessible(true);
+                System.out.println(f.get(p));
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+                System.out.println(ex.getMessage());
+            }
+        } 
+        
+        System.out.println(pSt.getSqlString(p));*/
         
     }
 }

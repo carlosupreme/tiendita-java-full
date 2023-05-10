@@ -13,7 +13,7 @@ public class PreparedStatementMapper<T> {
         this.nombreTabla = tableName;
     }
 
-    public int insertar(T object) throws SQLException {
+    public int insertar(T object) throws SQLException, IllegalAccessException {
         String query = getSqlString(object);
         int filasAfectadas;
         try (PreparedStatement statement = conexion.prepareStatement(query)) {
@@ -23,17 +23,13 @@ public class PreparedStatementMapper<T> {
         return filasAfectadas;
     }
 
-    private void setParametros(PreparedStatement statement, T objeto) throws SQLException {
+    private void setParametros(PreparedStatement statement, T objeto) throws SQLException, IllegalAccessException {
         int i = 1;
         Field[] fields = objeto.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
-            try {
-                Object valorAttr = field.get(objeto);
-                statement.setObject(i, valorAttr);
-            } catch (IllegalAccessException e) {
-                // Ignorar campos inaccesibles
-            }
+            Object valorAttr = field.get(objeto);
+            statement.setObject(i, valorAttr);
         }
     }
 
@@ -53,4 +49,3 @@ public class PreparedStatementMapper<T> {
     }
 
 }
-
