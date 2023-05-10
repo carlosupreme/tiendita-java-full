@@ -188,9 +188,10 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
-        dispose();
+        
         ProveedorFrame prov = new ProveedorFrame(authController);
         prov.setVisible(true);
+        
 
         // TODO add your handling code here:
     }//GEN-LAST:event_proveedoresBtnActionPerformed
@@ -200,7 +201,7 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_estadisticasBtnActionPerformed
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
-        dispose();
+        
         new InventarioFrame(authController).setVisible(true);
     }//GEN-LAST:event_inventarioBtnActionPerformed
 

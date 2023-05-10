@@ -2,6 +2,7 @@ package controllers;
 
 import db.ConexionDB;
 import app.Sesion;
+import models.Usuario;
 
 /**
  * 
@@ -17,6 +18,9 @@ public class AutenticacionController {
     public boolean login(String username, String password) {
         
         // Autenticación básica sin acceder a una base de datos
+        
+        Sesion.instance().setUsuario(
+                new Usuario(0, "username", "nombre", "email", "password", "telefono", "rol"));
         
         return true;
         

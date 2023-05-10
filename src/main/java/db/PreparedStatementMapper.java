@@ -5,8 +5,7 @@ import java.sql.*;
 
 public class PreparedStatementMapper<T> {
 
-    //private final Connection connection = ConexionDB.getInstance().getConnection();
-    private final Connection conexion = null;
+    private final Connection conexion = ConexionDB.getInstance().getConnection();
     private final String nombreTabla;
 
     public PreparedStatementMapper(String tableName) {

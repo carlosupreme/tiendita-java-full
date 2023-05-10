@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProveedorRepository;
@@ -78,6 +79,8 @@ public class ProveedorFrame extends javax.swing.JFrame {
         table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
     }
 
     /**
