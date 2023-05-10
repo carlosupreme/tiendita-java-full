@@ -13,7 +13,7 @@ import java.sql.SQLException;
  */
 public class TransactionManager {
     private static final Connection conexion = ConexionDB.getInstance().getConnection(); 
-    
+     
     public static void ejecutarTransaccion(InstruccionDML dml) throws SQLException {
         try {
             dml.ejecutar();
