@@ -36,6 +36,8 @@ public class HomeFrame extends javax.swing.JFrame {
         proveedoresBtn1 = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
         panelDerecho = new javax.swing.JPanel();
+        tituloSeccion = new javax.swing.JTextField();
+        panelContenido = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100));
@@ -126,16 +128,30 @@ public class HomeFrame extends javax.swing.JFrame {
 
         getContentPane().add(panelIzquierdo, java.awt.BorderLayout.LINE_START);
 
-        javax.swing.GroupLayout panelDerechoLayout = new javax.swing.GroupLayout(panelDerecho);
-        panelDerecho.setLayout(panelDerechoLayout);
-        panelDerechoLayout.setHorizontalGroup(
-            panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 569, Short.MAX_VALUE)
+        panelDerecho.setLayout(new java.awt.BorderLayout());
+
+        tituloSeccion.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
+        tituloSeccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tituloSeccion.setText("Selecciona una sección");
+        tituloSeccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tituloSeccionActionPerformed(evt);
+            }
+        });
+        panelDerecho.add(tituloSeccion, java.awt.BorderLayout.PAGE_START);
+
+        javax.swing.GroupLayout panelContenidoLayout = new javax.swing.GroupLayout(panelContenido);
+        panelContenido.setLayout(panelContenidoLayout);
+        panelContenidoLayout.setHorizontalGroup(
+            panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 682, Short.MAX_VALUE)
         );
-        panelDerechoLayout.setVerticalGroup(
-            panelDerechoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 503, Short.MAX_VALUE)
+        panelContenidoLayout.setVerticalGroup(
+            panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 469, Short.MAX_VALUE)
         );
+
+        panelDerecho.add(panelContenido, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(panelDerecho, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -176,14 +192,20 @@ public class HomeFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
 
+    private void tituloSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloSeccionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tituloSeccionActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton inventarioBtn;
     private javax.swing.JButton logoutBtn;
+    private javax.swing.JPanel panelContenido;
     private javax.swing.JPanel panelDerecho;
     private javax.swing.JPanel panelIzquierdo;
     private javax.swing.JButton proveedoresBtn;
     private javax.swing.JButton proveedoresBtn1;
+    private javax.swing.JTextField tituloSeccion;
     private javax.swing.JButton ventasBtn;
     private javax.swing.JButton ventasBtn1;
     // End of variables declaration//GEN-END:variables

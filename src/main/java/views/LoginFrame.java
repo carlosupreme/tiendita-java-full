@@ -141,6 +141,7 @@ public class LoginFrame extends javax.swing.JFrame {
         if (autController.login(usernameField.getText(), String.valueOf(passwordField.getPassword()))) {
             dispose();
             HomeFrame homeFrame = new HomeFrame(autController);
+            homeFrame.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Usuario y/o contraseña incorrectos");
         }
