@@ -4,7 +4,7 @@
  */
 package models;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 /**
  *
@@ -13,12 +13,12 @@ import java.sql.Timestamp;
 public class Venta {
     
     private long id;
-    private Timestamp fecha;
+    private Instant fecha;
     private double total;
     private int usuarioId;
     private String formaPago;
 
-    public Venta(long id, Timestamp fecha, double total, int usuarioId, String formaPago) {
+    public Venta(long id, Instant fecha, double total, int usuarioId, String formaPago) {
         this.id = id;
         this.fecha = fecha;
         this.total = total;
@@ -34,11 +34,11 @@ public class Venta {
         this.id = id;
     }
 
-    public Timestamp getFecha() {
+    public Instant getFecha() {
         return fecha;
     }
 
-    public void setFecha(Timestamp fecha) {
+    public void setFecha(Instant fecha) {
         this.fecha = fecha;
     }
 

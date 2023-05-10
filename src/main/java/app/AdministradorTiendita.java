@@ -16,6 +16,7 @@ public class AdministradorTiendita {
             new LoginFrame().setVisible(true);
         });*/
         
+        
         Proveedor p = new Proveedor(0, "Nombre", "Direccion", "Email", "Teléfono");
         
         PreparedStatementMapper<Proveedor> pSt = 

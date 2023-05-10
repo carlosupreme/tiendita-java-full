@@ -6,17 +6,17 @@ import java.sql.*;
 public class PreparedStatementMapper<T> {
 
     //private final Connection connection = ConexionDB.getInstance().getConnection();
-    private final Connection connection = null;
-    private final String tableName;
+    private final Connection conexion = null;
+    private final String nombreTabla;
 
     public PreparedStatementMapper(String tableName) {
-        this.tableName = tableName;
+        this.nombreTabla = tableName;
     }
 
     public int insertar(T object) throws SQLException {
         String query = getSqlString(object);
         int filasAfectadas;
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
+        try (PreparedStatement statement = conexion.prepareStatement(query)) {
             setParametros(statement, object);
             filasAfectadas = statement.executeUpdate();
         }
@@ -60,7 +60,7 @@ public class PreparedStatementMapper<T> {
             valores.append("?");
         }
         return String.format("INSERT INTO %s (%s) VALUES (%s)",
-                tableName, columnas.toString(), valores.toString());
+                nombreTabla, columnas.toString(), valores.toString());
     }
 
 }
