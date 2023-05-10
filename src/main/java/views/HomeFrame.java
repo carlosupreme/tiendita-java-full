@@ -19,6 +19,7 @@ public class HomeFrame extends javax.swing.JFrame {
     private final AutenticacionController authController;
     /**
      * Creates new form HomeFrame2
+     * @param authController
      */
     public HomeFrame(AutenticacionController authController) {
         this.authController = authController;
