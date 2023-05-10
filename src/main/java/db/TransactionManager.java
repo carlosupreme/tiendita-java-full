@@ -12,15 +12,15 @@ import java.sql.SQLException;
  * @author Raul
  */
 public class TransactionManager {
-    private static final Connection connection = ConexionDB.getInstance().getConnection(); 
+    private static final Connection conexion = ConexionDB.getInstance().getConnection(); 
     
-    public static void executeTransaction(InstruccionDML dml) throws SQLException {
+    public static void ejecutarTransaccion(InstruccionDML dml) throws SQLException {
         try {
             dml.ejecutar();
-            connection.commit();
+            conexion.commit();
         } catch (SQLException ex) {
-            if (connection != null) {
-                connection.rollback();
+            if (conexion != null) {
+                conexion.rollback();
             }
             throw ex;
         } 

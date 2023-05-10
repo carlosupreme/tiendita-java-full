@@ -13,23 +13,23 @@ public class PreparedStatementMapper<T> {
         this.tableName = tableName;
     }
 
-    public int insert(T object) throws SQLException {
-        String query = buildInsertQuery(object);
-        int rowsAffected;
+    public int insertar(T object) throws SQLException {
+        String query = getSqlString(object);
+        int filasAfectadas;
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            setStatementParameters(statement, object);
-            rowsAffected = statement.executeUpdate();
+            setParametros(statement, object);
+            filasAfectadas = statement.executeUpdate();
         }
-        return rowsAffected;
+        return filasAfectadas;
     }
 
-    private void setStatementParameters(PreparedStatement statement, T object) throws SQLException {
+    private void setParametros(PreparedStatement statement, T objeto) throws SQLException {
         int i = 1;
-        Field[] fields = object.getClass().getDeclaredFields();
+        Field[] fields = objeto.getClass().getDeclaredFields();
         for (Field field : fields) {
             field.setAccessible(true);
             try {
-                Object value = field.get(object);
+                Object value = field.get(objeto);
                 if (value instanceof String) {
                     statement.setString(i, (String) value);
                 } else if (value instanceof Integer) {
@@ -48,19 +48,19 @@ public class PreparedStatementMapper<T> {
         }
     }
 
-    public String buildInsertQuery(T object) {
-        StringBuilder columns = new StringBuilder();
-        StringBuilder values = new StringBuilder();
+    public String getSqlString(T object) {
+        StringBuilder columnas = new StringBuilder();
+        StringBuilder valores = new StringBuilder();
         for (Field field : object.getClass().getDeclaredFields()) {
-            if (columns.length() > 0) {
-                columns.append(", ");
-                values.append(", ");
+            if (columnas.length() > 0) {
+                columnas.append(", ");
+                valores.append(", ");
             }
-            columns.append(field.getName());
-            values.append("?");
+            columnas.append(field.getName());
+            valores.append("?");
         }
         return String.format("INSERT INTO %s (%s) VALUES (%s)",
-                tableName, columns.toString(), values.toString());
+                tableName, columnas.toString(), valores.toString());
     }
 
 }
