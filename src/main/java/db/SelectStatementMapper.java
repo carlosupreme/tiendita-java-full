@@ -37,7 +37,7 @@ public class SelectStatementMapper<T> {
                 T objeto = crearObjDesdeResultSet(resultSet, clazz);
                 objetos.add(objeto);
             }
-        }
+        } 
         return objetos;
     }
 

@@ -52,7 +52,7 @@ public class Proveedor {
 
     public void setDireccion(String direccion) throws ValidationModelException {
         if (direccion == null || !direccion.matches("^(?=.*[^ \\d])[\\w#]+$")) {
-            throw new ValidationModelException("La direccion debe contener al menos 2 caracteres validos ");
+            throw new ValidationModelException("La direccion debe contener al menos 2 caracteres válidos ");
         }
         this.direccion = direccion;
     }
@@ -73,8 +73,8 @@ public class Proveedor {
     }
 
     public void setTelefono(String telefono) throws ValidationModelException {
-        if (telefono.length() != 10) {
-            throw new ValidationModelException("El telefono debe contener al menos 10 numeros");
+        if (telefono.length() < 10) {
+            throw new ValidationModelException("El telefono debe contener al menos 10 caracteres");
         }
         this.telefono = telefono;
     }
