@@ -5,10 +5,14 @@
 package views;
 
 import controllers.AutenticacionController;
+import db.SelectStatementMapper;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
+import models.Proveedor;
 import views.inventario.InventarioFrame;
-import views.proveedor.ProveedorFrame;
+
+import java.util.List;
+import javax.swing.JTable;
 
 /**
  *
@@ -17,14 +21,16 @@ import views.proveedor.ProveedorFrame;
 public class HomeFrame extends javax.swing.JFrame {
 
     private final AutenticacionController authController;
+
     /**
      * Creates new form HomeFrame2
+     *
      * @param authController
      */
     public HomeFrame(AutenticacionController authController) {
         this.authController = authController;
         initComponents();
-        System.out.println((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100));
+        setResizable(false);
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -39,6 +45,8 @@ public class HomeFrame extends javax.swing.JFrame {
         panelDerecho = new javax.swing.JPanel();
         tituloSeccion = new javax.swing.JTextField();
         panelContenido = new javax.swing.JPanel();
+        contenidoParteArriba = new javax.swing.JPanel();
+        panelScroll = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100));
@@ -141,16 +149,23 @@ public class HomeFrame extends javax.swing.JFrame {
         });
         panelDerecho.add(tituloSeccion, java.awt.BorderLayout.PAGE_START);
 
-        javax.swing.GroupLayout panelContenidoLayout = new javax.swing.GroupLayout(panelContenido);
-        panelContenido.setLayout(panelContenidoLayout);
-        panelContenidoLayout.setHorizontalGroup(
-            panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelContenido.setLayout(new java.awt.BorderLayout());
+
+        contenidoParteArriba.setBackground(new java.awt.Color(102, 204, 255));
+
+        javax.swing.GroupLayout contenidoParteArribaLayout = new javax.swing.GroupLayout(contenidoParteArriba);
+        contenidoParteArriba.setLayout(contenidoParteArribaLayout);
+        contenidoParteArribaLayout.setHorizontalGroup(
+            contenidoParteArribaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 682, Short.MAX_VALUE)
         );
-        panelContenidoLayout.setVerticalGroup(
-            panelContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
+        contenidoParteArribaLayout.setVerticalGroup(
+            contenidoParteArribaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 58, Short.MAX_VALUE)
         );
+
+        panelContenido.add(contenidoParteArriba, java.awt.BorderLayout.PAGE_START);
+        panelContenido.add(panelScroll, java.awt.BorderLayout.CENTER);
 
         panelDerecho.add(panelContenido, java.awt.BorderLayout.CENTER);
 
@@ -159,8 +174,20 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
 
-        ProveedorFrame prov = new ProveedorFrame(authController);
-        prov.setVisible(true);
+        //ProveedorFrame prov = new ProveedorFrame(authController);
+        //prov.setVisible(true);
+        SelectStatementMapper<Proveedor> mapper = new SelectStatementMapper<>("proveedores");
+
+        List<Proveedor> datos;
+        try {
+            datos = mapper.selectAll(Proveedor.class);
+            String[] columnasTabla = {"id", "nombre", "direccion", "email", "telefono"};
+            ModeloTabla<Proveedor> tableModel = new ModeloTabla<>(datos, columnasTabla);
+            JTable table = new JTable(tableModel);
+            panelScroll.setViewportView(table);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_proveedoresBtnActionPerformed
@@ -199,11 +226,13 @@ public class HomeFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel contenidoParteArriba;
     private javax.swing.JButton inventarioBtn;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel panelContenido;
     private javax.swing.JPanel panelDerecho;
     private javax.swing.JPanel panelIzquierdo;
+    private javax.swing.JScrollPane panelScroll;
     private javax.swing.JButton proveedoresBtn;
     private javax.swing.JButton proveedoresBtn1;
     private javax.swing.JTextField tituloSeccion;

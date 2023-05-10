@@ -36,6 +36,10 @@ public class PreparedStatementMapper<T> {
         StringBuilder columnas = new StringBuilder();
         StringBuilder valores = new StringBuilder();
         for (Field field : object.getClass().getDeclaredFields()) {
+            
+            if(field.getName().equalsIgnoreCase("id"))
+                continue;
+            
             if (columnas.length() > 0) {
                 columnas.append(", ");
                 valores.append(", ");

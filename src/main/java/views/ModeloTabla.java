@@ -4,8 +4,8 @@
  */
 package views;
 
+import java.lang.reflect.Field;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -13,18 +13,18 @@ import javax.swing.table.AbstractTableModel;
  * @author Raul
  */
 public class ModeloTabla<T> extends AbstractTableModel {
-    
-    private final List<T> datos;
+
+    private final List<T> data;
     private final String[] nombresColumnas;
 
     public ModeloTabla(List<T> data, String[] columnNames) {
-        this.datos = data;
+        this.data = data;
         this.nombresColumnas = columnNames;
     }
 
     @Override
     public int getRowCount() {
-        return datos.size();
+        return data.size();
     }
 
     @Override
@@ -34,19 +34,21 @@ public class ModeloTabla<T> extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        T row = datos.get(rowIndex);
+        T row = data.get(rowIndex);
+        Field field;
         try {
-            return row.getClass().getField(nombresColumnas[columnIndex]).get(row);
-        } catch (IllegalAccessException | IllegalArgumentException | 
-                NoSuchFieldException | SecurityException e) {
-            JOptionPane.showMessageDialog(null, "Error al leer campo de clase");
+            field = row.getClass().getDeclaredField(nombresColumnas[columnIndex]);
+            field.setAccessible(true);
+            return field.get(row);
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
-    
+
     @Override
     public String getColumnName(int index) {
         return nombresColumnas[index];
     }
-    
+
 }
