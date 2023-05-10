@@ -29,19 +29,8 @@ public class PreparedStatementMapper<T> {
         for (Field field : fields) {
             field.setAccessible(true);
             try {
-                Object value = field.get(objeto);
-                if (value instanceof String) {
-                    statement.setString(i, (String) value);
-                } else if (value instanceof Integer) {
-                    statement.setInt(i, (Integer) value);
-                } else if (value instanceof Double) {
-                    statement.setDouble(i, (Double) value);
-                } else if (value instanceof Timestamp) {
-                    statement.setTimestamp(i, (Timestamp) value);
-                } else if (value instanceof Date) {
-                    statement.setDate(i, (Date) value);
-                }
-                i++;
+                Object valorAttr = field.get(objeto);
+                statement.setObject(i, valorAttr);
             } catch (IllegalAccessException e) {
                 // Ignorar campos inaccesibles
             }

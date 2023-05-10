@@ -3,7 +3,7 @@ package models;
 import exceptions.ValidationModelException;
 
 /**
- *
+ * 
  * @author ili
  */
 public class Proveedor {
