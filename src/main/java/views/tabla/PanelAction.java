@@ -1,7 +1,6 @@
 package views.tabla;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  *
@@ -17,28 +16,16 @@ public class PanelAction extends javax.swing.JPanel {
     }
 
     public void initEvent(TableActionEvent actionEvent, int row) {
-        editarBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                actionEvent.onEdit(row);
-            }
-
+        editarBtn.addActionListener((ActionEvent ae) -> {
+            actionEvent.onEdit(row);
         });
 
-        verBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                actionEvent.onShow(row);
-            }
-
+        verBtn.addActionListener((ActionEvent ae) -> {
+            actionEvent.onShow(row);
         });
 
-        eliminarBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                actionEvent.onDelete(row);
-            }
-
+        eliminarBtn.addActionListener((ActionEvent ae) -> {
+            actionEvent.onDelete(row);
         });
     }
 

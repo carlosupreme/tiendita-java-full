@@ -4,13 +4,11 @@
  */
 package views.proveedor;
 
-import app.ConexionDB;
 import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProveedorRepository;
@@ -37,7 +35,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
         initComponents();
         fullScreen();
         this.authController = authController;
-        this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
+        this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
         loadEntries();
 
@@ -100,6 +98,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
         crearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -134,12 +133,16 @@ public class ProveedorFrame extends javax.swing.JFrame {
         table.setRowHeight(40);
         jScrollPane1.setViewportView(table);
 
+        jLabel2.setText("jLabel2");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
+                .addGap(77, 77, 77)
+                .addComponent(jLabel2)
+                .addGap(144, 144, 144)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(crearBtn)
@@ -154,7 +157,8 @@ public class ProveedorFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(crearBtn))
+                    .addComponent(crearBtn)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -181,7 +185,6 @@ public class ProveedorFrame extends javax.swing.JFrame {
 
     private void loadEntries() {
         model.setRowCount(0);
-        ArrayList<Object[]> data = new ArrayList<>();
         try {
             proveedorRepository.findAll().forEach(proveedor -> {
                 Object[] row = new Object[6];
@@ -191,7 +194,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
                 row[3] = proveedor.getEmail();
                 row[4] = proveedor.getTelefono();
                 row[5] = "";
-                data.add(row);
+                model.addRow(row);
             });
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
@@ -199,15 +202,12 @@ public class ProveedorFrame extends javax.swing.JFrame {
         } catch (ValidationModelException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
-
-        for (Object[] row : data) {
-            model.addRow(row);
-        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables

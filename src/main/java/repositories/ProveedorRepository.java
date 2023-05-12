@@ -1,5 +1,6 @@
 package repositories;
 
+import app.ConexionDB;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +19,8 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     private final Connection connection;
 
-    public ProveedorRepository(Connection connection) {
-        this.connection = connection;
+    public ProveedorRepository() {
+        this.connection = ConexionDB.getInstance().getConnection();
     }
 
     @Override
@@ -97,7 +98,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public void delete(int id) throws SQLException {
-        PreparedStatement st = connection.prepareStatement("DELETE FROM proveedor WHERE id = ? LIMIT 1");
+        PreparedStatement st = connection.prepareStatement("DELETE FROM proveedores WHERE id = ? LIMIT 1");
         st.setInt(1, id);
         st.executeUpdate();
     }

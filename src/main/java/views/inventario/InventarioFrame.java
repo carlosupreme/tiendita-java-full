@@ -6,7 +6,6 @@ import exceptions.ValidationModelException;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProductoRepository;
@@ -29,7 +28,7 @@ public class InventarioFrame extends javax.swing.JFrame {
         fullScreen();
         this.authController = authController;
         this.productoRepository = new ProductoRepository(ConexionDB.getInstance().getConnection());
-        this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
+        this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
         loadEntries();
 
@@ -81,7 +80,6 @@ public class InventarioFrame extends javax.swing.JFrame {
 
     private void loadEntries() {
         model.setRowCount(0);
-        ArrayList<Object[]> data = new ArrayList<>();
         try {
             productoRepository.findAll().forEach(producto -> {
                 try {
@@ -92,7 +90,7 @@ public class InventarioFrame extends javax.swing.JFrame {
                     row[3] = producto.getPrecioPublico();
                     row[4] = proveedorRepository.findById(producto.getProveedorId()).getNombre();
                     row[5] = "";
-                    data.add(row);
+                    model.addRow(row);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
                     System.err.println(ex.getMessage());
@@ -105,10 +103,6 @@ public class InventarioFrame extends javax.swing.JFrame {
             System.err.println(ex.getMessage());
         } catch (ValidationModelException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        }
-
-        for (Object[] row : data) {
-            model.addRow(row);
         }
     }
 
