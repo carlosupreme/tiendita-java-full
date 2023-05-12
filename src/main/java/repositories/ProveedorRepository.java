@@ -86,7 +86,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public void update(int id, Proveedor proveedor) throws SQLException {
-        PreparedStatement st = connection.prepareStatement("UPDATE producto SET nombre = ?, descripcion = ?, precio = ?, id_proveedor = ? WHERE id = ?");
+        PreparedStatement st = connection.prepareStatement("UPDATE proveedores SET nombre = ?, direccion = ?, email = ?,  telefono = ?  WHERE id = ?");
         st.setString(1, proveedor.getNombre());
         st.setString(2, proveedor.getDireccion());
         st.setString(3, proveedor.getEmail());
