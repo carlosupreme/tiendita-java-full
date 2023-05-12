@@ -251,12 +251,10 @@ public class CrearProductoModal extends javax.swing.JDialog {
             producto.setProveedorId(proveedorItem.getId());
             producto.setNombre(nombre.getText());
             producto.setCodigoBarras(codigoBarras.getText());
-            producto.setFechaCaducidad(LocalDate.parse(fechaCaducidad.getText()));
             producto.setPrecioPublico(Double.parseDouble(precio.getText()));
             producto.setCosto(Double.parseDouble(costo.getText()));
             producto.setCategoria(categoria.getText());
             producto.setMarca(marca.getText());
-            producto.setEdicion(edicion.getText());
 
             productoRepository.save(producto);
 

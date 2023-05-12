@@ -9,7 +9,6 @@ import db.SelectStatementMapper;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import models.Proveedor;
-import views.inventario.InventarioFrame;
 
 import java.util.List;
 import javax.swing.JTable;
@@ -180,7 +179,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
         List<Proveedor> datos;
         try {
-            datos = mapper.selectAll(Proveedor.class);
+            datos = mapper.selectAll(Proveedor.class, null);
             String[] columnasTabla = {"id", "nombre", "direccion", "email", "telefono"};
             ModeloTabla<Proveedor> tableModel = new ModeloTabla<>(datos, columnasTabla);
             JTable table = new JTable(tableModel);
@@ -194,7 +193,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
 
-        new InventarioFrame(authController).setVisible(true);
+        
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed

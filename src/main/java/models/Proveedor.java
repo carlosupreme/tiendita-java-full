@@ -10,7 +10,7 @@ public class Proveedor {
 
     private int id;
     private String nombre;
-    private String direccion;
+    private String direccion; 
     private String email;
     private String telefono;
 

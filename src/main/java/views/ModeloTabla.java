@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ModeloTabla<T> extends AbstractTableModel {
 
-    private final List<T> data;
+    protected final List<T> data;
     private final String[] nombresColumnas;
 
     public ModeloTabla(List<T> data, String[] columnNames) {

@@ -21,10 +21,9 @@ public class VerProductoModal extends javax.swing.JDialog {
         codigoBarras.setText(producto.getCodigoBarras());
         precio.setText(String.valueOf(producto.getPrecioPublico()));
         costo.setText(String.valueOf(producto.getCosto()));
-        fechaCaducidad.setText(producto.getFechaCaducidadFormateada());
+        
         categoria.setText(producto.getCategoria());
         marca.setText(producto.getMarca());
-        edicion.setText(producto.getEdicion());
         
         try {
             proveedor.setText(proveedorRepository.findById(producto.getProveedorId()).getNombre());

@@ -26,13 +26,19 @@ public class SelectStatementMapper<T> {
         this.nombreTabla = nombreTabla;
     }
 
-    public List<T> selectAll(Class<T> clazz) throws SQLException, 
+    public List<T> selectAll(Class<T> clazz, String sql) throws SQLException, 
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException, 
             NoSuchMethodException, InstantiationException, InstantiationException, 
             InvocationTargetException {
         List<T> objetos = new ArrayList<>();
-        String query = String.format("SELECT * FROM %s", nombreTabla);
-        try (PreparedStatement statement = conexion.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        String query;
+        if(sql != null) {
+            query = String.format("SELECT * FROM %s", nombreTabla);
+        } else {
+            query = sql;
+        }
+        try (PreparedStatement statement = conexion.prepareStatement(query); 
+                ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 T objeto = crearObjDesdeResultSet(resultSet, clazz);
                 objetos.add(objeto);

@@ -3,7 +3,6 @@ package views.inventario;
 import exceptions.ValidationModelException;
 import java.awt.HeadlessException;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import models.Producto;
@@ -27,12 +26,12 @@ public class EditarProductoModal extends javax.swing.JDialog {
             Producto producto = productoRepository.findById(id);
             nombre.setText(producto.getNombre());
             codigoBarras.setText(producto.getCodigoBarras());
-            fechaCaducidad.setText(producto.getFechaCaducidad().toString());
+            
             precio.setText(String.valueOf(producto.getPrecioPublico()));
             costo.setText(String.valueOf(producto.getCosto()));
             categoria.setText(producto.getCategoria());
             marca.setText(producto.getMarca());
-            edicion.setText(producto.getEdicion());
+            
 
             getProveedoresIds(producto.getProveedorId());
         } catch (SQLException ex) {
@@ -250,12 +249,12 @@ public class EditarProductoModal extends javax.swing.JDialog {
             producto.setProveedorId(proveedorItem.getId());
             producto.setNombre(nombre.getText());
             producto.setCodigoBarras(codigoBarras.getText());
-            producto.setFechaCaducidad(LocalDate.parse(fechaCaducidad.getText()));
+            
             producto.setPrecioPublico(Double.parseDouble(precio.getText()));
             producto.setCosto(Double.parseDouble(costo.getText()));
             producto.setCategoria(categoria.getText());
             producto.setMarca(marca.getText());
-            producto.setEdicion(edicion.getText());
+            
             
             productoRepository.update(productoId, producto);
 

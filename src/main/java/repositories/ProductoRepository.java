@@ -2,7 +2,6 @@ package repositories;
 
 import exceptions.ValidationModelException;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,7 +48,7 @@ public class ProductoRepository implements Repository<Producto> {
         
         while(rs.next()) {
             Producto producto = new Producto();
-            mapResultSet(rs, producto);
+            mapResultSet(rs, producto); 
             
             all.add(producto);
         }
@@ -96,10 +95,10 @@ public class ProductoRepository implements Repository<Producto> {
         producto.setCodigoBarras(rs.getString("codigo_barras"));
         producto.setPrecioPublico(rs.getDouble("precio_publico"));
         producto.setCosto(rs.getDouble("costo"));
-        producto.setFechaCaducidad(rs.getDate("fecha_caducidad").toLocalDate());
+        
         producto.setCategoria(rs.getString("categoria"));
         producto.setMarca(rs.getString("marca"));
-        producto.setEdicion(rs.getString("edicion"));
+        
     }
     
     private void mapProducto(Producto producto, PreparedStatement st) throws SQLException {
@@ -108,10 +107,10 @@ public class ProductoRepository implements Repository<Producto> {
         st.setString(3, producto.getCodigoBarras());
         st.setDouble(4, producto.getPrecioPublico());
         st.setDouble(5, producto.getCosto());
-        st.setDate(6, Date.valueOf(producto.getFechaCaducidad()));
+        
         st.setString(7, producto.getCategoria());
         st.setString(8, producto.getMarca());
-        st.setString(9, producto.getEdicion());
+        
     }
     
 }
