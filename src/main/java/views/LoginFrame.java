@@ -43,7 +43,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         disable = new javax.swing.JLabel();
         show = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        loginBtn = new javax.swing.JButton();
         registerBtn = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
@@ -109,11 +109,6 @@ public class LoginFrame extends javax.swing.JFrame {
         password.setForeground(new java.awt.Color(255, 255, 255));
         password.setBorder(null);
         password.setCaretColor(new java.awt.Color(255, 255, 255));
-        password.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                passwordActionPerformed(evt);
-            }
-        });
         jPanel2.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 272, 420, 30));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
@@ -149,16 +144,16 @@ public class LoginFrame extends javax.swing.JFrame {
         });
         jPanel2.add(show, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 270, 44, 33));
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(25, 118, 211));
-        jButton1.setText("Iniciar sesión");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+        loginBtn.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        loginBtn.setForeground(new java.awt.Color(25, 118, 211));
+        loginBtn.setText("Iniciar sesión");
+        loginBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
+                loginBtnMouseClicked(evt);
             }
         });
-        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 369, 480, 41));
+        jPanel2.add(loginBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 369, 480, 41));
 
         registerBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         registerBtn.setForeground(new java.awt.Color(255, 255, 255));
@@ -182,11 +177,6 @@ public class LoginFrame extends javax.swing.JFrame {
         username.setForeground(new java.awt.Color(255, 255, 255));
         username.setBorder(null);
         username.setCaretColor(new java.awt.Color(255, 255, 255));
-        username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
-            }
-        });
         jPanel2.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 420, 30));
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -211,14 +201,6 @@ public class LoginFrame extends javax.swing.JFrame {
         new RegisterFrame().setVisible(true);
     }//GEN-LAST:event_registerBtnMouseClicked
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
-
-    private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_passwordActionPerformed
-
     private void disableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_disableMouseClicked
         password.setEchoChar((char) 0);
         disable.setVisible(false);
@@ -235,7 +217,7 @@ public class LoginFrame extends javax.swing.JFrame {
         disable.setEnabled(true);
     }//GEN-LAST:event_showMouseClicked
 
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+    private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
         try {
             authController.login(username.getText(), String.valueOf(password.getPassword()));
             dispose();
@@ -245,12 +227,11 @@ public class LoginFrame extends javax.swing.JFrame {
         } catch (RuntimeException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
-    }//GEN-LAST:event_jButton1MouseClicked
+    }//GEN-LAST:event_loginBtnMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel disable;
     private javax.swing.JLabel exitBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -261,6 +242,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JButton loginBtn;
     private javax.swing.JPasswordField password;
     private javax.swing.JLabel registerBtn;
     private javax.swing.JLabel show;
