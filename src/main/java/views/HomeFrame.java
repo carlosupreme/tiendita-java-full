@@ -6,12 +6,17 @@ package views;
 
 import controllers.AutenticacionController;
 import db.SelectStatementMapper;
+import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import models.Proveedor;
 
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -173,17 +178,42 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
 
-        //ProveedorFrame prov = new ProveedorFrame(authController);
-        //prov.setVisible(true);
         SelectStatementMapper<Proveedor> mapper = new SelectStatementMapper<>("proveedores");
 
-        List<Proveedor> datos;
         try {
-            datos = mapper.selectAll(Proveedor.class, null);
-            String[] columnasTabla = {"id", "nombre", "direccion", "email", "telefono"};
-            ModeloTabla<Proveedor> tableModel = new ModeloTabla<>(datos, columnasTabla);
-            JTable table = new JTable(tableModel);
+            String[][] datos = mapper.selectAllAsArray(Proveedor.class, null,
+                    new String[]{"Editar", "Eliminar"});
+            String[] columnasTabla = {"ID", "Nombre", "Direccion", "Email", "Telefono", "", ""};
+            DefaultTableModel tableModel = new DefaultTableModel(datos, columnasTabla);
+
+            JTable table = new JTable(tableModel) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return !(column < datos[0].length - 2);
+                }
+            };
+            
+            Action editarBtn = new AbstractAction() {
+                public void actionPerformed(ActionEvent e) {
+                    /*JTable table = (JTable) e.getSource();
+                    int modelRow = Integer.valueOf(e.getActionCommand());
+                    ((DefaultTableModel) table.getModel()).removeRow(modelRow);*/
+                    
+                    JOptionPane.showMessageDialog(null, "btn editar");
+                }
+            };
+            ButtonColumn buttonColumn1 = new ButtonColumn(table, editarBtn, 5);
+            
+            Action deleteBtn = new AbstractAction() {
+                public void actionPerformed(ActionEvent e) {
+                    
+                    JOptionPane.showMessageDialog(null, "btn eliminar");
+                }
+            };
+            ButtonColumn buttonColumn2 = new ButtonColumn(table, deleteBtn, 6);
+
             panelScroll.setViewportView(table);
+
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
@@ -193,7 +223,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
 
-        
+
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed

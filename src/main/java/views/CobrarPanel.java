@@ -6,6 +6,7 @@ package views;
 
 import db.ConexionDB;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -26,8 +27,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  *
@@ -137,6 +136,8 @@ public class CobrarPanel extends JPanel {
         pnlColumnas.add(new JLabel("Subtotal"));
         pnlColumnas.add(new JLabel("Acción"));
 
+        pnlColumnas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+
         // Panel de productos agregados
         pnlProductos = new JPanel();
         pnlProductos.setLayout(new BoxLayout(pnlProductos, BoxLayout.Y_AXIS));
@@ -211,29 +212,15 @@ public class CobrarPanel extends JPanel {
 
                     pnlProducto.setLayout(new GridLayout(1, 7, 25, 25));
 
+                    pnlProducto.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+
                     pnlProducto.add(new JLabel(nombre));
 
                     pnlProducto.add(new JLabel(codigoBarrasEncontrado));
 
                     pnlProducto.add(new JLabel("$" + precio));
                     JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
-                    spnCantidad.addChangeListener(new ChangeListener() {
-                        @Override
-                        public void stateChanged(ChangeEvent e) {
-                            
-                            JSpinner spnCantidad = (JSpinner) e.getSource();
-                            
-                            int cantidad = (int) spnCantidad.getValue();
-                            
-                            System.out.println(cantidad);
-                            if (cantidad == stock) {
-                                JOptionPane.showMessageDialog(null, "Se ha alcanzado el límite del stock");
-                            } else {
-                                actualizarSubtotal(pnlProducto, precio);
-                            }
-                            
-                        }
-                    });
+                    spnCantidad.addChangeListener(e -> actualizarSubtotal(pnlProducto, precio, stock));
                     pnlProducto.add(spnCantidad);
 
                     JLabel lblSubtotal = new JLabel("$" + precio);
@@ -253,18 +240,30 @@ public class CobrarPanel extends JPanel {
                 JOptionPane.showMessageDialog(this, "No se encontró ningún producto con ese código de barras");
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al buscar el producto en la base de datos");
         }
         txtCodigoBarras.setText("");
     }
 
-    private void actualizarSubtotal(JPanel pnlProducto, double precio) {
+    private void actualizarSubtotal(JPanel pnlProducto, double precio, int stock) {
 
         JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
         int cantidad = (int) spnCantidad.getValue();
 
+        if (cantidad == stock) {
+            Runnable myThread = () -> {
+                Thread.currentThread().setName("myThread");
+                JOptionPane.showMessageDialog(null, "Se ha alcanzado el límite del stock");
+
+            };
+            Thread run = new Thread(myThread);
+            run.start();
+        }
+
         JLabel lblSubtotal = (JLabel) pnlProducto.getComponent(4);
+
+        System.out.println(cantidad);
 
         double subtotalPrevio = Double.parseDouble(lblSubtotal.getText().substring(1));
         total -= subtotalPrevio;

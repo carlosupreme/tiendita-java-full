@@ -42,7 +42,7 @@ public class ModeloTabla<T> extends AbstractTableModel {
             return field.get(row);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return null; 
         }
     }
 
