@@ -16,13 +16,17 @@ public class TransactionManager {
      
     public static void ejecutarTransaccion(InstruccionDML dml) throws SQLException {
         try {
+            conexion.setAutoCommit(false); 
             dml.ejecutar();
             conexion.commit();
         } catch (SQLException ex) {
             if (conexion != null) {
                 conexion.rollback();
+                System.out.println("Rollback exitoso");
             }
             throw ex;
-        } 
+        }  finally {
+            conexion.setAutoCommit(true);
+        }
     }
 }

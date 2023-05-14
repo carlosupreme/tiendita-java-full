@@ -10,34 +10,34 @@ package models;
  */
 public class DetallesVenta {
     
-    private int id_venta;
-    private int id_producto;
+    private long id_venta;
+    private long id_producto;
     private int cantidad;
-    private int precio_unitario;
+    private double precio_unitario;
 
     public DetallesVenta() {
     }
 
-    public DetallesVenta(int id_venta, int id_producto, int cantidad, int precio_unitario) {
+    public DetallesVenta(long id_venta, long id_producto, int cantidad, double precio_unitario) {
         this.id_venta = id_venta;
         this.id_producto = id_producto;
         this.cantidad = cantidad;
         this.precio_unitario = precio_unitario;
     }
 
-    public int getId_venta() {
+    public long getId_venta() {
         return id_venta;
     }
 
-    public void setId_venta(int id_venta) {
+    public void setId_venta(long id_venta) {
         this.id_venta = id_venta;
     }
 
-    public int getId_producto() {
+    public long getId_producto() {
         return id_producto;
     }
 
-    public void setId_producto(int id_producto) {
+    public void setId_producto(long id_producto) {
         this.id_producto = id_producto;
     }
 
@@ -49,11 +49,11 @@ public class DetallesVenta {
         this.cantidad = cantidad;
     }
 
-    public int getPrecio_unitario() {
+    public double getPrecio_unitario() {
         return precio_unitario;
     }
 
-    public void setPrecio_unitario(int precio_unitario) {
+    public void setPrecio_unitario(double precio_unitario) {
         this.precio_unitario = precio_unitario;
     }    
     

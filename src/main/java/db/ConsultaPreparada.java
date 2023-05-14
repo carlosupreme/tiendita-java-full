@@ -8,7 +8,6 @@ package db;
  *
  * @author Raul
  */
-import db.ConexionDB;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

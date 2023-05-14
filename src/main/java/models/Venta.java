@@ -13,15 +13,16 @@ import java.time.Instant;
 public class Venta {
     
     private long id;
-    private Instant fecha;
     private double total;
+    private Instant fecha;
     private int usuarioId;
     private String formaPago;
+    
+    public Venta() {}
 
-    public Venta(long id, Instant fecha, double total, int usuarioId, String formaPago) {
-        this.id = id;
-        this.fecha = fecha;
+    public Venta(double total, Instant fecha, int usuarioId, String formaPago) {
         this.total = total;
+        this.fecha = fecha;
         this.usuarioId = usuarioId;
         this.formaPago = formaPago;
     }

@@ -6,6 +6,7 @@ package db;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +25,25 @@ public class SelectStatementMapper<T> {
 
     public SelectStatementMapper(String nombreTabla) {
         this.nombreTabla = nombreTabla;
+    }
+
+    public SelectStatementMapper() {
+        this.nombreTabla = null;
+    }
+
+    public T selectOne(Class<T> clazz, String sql, String id) throws SQLException,
+            IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
+            NoSuchMethodException, InstantiationException, InstantiationException,
+            InvocationTargetException {
+        T objeto = null;
+        PreparedStatement statement = conexion.prepareStatement(sql);
+        statement.setString(1, id);
+        try (statement; ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                objeto = crearObjDesdeResultSet(resultSet, clazz);
+            }
+        }
+        return objeto;
     }
 
     public List<T> selectAll(Class<T> clazz, String sql) throws SQLException,
@@ -80,11 +100,30 @@ public class SelectStatementMapper<T> {
             NoSuchMethodException, InstantiationException, InvocationTargetException {
 
         T objeto = clazz.getDeclaredConstructor().newInstance();
+
         for (Field field : clazz.getDeclaredFields()) {
             String nombreAttr = field.getName();
+            
             field.setAccessible(true);
-            Object valor = resultSet.getObject(nombreAttr);
+            Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
             field.set(objeto, valor);
+        }
+
+        Class<?> currentClass = clazz;
+        while (currentClass.getSuperclass() != null) {
+            currentClass = currentClass.getSuperclass();
+            for (Field field : currentClass.getDeclaredFields()) {
+                String nombreAttr = field.getName();
+                
+                field.setAccessible(true);
+                Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
+                if(valor instanceof BigDecimal) {
+                    BigDecimal decimal = (BigDecimal) valor;
+                    field.setDouble(objeto, decimal.doubleValue());
+                } else {
+                    field.set(objeto, valor);
+                }
+            }
         }
 
         return objeto;
@@ -101,7 +140,7 @@ public class SelectStatementMapper<T> {
         for (Field field : fields) {
             String nombreAttr = field.getName();
             field.setAccessible(true);
-            Object valor = resultSet.getObject(nombreAttr);
+            Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
 
             valores[i] = valor.toString();
             i++;
@@ -110,7 +149,7 @@ public class SelectStatementMapper<T> {
         return valores;
     }
 
-    private String[] obtenerValoresAttrMasBtns(ResultSet resultSet, Class<T> clazz, 
+    private String[] obtenerValoresAttrMasBtns(ResultSet resultSet, Class<T> clazz,
             String[] btnsNombres)
             throws SQLException, IllegalArgumentException, IllegalAccessException,
             NoSuchMethodException, InstantiationException, InvocationTargetException {
@@ -122,18 +161,16 @@ public class SelectStatementMapper<T> {
         for (Field field : fields) {
             String nombreAttr = field.getName();
             field.setAccessible(true);
-            Object valor = resultSet.getObject(nombreAttr);
+            Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
 
             valores[i] = valor.toString();
             i++;
         }
-        
-        for(String str : btnsNombres) {
+
+        for (String str : btnsNombres) {
             valores[i] = str;
             i++;
         }
-        
-        
 
         return valores;
     }

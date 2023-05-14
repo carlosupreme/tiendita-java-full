@@ -1,9 +1,17 @@
 package app;
 
-import views.LoginFrame;
+import java.awt.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import javax.swing.*;
+import views.*;
 
 /**
- * 
+ *
  * Clase principal de la aplicación
  *
  * @author Raul
@@ -14,7 +22,7 @@ public class AdministradorTiendita {
         java.awt.EventQueue.invokeLater(() -> {
             new LoginFrame().setVisible(true);
         });
-        
+
         /*java.awt.EventQueue.invokeLater(() -> {
             JFrame f = new JFrame();
             f.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 500);
@@ -23,8 +31,8 @@ public class AdministradorTiendita {
             f.add(new CobrarPanel()); 
             
             f.setVisible(true);
-        }); */
-        
+        });*/
+
         /*SelectStatementMapper<Proveedor> mapper = new SelectStatementMapper<>("proveedores");
 
         try {
@@ -41,14 +49,5 @@ public class AdministradorTiendita {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }*/
-        
-        
-        /*Proveedor p = new Proveedor(0, "Nombre", "Direccion", "Email", "Teléfono");
-        
-        PreparedStatementMapper<Proveedor> pSt = 
-                new PreparedStatementMapper<>("proveedores");
-        
-        System.out.println(pSt.getSqlString(p));*/
-        
     }
 }

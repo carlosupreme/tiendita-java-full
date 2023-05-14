@@ -15,6 +15,7 @@ import models.Proveedor;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,11 +44,9 @@ public class HomeFrame extends javax.swing.JFrame {
         proveedoresBtn = new javax.swing.JButton();
         inventarioBtn = new javax.swing.JButton();
         ventasBtn = new javax.swing.JButton();
-        ventasBtn1 = new javax.swing.JButton();
         proveedoresBtn1 = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
         panelDerecho = new javax.swing.JPanel();
-        tituloSeccion = new javax.swing.JTextField();
         panelContenido = new javax.swing.JPanel();
         contenidoParteArriba = new javax.swing.JPanel();
         panelScroll = new javax.swing.JScrollPane();
@@ -55,7 +54,7 @@ public class HomeFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100));
 
-        panelIzquierdo.setBackground(new java.awt.Color(0, 102, 255));
+        panelIzquierdo.setBackground(new java.awt.Color(0, 51, 204));
 
         proveedoresBtn.setText("PROVEEDORES");
         proveedoresBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -78,13 +77,6 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
-        ventasBtn1.setText("COMPRAS A PROVEEDORES");
-        ventasBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ventasBtn1ActionPerformed(evt);
-            }
-        });
-
         proveedoresBtn1.setText("USUARIOS");
         proveedoresBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,24 +96,28 @@ public class HomeFrame extends javax.swing.JFrame {
         panelIzquierdoLayout.setHorizontalGroup(
             panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelIzquierdoLayout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(logoutBtn)
                 .addGap(67, 67, 67))
+            .addGroup(panelIzquierdoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(7, Short.MAX_VALUE))
             .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelIzquierdoLayout.createSequentialGroup()
-                    .addGap(10, 10, 10)
-                    .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(proveedoresBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()
+                    .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(ventasBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(ventasBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
-                        .addComponent(proveedoresBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(inventarioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGap(10, 10, 10)))
+                        .addComponent(inventarioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(proveedoresBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         panelIzquierdoLayout.setVerticalGroup(
             panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelIzquierdoLayout.createSequentialGroup()
-                .addContainerGap(446, Short.MAX_VALUE)
+                .addContainerGap(281, Short.MAX_VALUE)
+                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(130, 130, 130)
                 .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
             .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,30 +128,16 @@ public class HomeFrame extends javax.swing.JFrame {
                     .addComponent(inventarioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(30, 30, 30)
                     .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(34, 34, 34)
-                    .addComponent(ventasBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(31, 31, 31)
-                    .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(119, Short.MAX_VALUE)))
+                    .addContainerGap(254, Short.MAX_VALUE)))
         );
 
         getContentPane().add(panelIzquierdo, java.awt.BorderLayout.LINE_START);
 
         panelDerecho.setLayout(new java.awt.BorderLayout());
 
-        tituloSeccion.setFont(new java.awt.Font("Arial", 0, 24)); // NOI18N
-        tituloSeccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tituloSeccion.setText("Selecciona una sección");
-        tituloSeccion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tituloSeccionActionPerformed(evt);
-            }
-        });
-        panelDerecho.add(tituloSeccion, java.awt.BorderLayout.PAGE_START);
-
         panelContenido.setLayout(new java.awt.BorderLayout());
 
-        contenidoParteArriba.setBackground(new java.awt.Color(102, 204, 255));
+        contenidoParteArriba.setBackground(new java.awt.Color(51, 204, 255));
 
         javax.swing.GroupLayout contenidoParteArribaLayout = new javax.swing.GroupLayout(contenidoParteArriba);
         contenidoParteArriba.setLayout(contenidoParteArribaLayout);
@@ -178,61 +160,28 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
 
-        SelectStatementMapper<Proveedor> mapper = new SelectStatementMapper<>("proveedores");
-
-        try {
-            String[][] datos = mapper.selectAllAsArray(Proveedor.class, null,
-                    new String[]{"Editar", "Eliminar"});
-            String[] columnasTabla = {"ID", "Nombre", "Direccion", "Email", "Telefono", "", ""};
-            DefaultTableModel tableModel = new DefaultTableModel(datos, columnasTabla);
-
-            JTable table = new JTable(tableModel) {
-                @Override
-                public boolean isCellEditable(int row, int column) {
-                    return !(column < datos[0].length - 2);
-                }
-            };
-            
-            Action editarBtn = new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    /*JTable table = (JTable) e.getSource();
-                    int modelRow = Integer.valueOf(e.getActionCommand());
-                    ((DefaultTableModel) table.getModel()).removeRow(modelRow);*/
-                    
-                    JOptionPane.showMessageDialog(null, "btn editar");
-                }
-            };
-            ButtonColumn buttonColumn1 = new ButtonColumn(table, editarBtn, 5);
-            
-            Action deleteBtn = new AbstractAction() {
-                public void actionPerformed(ActionEvent e) {
-                    
-                    JOptionPane.showMessageDialog(null, "btn eliminar");
-                }
-            };
-            ButtonColumn buttonColumn2 = new ButtonColumn(table, deleteBtn, 6);
-
-            panelScroll.setViewportView(table);
-
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, ex.getMessage());
-        }
-
-        // TODO add your handling code here:
+        
+        
     }//GEN-LAST:event_proveedoresBtnActionPerformed
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
 
+        
 
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ventasBtnActionPerformed
 
-    private void ventasBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ventasBtn1ActionPerformed
+        JFrame f = new JFrame();
+        f.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 500);
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        f.add(new CobrarPanel());
+
+        f.setVisible(true);
+
+    }//GEN-LAST:event_ventasBtnActionPerformed
 
     private void proveedoresBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtn1ActionPerformed
         // TODO add your handling code here:
@@ -249,10 +198,6 @@ public class HomeFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
 
-    private void tituloSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tituloSeccionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tituloSeccionActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contenidoParteArriba;
@@ -264,8 +209,6 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane panelScroll;
     private javax.swing.JButton proveedoresBtn;
     private javax.swing.JButton proveedoresBtn1;
-    private javax.swing.JTextField tituloSeccion;
     private javax.swing.JButton ventasBtn;
-    private javax.swing.JButton ventasBtn1;
     // End of variables declaration//GEN-END:variables
 }

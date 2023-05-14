@@ -3,7 +3,7 @@ package models;
 import exceptions.ValidationModelException;
 import java.text.DecimalFormat;
 
-public final class Producto {
+public class Producto {
 
     private int id;
     private int proveedorId;
@@ -119,5 +119,10 @@ public final class Producto {
         if (t == null || !t.matches(regex)) {
             throw new ValidationModelException(prop + " '" + t + "' del producto debe contener al menos 2 letras o numeros sin caracteres especiales");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" + "id=" + id + ", proveedorId=" + proveedorId + ", nombre=" + nombre + ", codigoBarras=" + codigoBarras + ", precioPublico=" + precioPublico + ", costo=" + costo + ", categoria=" + categoria + ", marca=" + marca + '}';
     }
 }

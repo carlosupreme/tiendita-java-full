@@ -20,7 +20,7 @@ public class AutenticacionController {
         // Autenticación básica sin acceder a una base de datos
         
         Sesion.instance().setUsuario(
-                new Usuario(0, "username", "nombre", "email", "password", "telefono", "rol"));
+                new Usuario(1, "username", "nombre", "email", "password", "telefono", "rol"));
         
         return true;
         

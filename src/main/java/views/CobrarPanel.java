@@ -4,22 +4,32 @@
  */
 package views;
 
+import app.Sesion;
 import db.ConexionDB;
+import db.InstruccionDML;
+import db.PreparedStatementMapper;
+import db.SelectStatementMapper;
+import db.TransactionManager;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.Instant;
+import java.time.temporal.ChronoField;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,6 +37,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import models.DetallesVenta;
+import models.ProductoVenta;
+import models.Venta;
 
 /**
  *
@@ -34,80 +49,33 @@ import javax.swing.SpinnerNumberModel;
  */
 public class CobrarPanel extends JPanel {
 
-    private class ProductoVenta {
+    private static final String SELECT_BY_CODIGO_BARRAS_QUERY
+            = "SELECT productos.*, inventario.stock FROM productos "
+            + "INNER JOIN inventario ON productos.id = inventario.id_producto "
+            + "WHERE productos.codigo_barras = ?";
 
-        private int id;
-        private String nombre;
-        private String codigoDeBarras;
-        private double precio;
-        private int cantidadEnStock;
+    private static ProductoVenta selectByCodigoBarras(String codigoDeBarras) throws SQLException {
 
-        public ProductoVenta(int id, String nombre, String codigoDeBarras, double precio, int cantidadEnStock) {
-            this.id = id;
-            this.nombre = nombre;
-            this.codigoDeBarras = codigoDeBarras;
-            this.precio = precio;
-            this.cantidadEnStock = cantidadEnStock;
+        SelectStatementMapper<ProductoVenta> stm = new SelectStatementMapper<>();
+
+        ProductoVenta producto = null;
+
+        try {
+            producto = stm.selectOne(ProductoVenta.class, SELECT_BY_CODIGO_BARRAS_QUERY, codigoDeBarras);
+        } catch (IllegalArgumentException | IllegalAccessException
+                | NoSuchMethodException | InstantiationException | InvocationTargetException ex) {
+            producto = null;
         }
 
-        public int getId() {
-            return id;
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getCodigoDeBarras() {
-            return codigoDeBarras;
-        }
-
-        public double getPrecio() {
-            return precio;
-        }
-
-        public int getStock() {
-            return cantidadEnStock;
-        }
+        return producto;
     }
 
-    private class ProductoDAO {
-
-        private static final String SELECT_BY_ID_QUERY
-                = "SELECT productos.id, productos.nombre, productos.codigo_barras, "
-                + "productos.precio_publico, inventario.stock FROM productos "
-                + "INNER JOIN inventario ON productos.id = inventario.id_producto "
-                + "WHERE productos.codigo_barras = ?";
-
-        private Connection connection = ConexionDB.getInstance().getConnection();
-
-        public ProductoVenta selectById(String codigoDeBarras) throws SQLException {
-            PreparedStatement statement = connection.prepareStatement(SELECT_BY_ID_QUERY);
-            statement.setString(1, codigoDeBarras);
-
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-
-                int id = resultSet.getInt("id");
-                String nombre = resultSet.getString("nombre");
-                String codBarras = resultSet.getString("codigo_barras");
-                double precio = resultSet.getDouble("precio_publico");
-                int cantidadEnStock = resultSet.getInt("stock");
-
-                return new ProductoVenta(id, nombre, codBarras, precio, cantidadEnStock);
-            } else {
-                return null;
-            }
-        }
-    }
-
-    private final Connection connection = ConexionDB.getInstance().getConnection();
-
-    private final JTextField txtCodigoBarras;
-    private final JLabel lblTotal;
-    private final JPanel pnlProductos;
-    private final Map<Integer, JPanel> mapProductos;
+    private JTextField txtCodigoBarras;
+    private JLabel lblTotal;
+    private JPanel pnlProductos;
+    private Map<Integer, PanelProducto> mapProductos;
     private double total;
+    private JButton cobrarBtn;
 
     public CobrarPanel() {
 
@@ -150,7 +118,97 @@ public class CobrarPanel extends JPanel {
 
         // Label de total
         lblTotal = new JLabel("Total: $0.00");
-        add(lblTotal, BorderLayout.SOUTH);
+
+        JPanel panelAbajo = new JPanel();
+        panelAbajo.add(lblTotal);
+        cobrarBtn = new JButton("Cobrar");
+
+        panelAbajo.add(cobrarBtn);
+
+        String country[] = {"Efectivo", "Tarjeta de crédito", "Tarjeta de débito"};
+        JComboBox cb = new JComboBox(country);
+
+        cobrarBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println(mapProductos.values().size());
+
+                InstruccionDML dml = new InstruccionDML() {
+                    @Override
+                    public void ejecutar() throws SQLException {
+
+                        // Insertar venta
+                        PreparedStatementMapper<Venta> ventaStm = new PreparedStatementMapper<>("ventas");
+
+                        Instant fecha = Instant.now().with(ChronoField.NANO_OF_SECOND, 0);
+                        /*ZoneId z = ZoneId.of("GMT-6");
+                        ZonedDateTime zdt = current.atZone(z);
+                        Instant fecha = zdt.toInstant();*/
+
+                        Venta venta = new Venta(total, fecha,
+                                Sesion.instance().getUsuario().getId(), "forma de pago");
+
+                        long idVenta;
+                        try {
+                            long[] valoresV = ventaStm.insertar(venta);
+                            idVenta = valoresV[0];
+                        } catch (SQLException | IllegalAccessException ex) {
+                            throw new SQLException(ex.getMessage());
+                        }
+
+                        for (PanelProducto pn : mapProductos.values()) {
+
+                            PreparedStatementMapper<DetallesVenta> detallesVentaStm
+                                    = new PreparedStatementMapper<>("detalles_venta");
+
+                            try {
+                                DetallesVenta detalleV = new DetallesVenta(idVenta, pn.producto.getId(),
+                                        pn.cantidadStock, pn.producto.getPrecioPublico());
+
+                                System.out.println(detallesVentaStm.getSqlString(detalleV));
+
+                                detallesVentaStm.setIdGeneradoIgnorado(true);
+                                detallesVentaStm.insertar(detalleV);
+
+                                String sql = "UPDATE inventario SET stock = stock - "
+                                        + pn.cantidadStock + " WHERE id_producto = "
+                                        + pn.producto.getId();
+
+                                Connection conexion = ConexionDB.getInstance().getConnection();
+                                Statement statement = conexion.createStatement();
+
+                                int filasAfectadas = statement.executeUpdate(sql);
+
+                                if (filasAfectadas > 0) {
+                                } else {
+                                    throw new SQLException("Error al actualizar el stock del "
+                                            + "producto con id = " + pn.producto.getId());
+                                }
+
+                            } catch (SQLException | IllegalAccessException ex) {
+                                throw new SQLException(ex.getMessage());
+                            }
+                        }
+                    }
+                };
+
+                try {
+                    TransactionManager.ejecutarTransaccion(dml);
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Fallo al ejecutar la transacción");
+                }
+
+                JOptionPane.showMessageDialog(null, "Venta exitosa");
+
+                mapProductos = new HashMap<>();
+                
+                CobrarPanel.this.repaint();
+
+            }
+        });
+
+        add(panelAbajo, BorderLayout.SOUTH);
 
         // Mapa para almacenar los paneles de productos agregados
         mapProductos = new HashMap<>();
@@ -158,31 +216,47 @@ public class CobrarPanel extends JPanel {
         setVisible(true);
     }
 
+    private class PanelProducto extends JPanel {
+
+        private ProductoVenta producto;
+        private int cantidadStock;
+
+        public int getCantidadStock() {
+            return cantidadStock;
+        }
+
+        public void setCantidadStock(int cantidadStock) {
+            this.cantidadStock = cantidadStock;
+        }
+
+        public ProductoVenta getProducto() {
+            return producto;
+        }
+
+        public void setProducto(ProductoVenta producto) {
+            this.producto = producto;
+        }
+    }
+
     private void agregarProducto() {
         String codigoBarras = txtCodigoBarras.getText();
 
         // Consulta SQL para obtener el producto
-        final String query
-                = "SELECT productos.id, productos.nombre, productos.codigo_barras, "
-                + "productos.precio_publico, inventario.stock FROM productos "
-                + "INNER JOIN inventario ON productos.id = inventario.id_producto "
-                + "WHERE productos.codigo_barras = ?";
+        try {
+            ProductoVenta productoEncontrado = selectByCodigoBarras(codigoBarras);
 
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, codigoBarras);
-            ResultSet rs = stmt.executeQuery();
+            if (productoEncontrado != null) {
+                int id = productoEncontrado.getId();
+                String nombre = productoEncontrado.getNombre();
+                String codigoBarrasEncontrado = productoEncontrado.getCodigoBarras();
+                double precio = productoEncontrado.getPrecioPublico();
+                int stock = productoEncontrado.getStock();
 
-            if (rs.next()) {
-                int id = rs.getInt("id");
-                String nombre = rs.getString("nombre");
-                String codigoBarrasEncontrado = rs.getString("codigo_barras");
-                double precio = rs.getDouble("precio_publico");
-                int stock = rs.getInt("stock");
-
+                //System.out.println(id);
                 // Si ya existe un panel para este producto, actualiza la cantidad
                 if (mapProductos.containsKey(id)) {
 
-                    JPanel pnlProducto = mapProductos.get(id);
+                    PanelProducto pnlProducto = mapProductos.get(id);
 
                     /*int i = 0;
                     for (Component componente : pnlProducto.getComponents()) {
@@ -202,13 +276,20 @@ public class CobrarPanel extends JPanel {
                     //+ ", " + cantidad + " < " + stock + " = " + (cantidad < stock));
                     if (cantidad < stock) {
                         spnCantidad.setValue(cantidad + 1);
+
+                        pnlProducto.setCantidadStock(cantidad + 1);
                         //actualizarSubtotal(pnlProducto, precio);
                     } else {
-                        JOptionPane.showMessageDialog(this, "No hay suficiente stock para agregar otro producto");
+                        JOptionPane.showMessageDialog(
+                                this, "No hay suficiente stock para agregar otro producto");
                     }
                 } else {
                     // Crea un nuevo panel para el producto
-                    JPanel pnlProducto = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    PanelProducto pnlProducto = new PanelProducto();
+
+                    pnlProducto.setProducto(productoEncontrado);
+
+                    pnlProducto.setCantidadStock(1);
 
                     pnlProducto.setLayout(new GridLayout(1, 7, 25, 25));
 
@@ -220,7 +301,15 @@ public class CobrarPanel extends JPanel {
 
                     pnlProducto.add(new JLabel("$" + precio));
                     JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
-                    spnCantidad.addChangeListener(e -> actualizarSubtotal(pnlProducto, precio, stock));
+                    spnCantidad.addChangeListener(new ChangeListener() {
+                        @Override
+                        public void stateChanged(ChangeEvent e) {
+                            JSpinner spnCantidad = (JSpinner) e.getSource();
+                            int cantidad = (int) spnCantidad.getValue();
+                            pnlProducto.setCantidadStock(cantidad);
+                            actualizarSubtotal(pnlProducto, precio, stock);
+                        }
+                    });
                     pnlProducto.add(spnCantidad);
 
                     JLabel lblSubtotal = new JLabel("$" + precio);
@@ -231,7 +320,9 @@ public class CobrarPanel extends JPanel {
 
                     //pnlProducto.add(Box.createHorizontalStrut(20));
                     pnlProductos.add(pnlProducto);
+
                     mapProductos.put(id, pnlProducto);
+
                     sumarAlTotal(precio);
 
                     pnlProducto.setMaximumSize(new Dimension(Integer.MAX_VALUE, pnlProducto.getMinimumSize().height));
@@ -242,11 +333,12 @@ public class CobrarPanel extends JPanel {
         } catch (SQLException ex) {
             //ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al buscar el producto en la base de datos");
+            ex.printStackTrace();
         }
         txtCodigoBarras.setText("");
     }
 
-    private void actualizarSubtotal(JPanel pnlProducto, double precio, int stock) {
+    private void actualizarSubtotal(PanelProducto pnlProducto, double precio, int stock) {
 
         JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
         int cantidad = (int) spnCantidad.getValue();
@@ -255,15 +347,12 @@ public class CobrarPanel extends JPanel {
             Runnable myThread = () -> {
                 Thread.currentThread().setName("myThread");
                 JOptionPane.showMessageDialog(null, "Se ha alcanzado el límite del stock");
-
             };
             Thread run = new Thread(myThread);
             run.start();
         }
 
         JLabel lblSubtotal = (JLabel) pnlProducto.getComponent(4);
-
-        System.out.println(cantidad);
 
         double subtotalPrevio = Double.parseDouble(lblSubtotal.getText().substring(1));
         total -= subtotalPrevio;
@@ -275,7 +364,7 @@ public class CobrarPanel extends JPanel {
         sumarAlTotal(subtotal);
     }
 
-    private void eliminarProducto(JPanel pnlProducto, double precio) {
+    private void eliminarProducto(PanelProducto pnlProducto, double precio) {
         pnlProductos.remove(pnlProducto);
         pnlProductos.revalidate();
         pnlProductos.repaint();

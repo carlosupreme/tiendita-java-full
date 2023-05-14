@@ -8,7 +8,6 @@ CREATE TABLE proveedores (
 
 CREATE TABLE productos (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  proveedor_id INT,
   nombre VARCHAR(100) NOT NULL,
   descripcion VARCHAR(500) NOT NULL,
   codigo_barras VARCHAR(13) NOT NULL UNIQUE,
@@ -17,12 +16,12 @@ CREATE TABLE productos (
   id_proveedor INT,
   categoria VARCHAR(50) NOT NULL,
   marca VARCHAR(255) NOT NULL, 
-  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
+  FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE inventario (
   id_producto INT NOT NULL PRIMARY KEY,
-  stock INT NOT NULL,
+  stock INT UNSIGNED NOT NULL CHECK ,
   FOREIGN KEY (id_producto) REFERENCES productos(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
