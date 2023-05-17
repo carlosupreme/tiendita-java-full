@@ -13,8 +13,9 @@ public class Producto {
     private double costo;
     private String categoria;
     private String marca;
-    
-    public Producto() {}
+
+    public Producto() {
+    }
 
     public Producto(int id, int proveedorId, String nombre, String codigoBarras, double precioPublico, double costo, String categoria, String marca) {
         this.id = id;
@@ -63,9 +64,9 @@ public class Producto {
     }
 
     public void setCodigoBarras(String codigoBarras) throws ValidationModelException {
-        /*if (!codigoBarras.matches("^(\\d{8}|\\d{12}|\\d{13})$")) {
+        if (!codigoBarras.matches("^(\\d{8}|\\d{12}|\\d{13})$")) {
             throw new ValidationModelException("El codigo de barras '" + codigoBarras + "' no cumple el estandar EAN-13 o UPC-A");
-        }*/
+        }
 
         this.codigoBarras = codigoBarras;
     }

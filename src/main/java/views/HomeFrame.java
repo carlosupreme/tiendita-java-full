@@ -8,6 +8,7 @@ import controllers.AutenticacionController;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import views.inventario.InventarioFrame;
 
 /**
  *
@@ -18,11 +19,6 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private final AutenticacionController authController;
 
-    /**
-     * Creates new form HomeFrame2
-     *
-     * @param authController
-     */
     public HomeFrame(AutenticacionController authController) {
         this.authController = authController;
         initComponents();
@@ -155,8 +151,7 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_proveedoresBtnActionPerformed
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
-
-        //new InventarioFrame(authController).setVisible(true);
+        new InventarioFrame(authController).setVisible(true);
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed

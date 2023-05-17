@@ -27,8 +27,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
         try {
             proveedorRepository.findAll().forEach(proveedor -> {
                 @SuppressWarnings("unchecked")
-                DefaultComboBoxModel<ProveedorItem> model = 
-                        (DefaultComboBoxModel) proveedorSelect.getModel();
+                DefaultComboBoxModel<ProveedorItem> model = (DefaultComboBoxModel) proveedorSelect.getModel();
                 ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
                 model.insertElementAt(item, 0);
             });
