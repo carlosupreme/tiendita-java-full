@@ -24,24 +24,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public void save(Proveedor proveedor) throws SQLException, ValidationModelException {
-//        PreparedStatement st = connection.prepareStatement("INSERT INTO proveedor (nombre, direccion, email, telefono) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-//        st.setString(1, proveedor.getNombre());
-//        st.setString(2, proveedor.getDireccion());
-//        st.setString(3, proveedor.getCorreoElectronico());
-//        st.setInt(4, proveedor.getNumeroTelefonico());
-//
-//        if (st.executeUpdate() == 0) {
-//            throw new SQLException("No se creó el proveedor.");
-//        }
-//
-//        ResultSet generatedKeys = st.getGeneratedKeys();
-//        if (generatedKeys.next()) {
-//            proveedor.setId(generatedKeys.getInt(1));
-//        } else {
-//            throw new SQLException("No se obtuvo el ID");
-//        }
-//
-//        System.out.println(proveedor);
+        
     }
 
     @Override
@@ -56,7 +39,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
             proveedor.setNombre(rs.getString("nombre"));
             proveedor.setDireccion(rs.getString("direccion"));
             proveedor.setEmail(rs.getString("email"));
-            proveedor.setTelefono(rs.getInt("telefono"));
+            proveedor.setTelefono(rs.getString("telefono"));
 
             all.add(proveedor);
         }
@@ -71,13 +54,13 @@ public class ProveedorRepository implements Repository<Proveedor> {
         ResultSet rs = st.executeQuery();
 
         if (!rs.next()) {
-            return null;
+            return null; 
         }
         Proveedor proveedor = new Proveedor();
         proveedor.setId(rs.getInt("id"));
         proveedor.setNombre(rs.getString("nombre"));
 
-        return proveedor;
+        return proveedor; 
     }
 
     @Override
@@ -86,7 +69,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
         st.setString(1, proveedor.getNombre());
         st.setString(2, proveedor.getDireccion());
         st.setString(3, proveedor.getEmail());
-        st.setInt(4, proveedor.getTelefono());
+        st.setString(4, proveedor.getTelefono());
         st.setInt(5, id);
 
         st.executeUpdate();

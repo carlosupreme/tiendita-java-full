@@ -1,6 +1,7 @@
 package controllers;
 
 import app.Sesion;
+import db.ConexionDB;
 import java.sql.Connection;
 import java.sql.SQLException;
 import models.Usuario;
@@ -11,12 +12,12 @@ public class AutenticacionController {
 
     private final Connection connection;
 
-    public AutenticacionController(Connection connection) {
-        this.connection = connection;
+    public AutenticacionController() {
+        this.connection = ConexionDB.getInstance().getConnection();
     }
 
     public boolean login(String username, String password) throws SQLException, RuntimeException {
-        UsuarioRepository usuarioRepository = new UsuarioRepository(connection);
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
         Usuario usuario = usuarioRepository.findByUsername(username);
 
         if (usuario == null) {
@@ -29,6 +30,7 @@ public class AutenticacionController {
         
         Sesion.instance().setUsuario(usuario);
         return true;
+
     }
 
     public void logout() {

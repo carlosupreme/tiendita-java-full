@@ -1,6 +1,5 @@
 package views;
 
-import app.ConexionDB;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
@@ -16,7 +15,7 @@ public class RegisterFrame extends javax.swing.JFrame {
 
     public RegisterFrame() {
         initComponents();
-        this.usuarioRepository = new UsuarioRepository(ConexionDB.getInstance().getConnection());
+        this.usuarioRepository = new UsuarioRepository();
 
         @SuppressWarnings("unchecked")
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel) rolSelect.getModel();

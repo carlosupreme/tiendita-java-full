@@ -1,6 +1,5 @@
 package views;
 
-import app.ConexionDB;
 import controllers.AutenticacionController;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -18,7 +17,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private final AutenticacionController authController;
 
     public LoginFrame() {
-        this.authController = new AutenticacionController(ConexionDB.getInstance().getConnection());
+        this.authController = new AutenticacionController();
         initComponents();
     }
 
@@ -189,12 +188,12 @@ public class LoginFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
+    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {
         int opt = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que deseas salir?", "Salir", JOptionPane.YES_NO_OPTION);
         if (opt == JOptionPane.YES_OPTION) {
             System.exit(0);
         }
-    }//GEN-LAST:event_exitBtnMouseClicked
+    }
 
     private void registerBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_registerBtnMouseClicked
         dispose();

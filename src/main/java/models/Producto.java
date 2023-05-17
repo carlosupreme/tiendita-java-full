@@ -2,10 +2,8 @@ package models;
 
 import exceptions.ValidationModelException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
-public final class Producto {
+public class Producto {
 
     private int id;
     private int proveedorId;
@@ -13,10 +11,21 @@ public final class Producto {
     private String codigoBarras;
     private double precioPublico;
     private double costo;
-    private LocalDate fechaCaducidad;
     private String categoria;
     private String marca;
-    private String edicion;
+    
+    public Producto() {}
+
+    public Producto(int id, int proveedorId, String nombre, String codigoBarras, double precioPublico, double costo, String categoria, String marca) {
+        this.id = id;
+        this.proveedorId = proveedorId;
+        this.nombre = nombre;
+        this.codigoBarras = codigoBarras;
+        this.precioPublico = precioPublico;
+        this.costo = costo;
+        this.categoria = categoria;
+        this.marca = marca;
+    }
 
     public int getId() {
         return id;
@@ -54,9 +63,9 @@ public final class Producto {
     }
 
     public void setCodigoBarras(String codigoBarras) throws ValidationModelException {
-        if (!codigoBarras.matches("^(\\d{8}|\\d{12}|\\d{13})$")) {
+        /*if (!codigoBarras.matches("^(\\d{8}|\\d{12}|\\d{13})$")) {
             throw new ValidationModelException("El codigo de barras '" + codigoBarras + "' no cumple el estandar EAN-13 o UPC-A");
-        }
+        }*/
 
         this.codigoBarras = codigoBarras;
     }
@@ -87,19 +96,6 @@ public final class Producto {
         this.costo = Double.parseDouble(df.format(costo));
     }
 
-    public LocalDate getFechaCaducidad() {
-        return fechaCaducidad;
-    }
-
-    public String getFechaCaducidadFormateada() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return fechaCaducidad.format(formatter);
-    }
-
-    public void setFechaCaducidad(LocalDate fechaCaducidad) {
-        this.fechaCaducidad = fechaCaducidad;
-    }
-
     public String getCategoria() {
         return categoria;
     }
@@ -118,19 +114,15 @@ public final class Producto {
         this.marca = marca;
     }
 
-    public String getEdicion() {
-        return edicion;
-    }
-
-    public void setEdicion(String edicion) throws ValidationModelException {
-        ensureValidText(edicion, "edicion");
-        this.edicion = edicion;
-    }
-
     private void ensureValidText(String t, String prop) throws ValidationModelException {
         String regex = "^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$";
         if (t == null || !t.matches(regex)) {
             throw new ValidationModelException(prop + " '" + t + "' del producto debe contener al menos 2 letras o numeros sin caracteres especiales");
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Producto{" + "id=" + id + ", proveedorId=" + proveedorId + ", nombre=" + nombre + ", codigoBarras=" + codigoBarras + ", precioPublico=" + precioPublico + ", costo=" + costo + ", categoria=" + categoria + ", marca=" + marca + '}';
     }
 }

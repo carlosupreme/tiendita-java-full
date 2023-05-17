@@ -35,6 +35,7 @@ public class Usuario {
         if (username == null || !username.matches("^[a-zA-Z0-9_]{4,}$")) {
             throw new ValidationModelException("El username deber ser sin caracteres especiales minimo 4 caracteres");
         }
+
         this.username = username;
     }
 

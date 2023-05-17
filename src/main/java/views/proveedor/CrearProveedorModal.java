@@ -156,7 +156,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
             proveedor.setNombre(nombre.getText());
             proveedor.setDireccion(direccion.getText());
             proveedor.setEmail(correoE.getText());
-            proveedor.setTelefono(Integer.parseInt(numTelefono.getText()));
+            proveedor.setTelefono(numTelefono.getText());
 
             proveedorRepository.save(proveedor);
             nombre.setText("");
