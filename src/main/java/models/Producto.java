@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 
 public class Producto {
 
-    private int id;
+    private long id;
     private int proveedorId;
     private String nombre;
     private String codigoBarras;
@@ -16,7 +16,7 @@ public class Producto {
     
     public Producto() {}
 
-    public Producto(int id, int proveedorId, String nombre, String codigoBarras, double precioPublico, double costo, String categoria, String marca) {
+    public Producto(long id, int proveedorId, String nombre, String codigoBarras, double precioPublico, double costo, String categoria, String marca) {
         this.id = id;
         this.proveedorId = proveedorId;
         this.nombre = nombre;
@@ -27,11 +27,11 @@ public class Producto {
         this.marca = marca;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) throws ValidationModelException {
+    public void setId(long id) throws ValidationModelException {
         if (id < 0) {
             throw new ValidationModelException("El id del producto debe ser positivo");
         }

@@ -14,7 +14,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
@@ -35,8 +38,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import models.DetallesVenta;
@@ -65,6 +71,7 @@ public class CobrarPanel extends JPanel {
         } catch (IllegalArgumentException | IllegalAccessException
                 | NoSuchMethodException | InstantiationException | InvocationTargetException ex) {
             producto = null;
+            ex.printStackTrace();
         }
 
         return producto;
@@ -73,9 +80,95 @@ public class CobrarPanel extends JPanel {
     private JTextField txtCodigoBarras;
     private JLabel lblTotal;
     private JPanel pnlProductos;
-    private Map<Integer, PanelProducto> mapProductos;
+    private Map<Long, PanelProducto> mapProductos;
     private double total;
     private JButton cobrarBtn;
+    
+    private JPanel crearPanelTitulos() {
+        //Crear columnas
+        JPanel pnlColumnas = new JPanel();
+
+        GridBagLayout layout = new GridBagLayout();
+        pnlColumnas.setLayout(layout);
+
+        pnlColumnas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+
+        // Definición de las restricciones para cada celda
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        // Restricciones para la primera columna
+        constraints.gridx = 0;  // Columna 0
+        constraints.gridy = 0;  // Fila 0
+        constraints.gridwidth = 1;  // Ocupa una sola celda
+        constraints.gridheight = 1;
+        constraints.weightx = 0;  // No se ajusta horizontalmente
+        constraints.fill = GridBagConstraints.NONE;  // No se estira
+        constraints.anchor = GridBagConstraints.WEST;  // Alineado a la izquierda
+        constraints.insets = new Insets(0, 0, 0, 15);  // Margen de 15px a la derecha
+
+        JTextField labelNombre = new JTextField("Nombre", 30);
+        labelNombre.setEditable(false);
+
+        layout.setConstraints(labelNombre, constraints);
+        pnlColumnas.add(labelNombre);
+
+        // Componente para la segunda celda
+        JLabel labelCodigoBarras = new JLabel("Código de barras");
+        constraints.gridx = 1;  // Columna 2
+        constraints.ipadx = 0;
+        constraints.weightx = 1;  // Se ajusta horizontalmente
+        constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+        layout.setConstraints(labelCodigoBarras, constraints);
+        pnlColumnas.add(labelCodigoBarras);
+
+        // Componente para la tercera celda
+        JLabel labelPrecio = new JLabel("Precio");
+        constraints.gridx = 2;  // Columna 3
+        constraints.ipadx = 0;
+        constraints.weightx = 1;  // Se ajusta horizontalmente
+        constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+        layout.setConstraints(labelPrecio, constraints);
+        pnlColumnas.add(labelPrecio);
+
+        JLabel labelCantidad = new JLabel("Cantidad");
+        // Componente para la cuarta celda
+        constraints.gridx = 3;  // Columna 4
+        constraints.ipadx = 0;
+        constraints.weightx = 1;  // Se ajusta horizontalmente
+        constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+        layout.setConstraints(labelCantidad, constraints);
+        pnlColumnas.add(labelCantidad);
+
+        // Componente para la quinta celda
+        JLabel lblSubtotal = new JLabel("Subtotal");
+        constraints.gridx = 4;  // Columna 5
+        constraints.ipadx = 0;
+        constraints.weightx = 1;  // Se ajusta horizontalmente
+        constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+        layout.setConstraints(lblSubtotal, constraints);
+        pnlColumnas.add(lblSubtotal);
+        
+        // Componente para la sexta celda
+        JLabel eliminarLabel = new JLabel("Acción");
+        constraints.gridx = 5;  // Columna 6
+        constraints.ipadx = 0;
+        constraints.weightx = 1;  // Se ajusta horizontalmente
+        constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+        constraints.anchor = GridBagConstraints.WEST;
+        constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+        layout.setConstraints(eliminarLabel, constraints);
+        pnlColumnas.add(eliminarLabel);
+        
+        return pnlColumnas;
+    }
 
     public CobrarPanel() {
 
@@ -93,24 +186,15 @@ public class CobrarPanel extends JPanel {
         pnlBusqueda.add(btnAgregar);
         add(pnlBusqueda, BorderLayout.NORTH);
 
-        //Crear columnas
-        JPanel pnlColumnas = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
-        pnlColumnas.setLayout(new GridLayout(1, 7, 25, 25));
-        pnlColumnas.add(new JLabel("Nombre"));
-        pnlColumnas.add(new JLabel("Código de barras"));
-        pnlColumnas.add(new JLabel("Precio"));
-        pnlColumnas.add(new JLabel("Cantidad"));
-        pnlColumnas.add(new JLabel("Subtotal"));
-        pnlColumnas.add(new JLabel("Acción"));
-
-        pnlColumnas.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+        
 
         // Panel de productos agregados
         pnlProductos = new JPanel();
         pnlProductos.setLayout(new BoxLayout(pnlProductos, BoxLayout.Y_AXIS));
 
         add(new JScrollPane(pnlProductos), BorderLayout.CENTER);
+        
+        JPanel pnlColumnas = crearPanelTitulos();
 
         pnlProductos.add(pnlColumnas);
         pnlColumnas.setMaximumSize(
@@ -128,84 +212,78 @@ public class CobrarPanel extends JPanel {
         String country[] = {"Efectivo", "Tarjeta de crédito", "Tarjeta de débito"};
         JComboBox cb = new JComboBox(country);
 
-        cobrarBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println(mapProductos.values().size());
+        panelAbajo.add(cb);
 
-                InstruccionDML dml = new InstruccionDML() {
-                    @Override
-                    public void ejecutar() throws SQLException {
-
-                        // Insertar venta
-                        PreparedStatementMapper<Venta> ventaStm = new PreparedStatementMapper<>("ventas");
-
-                        Instant fecha = Instant.now().with(ChronoField.NANO_OF_SECOND, 0);
-                        /*ZoneId z = ZoneId.of("GMT-6");
-                        ZonedDateTime zdt = current.atZone(z);
-                        Instant fecha = zdt.toInstant();*/
-
-                        Venta venta = new Venta(total, fecha,
-                                Sesion.instance().getUsuario().getId(), "forma de pago");
-
-                        long idVenta;
-                        try {
-                            long[] valoresV = ventaStm.insertar(venta);
-                            idVenta = valoresV[0];
-                        } catch (SQLException | IllegalAccessException ex) {
-                            throw new SQLException(ex.getMessage());
-                        }
-
-                        for (PanelProducto pn : mapProductos.values()) {
-
-                            PreparedStatementMapper<DetallesVenta> detallesVentaStm
-                                    = new PreparedStatementMapper<>("detalles_venta");
-
-                            try {
-                                DetallesVenta detalleV = new DetallesVenta(idVenta, pn.producto.getId(),
-                                        pn.cantidadStock, pn.producto.getPrecioPublico());
-
-                                System.out.println(detallesVentaStm.getSqlString(detalleV));
-
-                                detallesVentaStm.setIdGeneradoIgnorado(true);
-                                detallesVentaStm.insertar(detalleV);
-
-                                String sql = "UPDATE inventario SET stock = stock - "
-                                        + pn.cantidadStock + " WHERE id_producto = "
-                                        + pn.producto.getId();
-
-                                Connection conexion = ConexionDB.getInstance().getConnection();
-                                Statement statement = conexion.createStatement();
-
-                                int filasAfectadas = statement.executeUpdate(sql);
-
-                                if (filasAfectadas > 0) {
-                                } else {
-                                    throw new SQLException("Error al actualizar el stock del "
-                                            + "producto con id = " + pn.producto.getId());
-                                }
-
-                            } catch (SQLException | IllegalAccessException ex) {
-                                throw new SQLException(ex.getMessage());
-                            }
-                        }
-                    }
-                };
-
-                try {
-                    TransactionManager.ejecutarTransaccion(dml);
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Fallo al ejecutar la transacción");
-                }
-
-                JOptionPane.showMessageDialog(null, "Venta exitosa");
-
-                mapProductos = new HashMap<>();
+        cobrarBtn.addActionListener((ActionEvent e) -> {
+            System.out.println(mapProductos.values().size());
+            InstruccionDML dml = () -> {
+                // Insertar venta
+                PreparedStatementMapper<Venta> ventaStm =
+                        new PreparedStatementMapper<>("ventas");
                 
-                CobrarPanel.this.repaint();
-
+                Instant fecha = Instant.now().with(ChronoField.NANO_OF_SECOND, 0);
+                /*ZoneId z = ZoneId.of("GMT-6");
+                ZonedDateTime zdt = current.atZone(z);
+                Instant fecha = zdt.toInstant();*/
+                
+                Venta venta = new Venta(total, fecha,
+                        Sesion.instance().getUsuario().getId(), cb.getSelectedItem().toString());
+                
+                long idVenta;
+                try {
+                    long[] valoresV = ventaStm.insertar(venta);
+                    idVenta = valoresV[0];
+                } catch (SQLException | IllegalAccessException ex) {
+                    throw new SQLException(ex.getMessage());
+                }
+                
+                for (PanelProducto pn : mapProductos.values()) {
+                    
+                    PreparedStatementMapper<DetallesVenta> detallesVentaStm
+                            = new PreparedStatementMapper<>("detalles_venta");
+                    
+                    try {
+                        DetallesVenta detalleV = new DetallesVenta(idVenta, pn.producto.getId(),
+                                pn.cantidadStock, pn.producto.getPrecioPublico());
+                        
+                        System.out.println(detallesVentaStm.getSqlString(detalleV));
+                        
+                        detallesVentaStm.setIdGeneradoIgnorado(true);
+                        detallesVentaStm.insertar(detalleV);
+                        
+                        String sql = "UPDATE inventario SET stock = stock - "
+                                + pn.cantidadStock + " WHERE id_producto = "
+                                + pn.producto.getId();
+                        
+                        Connection conexion = ConexionDB.getInstance().getConnection();
+                        Statement statement = conexion.createStatement();
+                        
+                        int filasAfectadas = statement.executeUpdate(sql);
+                        
+                        if (filasAfectadas > 0) {
+                        } else {
+                            throw new SQLException("Error al actualizar el stock del "
+                                    + "producto con id = " + pn.producto.getId());
+                        }
+                        
+                    } catch (SQLException | IllegalAccessException ex) {
+                        throw new SQLException(ex.getMessage());
+                    }
+                }
+            };
+            try {
+                TransactionManager.ejecutarTransaccion(dml);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Fallo al ejecutar la transacción");
             }
+            JOptionPane.showMessageDialog(null, "Venta exitosa");
+            mapProductos = new HashMap<>();
+            pnlProductos.removeAll();
+            JPanel pnlColumnas1 = crearPanelTitulos();
+            pnlProductos.add(pnlColumnas1);
+            pnlColumnas1.setMaximumSize(new Dimension(Integer.MAX_VALUE, pnlColumnas1.getMinimumSize().height));
+            CobrarPanel.this.revalidate();
+            CobrarPanel.this.repaint();
         });
 
         add(panelAbajo, BorderLayout.SOUTH);
@@ -246,11 +324,11 @@ public class CobrarPanel extends JPanel {
             ProductoVenta productoEncontrado = selectByCodigoBarras(codigoBarras);
 
             if (productoEncontrado != null) {
-                int id = productoEncontrado.getId();
+                long id = productoEncontrado.getId();
                 String nombre = productoEncontrado.getNombre();
                 String codigoBarrasEncontrado = productoEncontrado.getCodigoBarras();
                 double precio = productoEncontrado.getPrecioPublico();
-                int stock = productoEncontrado.getStock();
+                long stock = productoEncontrado.getStock();
 
                 //System.out.println(id);
                 // Si ya existe un panel para este producto, actualiza la cantidad
@@ -287,19 +365,55 @@ public class CobrarPanel extends JPanel {
                     // Crea un nuevo panel para el producto
                     PanelProducto pnlProducto = new PanelProducto();
 
+                    GridBagLayout layout = new GridBagLayout();
+                    pnlProducto.setLayout(layout);
+
                     pnlProducto.setProducto(productoEncontrado);
-
                     pnlProducto.setCantidadStock(1);
+                    pnlProducto.setBorder(
+                            BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
 
-                    pnlProducto.setLayout(new GridLayout(1, 7, 25, 25));
+                    // Definición de las restricciones para cada celda
+                    GridBagConstraints constraints = new GridBagConstraints();
 
-                    pnlProducto.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.lightGray));
+                    // Restricciones para la primera columna
+                    constraints.gridx = 0;  // Columna 0
+                    constraints.gridy = 0;  // Fila 0
+                    constraints.gridwidth = 1;  // Ocupa una sola celda
+                    constraints.gridheight = 1;
+                    constraints.weightx = 0;  // No se ajusta horizontalmente
+                    constraints.fill = GridBagConstraints.NONE;  // No se estira
+                    constraints.anchor = GridBagConstraints.WEST;  // Alineado a la izquierda
+                    constraints.insets = new Insets(0, 0, 0, 15);  // Margen de 15px a la derecha
 
-                    pnlProducto.add(new JLabel(nombre));
+                    JTextField labelNombre = new JTextField(nombre, 30);
+                    labelNombre.setEditable(false);
 
-                    pnlProducto.add(new JLabel(codigoBarrasEncontrado));
+                    layout.setConstraints(labelNombre, constraints);
+                    pnlProducto.add(labelNombre);
 
-                    pnlProducto.add(new JLabel("$" + precio));
+                    // Componente para la segunda celda
+                    JLabel labelCodigoBarras = new JLabel(codigoBarrasEncontrado);
+                    constraints.gridx = 1;  // Columna 2
+                    constraints.ipadx = 0;
+                    constraints.weightx = 1;  // Se ajusta horizontalmente
+                    constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+                    constraints.anchor = GridBagConstraints.WEST;
+                    constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+                    layout.setConstraints(labelCodigoBarras, constraints);
+                    pnlProducto.add(labelCodigoBarras);
+
+                    // Componente para la tercera celda
+                    JLabel labelPrecio = new JLabel("$" + precio);
+                    constraints.gridx = 2;  // Columna 3
+                    constraints.ipadx = 0;
+                    constraints.weightx = 1;  // Se ajusta horizontalmente
+                    constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+                    constraints.anchor = GridBagConstraints.WEST;
+                    constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+                    layout.setConstraints(labelPrecio, constraints);
+                    pnlProducto.add(labelPrecio);
+
                     JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
                     spnCantidad.addChangeListener(new ChangeListener() {
                         @Override
@@ -310,22 +424,46 @@ public class CobrarPanel extends JPanel {
                             actualizarSubtotal(pnlProducto, precio, stock);
                         }
                     });
+
+                    // Componente para la cuarta celda
+                    constraints.gridx = 3;  // Columna 4
+                    constraints.ipadx = 0;
+                    constraints.weightx = 1;  // Se ajusta horizontalmente
+                    constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+                    constraints.anchor = GridBagConstraints.WEST;
+                    constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+                    layout.setConstraints(spnCantidad, constraints);
                     pnlProducto.add(spnCantidad);
 
+                    // Componente para la quinta celda
                     JLabel lblSubtotal = new JLabel("$" + precio);
+                    constraints.gridx = 4;  // Columna 5
+                    constraints.ipadx = 0;
+                    constraints.weightx = 1;  // Se ajusta horizontalmente
+                    constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+                    constraints.anchor = GridBagConstraints.WEST;
+                    constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+                    layout.setConstraints(lblSubtotal, constraints);
                     pnlProducto.add(lblSubtotal);
+
                     JButton btnEliminar = new JButton("Eliminar");
                     btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto, precio));
+                    constraints.gridx = 5;  // Columna 6
+                    constraints.ipadx = 0;
+                    constraints.weightx = 1;  // Se ajusta horizontalmente
+                    constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
+                    constraints.anchor = GridBagConstraints.WEST;
+                    constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+                    layout.setConstraints(btnEliminar, constraints);
                     pnlProducto.add(btnEliminar);
 
-                    //pnlProducto.add(Box.createHorizontalStrut(20));
                     pnlProductos.add(pnlProducto);
-
                     mapProductos.put(id, pnlProducto);
 
                     sumarAlTotal(precio);
 
-                    pnlProducto.setMaximumSize(new Dimension(Integer.MAX_VALUE, pnlProducto.getMinimumSize().height));
+                    pnlProducto.setMaximumSize(new Dimension(
+                            Integer.MAX_VALUE, pnlProducto.getMinimumSize().height));
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "No se encontró ningún producto con ese código de barras");
@@ -333,12 +471,12 @@ public class CobrarPanel extends JPanel {
         } catch (SQLException ex) {
             //ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al buscar el producto en la base de datos");
-            ex.printStackTrace();
         }
         txtCodigoBarras.setText("");
+        
     }
 
-    private void actualizarSubtotal(PanelProducto pnlProducto, double precio, int stock) {
+    private void actualizarSubtotal(PanelProducto pnlProducto, double precio, long stock) {
 
         JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
         int cantidad = (int) spnCantidad.getValue();
@@ -368,11 +506,11 @@ public class CobrarPanel extends JPanel {
         pnlProductos.remove(pnlProducto);
         pnlProductos.revalidate();
         pnlProductos.repaint();
-        int id = mapProductos.entrySet().stream()
+        long id = mapProductos.entrySet().stream()
                 .filter(e -> e.getValue() == pnlProducto)
                 .findFirst()
                 .map(Map.Entry::getKey)
-                .orElse(-1);
+                .orElse(Long.valueOf(-1));
         mapProductos.remove(id);
         JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
         double subtotal = (int) spnCantidad.getValue() * precio;
