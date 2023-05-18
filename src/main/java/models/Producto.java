@@ -8,24 +8,27 @@ public class Producto {
     private int id;
     private int proveedorId;
     private String nombre;
+    private String descripcion;
     private String codigoBarras;
     private double precioPublico;
     private double costo;
     private String categoria;
     private String marca;
 
-    public Producto() {
-    }
-
-    public Producto(int id, int proveedorId, String nombre, String codigoBarras, double precioPublico, double costo, String categoria, String marca) {
+    public Producto(int id, int proveedorId, String nombre, String descripcion, String codigoBarras, double precioPublico, double costo, String categoria, String marca) {
         this.id = id;
         this.proveedorId = proveedorId;
         this.nombre = nombre;
+        this.descripcion = descripcion;
         this.codigoBarras = codigoBarras;
         this.precioPublico = precioPublico;
         this.costo = costo;
         this.categoria = categoria;
         this.marca = marca;
+    }
+    
+    public Producto() {
+
     }
 
     public int getId() {
@@ -57,6 +60,18 @@ public class Producto {
     public void setNombre(String nombre) throws ValidationModelException {
         ensureValidText(nombre, "nombre");
         this.nombre = nombre;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) throws ValidationModelException {
+        if (descripcion == null || descripcion.length() > 255) {
+            throw new ValidationModelException("La descripción debe ser de 1 a 255 caracteres");
+        }
+
+        this.descripcion = descripcion;
     }
 
     public String getCodigoBarras() {

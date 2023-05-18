@@ -15,10 +15,10 @@ public class ProductoVenta extends Producto {
     public ProductoVenta() {
     }
 
-    public ProductoVenta(int id, int proveedorId, String nombre,
+    public ProductoVenta(int id, int proveedorId, String nombre,String descripcion,
             String codigoBarras, double precioPublico, double costo,
             String categoria, String marca, int stock) {
-        super(id, proveedorId, nombre, codigoBarras, precioPublico, costo, categoria, marca);
+        super(id, proveedorId, nombre, descripcion, codigoBarras, precioPublico, costo, categoria, marca);
         this.stock = stock;
     }
 
