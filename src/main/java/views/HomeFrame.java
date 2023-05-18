@@ -5,9 +5,11 @@
 package views;
 
 import controllers.AutenticacionController;
+import db.SelectStatementMapper;
 import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
+import models.DetallesVenta;
 
 /**
  *
@@ -32,10 +34,11 @@ public class HomeFrame extends javax.swing.JFrame {
 
         panelIzquierdo = new javax.swing.JPanel();
         proveedoresBtn = new javax.swing.JButton();
-        inventarioBtn = new javax.swing.JButton();
         ventasBtn = new javax.swing.JButton();
+        cobrarBtn = new javax.swing.JButton();
         proveedoresBtn1 = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
+        inventarioBtn1 = new javax.swing.JButton();
         panelDerecho = new javax.swing.JPanel();
         panelContenido = new javax.swing.JPanel();
         contenidoParteArriba = new javax.swing.JPanel();
@@ -53,17 +56,17 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
-        inventarioBtn.setText("INVENTARIO");
-        inventarioBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inventarioBtnActionPerformed(evt);
-            }
-        });
-
-        ventasBtn.setText("COBRAR");
+        ventasBtn.setText("VENTAS");
         ventasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ventasBtnActionPerformed(evt);
+            }
+        });
+
+        cobrarBtn.setText("COBRAR");
+        cobrarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cobrarBtnActionPerformed(evt);
             }
         });
 
@@ -81,6 +84,13 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
+        inventarioBtn1.setText("INVENTARIO");
+        inventarioBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inventarioBtn1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout panelIzquierdoLayout = new javax.swing.GroupLayout(panelIzquierdo);
         panelIzquierdo.setLayout(panelIzquierdoLayout);
         panelIzquierdoLayout.setHorizontalGroup(
@@ -88,38 +98,49 @@ public class HomeFrame extends javax.swing.JFrame {
             .addGroup(panelIzquierdoLayout.createSequentialGroup()
                 .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelIzquierdoLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(panelIzquierdoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(panelIzquierdoLayout.createSequentialGroup()
+                                .addGap(49, 49, 49)
+                                .addComponent(logoutBtn))
+                            .addGroup(panelIzquierdoLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(cobrarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelIzquierdoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelIzquierdoLayout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(logoutBtn)))
-                .addContainerGap(7, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(inventarioBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
             .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelIzquierdoLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(ventasBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(inventarioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(proveedoresBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE))
+                    .addComponent(proveedoresBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         panelIzquierdoLayout.setVerticalGroup(
             panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelIzquierdoLayout.createSequentialGroup()
-                .addContainerGap(281, Short.MAX_VALUE)
+                .addContainerGap(142, Short.MAX_VALUE)
+                .addComponent(inventarioBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(cobrarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(129, 129, 129)
+                .addGap(109, 109, 109)
                 .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
             .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelIzquierdoLayout.createSequentialGroup()
                     .addGap(84, 84, 84)
                     .addComponent(proveedoresBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(30, 30, 30)
-                    .addComponent(inventarioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(30, 30, 30)
-                    .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(254, Short.MAX_VALUE)))
+                    .addContainerGap(384, Short.MAX_VALUE)))
         );
 
         getContentPane().add(panelIzquierdo, java.awt.BorderLayout.LINE_START);
@@ -155,13 +176,26 @@ public class HomeFrame extends javax.swing.JFrame {
         
     }//GEN-LAST:event_proveedoresBtnActionPerformed
 
-    private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
-
-        
-
-    }//GEN-LAST:event_inventarioBtnActionPerformed
-
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed
+
+        SelectStatementMapper<DetallesVenta> mapper = 
+                new SelectStatementMapper<>("detalles_venta");
+        try {
+            String[][] datos = mapper.selectAllAsArray(DetallesVenta.class, null,
+                    new String[]{"Ver detalles"});
+            
+            String[] columnasTabla = {"ID Venta", "Producto", "Cantidad", "Precio_unitario", "Telefono", ""};
+            
+            
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
+
+    }//GEN-LAST:event_ventasBtnActionPerformed
+
+    private void cobrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cobrarBtnActionPerformed
         // TODO add your handling code here:
 
         JFrame f = new JFrame();
@@ -172,7 +206,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
         f.setVisible(true);
 
-    }//GEN-LAST:event_ventasBtnActionPerformed
+    }//GEN-LAST:event_cobrarBtnActionPerformed
 
     private void proveedoresBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtn1ActionPerformed
         // TODO add your handling code here:
@@ -189,10 +223,15 @@ public class HomeFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
 
+    private void inventarioBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inventarioBtn1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton cobrarBtn;
     private javax.swing.JPanel contenidoParteArriba;
-    private javax.swing.JButton inventarioBtn;
+    private javax.swing.JButton inventarioBtn1;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel panelContenido;
     private javax.swing.JPanel panelDerecho;

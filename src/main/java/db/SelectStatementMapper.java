@@ -22,6 +22,10 @@ public class SelectStatementMapper<T> {
 
     private final Connection conexion = ConexionDB.getInstance().getConnection();
     private final String nombreTabla;
+    
+    private ArrayList<String> camposIgnorados;
+    
+    
 
     public SelectStatementMapper(String nombreTabla) {
         this.nombreTabla = nombreTabla;
