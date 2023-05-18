@@ -16,10 +16,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -38,11 +36,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import models.DetallesVenta;
@@ -71,7 +66,6 @@ public class CobrarPanel extends JPanel {
         } catch (IllegalArgumentException | IllegalAccessException
                 | NoSuchMethodException | InstantiationException | InvocationTargetException ex) {
             producto = null;
-            ex.printStackTrace();
         }
 
         return producto;
@@ -356,7 +350,6 @@ public class CobrarPanel extends JPanel {
                         spnCantidad.setValue(cantidad + 1);
 
                         pnlProducto.setCantidadStock(cantidad + 1);
-                        //actualizarSubtotal(pnlProducto, precio);
                     } else {
                         JOptionPane.showMessageDialog(
                                 this, "No hay suficiente stock para agregar otro producto");
@@ -466,7 +459,8 @@ public class CobrarPanel extends JPanel {
                             Integer.MAX_VALUE, pnlProducto.getMinimumSize().height));
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "No se encontró ningún producto con ese código de barras");
+                JOptionPane.showMessageDialog(this, 
+                        "No se encontró ningún producto con ese código de barras");
             }
         } catch (SQLException ex) {
             //ex.printStackTrace();
@@ -500,6 +494,8 @@ public class CobrarPanel extends JPanel {
         lblSubtotal.setText("$" + String.format("%.2f", subtotal));
 
         sumarAlTotal(subtotal);
+        
+        txtCodigoBarras.requestFocus();
     }
 
     private void eliminarProducto(PanelProducto pnlProducto, double precio) {

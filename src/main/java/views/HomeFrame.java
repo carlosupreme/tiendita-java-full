@@ -5,19 +5,9 @@
 package views;
 
 import controllers.AutenticacionController;
-import db.SelectStatementMapper;
-import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
-import models.Proveedor;
-
-import java.util.List;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
