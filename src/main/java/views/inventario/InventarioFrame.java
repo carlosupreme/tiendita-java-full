@@ -29,7 +29,7 @@ public class InventarioFrame extends javax.swing.JFrame {
         initComponents();
         fullScreen();
         this.authController = authController;
-        this.productoRepository = new ProductoRepository(ConexionDB.getInstance().getConnection());
+        this.productoRepository = new ProductoRepository();
         this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
         model = (DefaultTableModel) table.getModel();
         loadEntries();

@@ -1,5 +1,6 @@
 package repositories;
 
+import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,23 +8,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List; 
+import java.util.List;
 import models.Producto;
 
 public class ProductoRepository implements Repository<Producto> {
-
-    private final Connection connection;
     
-    public ProductoRepository(Connection connection) {
-        this.connection = connection;
+    private final Connection connection;
+    private final String INSERT_QUERY;
+    
+    public ProductoRepository() {
+        connection = ConexionDB.getInstance().getConnection();
+        INSERT_QUERY = "INSERT INTO productos (nombre, descripcion, codigo_barras, precio_publico, costo, id_proveedor, categoria, marca) values (?, ?, ?, ?, ?, ?, ?, ?)";
     }
     
     @Override
     public void save(Producto producto) throws SQLException, ValidationModelException {
-        PreparedStatement st = connection.prepareStatement(
-                "INSERT INTO productos (proveedor_id, nombre, codigo_barras, precio_publico, costo, fecha_caducidad, categoria, marca, edicion) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                Statement.RETURN_GENERATED_KEYS
-        );
+        PreparedStatement st = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
         
         mapProducto(producto, st);
         
@@ -46,9 +46,9 @@ public class ProductoRepository implements Repository<Producto> {
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM productos");
         
-        while(rs.next()) {
+        while (rs.next()) {
             Producto producto = new Producto();
-            mapResultSet(rs, producto); 
+            mapResultSet(rs, producto);
             
             all.add(producto);
         }
@@ -74,7 +74,7 @@ public class ProductoRepository implements Repository<Producto> {
     
     @Override
     public void update(int id, Producto producto) throws SQLException {
-        PreparedStatement st = connection.prepareStatement("UPDATE productos SET proveedor_id = ?, nombre = ?, codigo_barras = ?, precio_publico = ?, costo = ?, fecha_caducidad = ?, categoria = ?, marca = ?, edicion = ?  WHERE id = ?");
+        PreparedStatement st = connection.prepareStatement("UPDATE productos SET id_proveedor = ?, nombre = ?, codigo_barras = ?, precio_publico = ?, costo = ?, fecha_caducidad = ?, categoria = ?, marca = ?, edicion = ?  WHERE id = ?");
         mapProducto(producto, st);
         st.setInt(10, id);
         
@@ -90,24 +90,24 @@ public class ProductoRepository implements Repository<Producto> {
     
     private void mapResultSet(ResultSet rs, Producto producto) throws SQLException {
         producto.setId(rs.getInt("id"));
-        producto.setProveedorId(rs.getInt("proveedor_id"));
+        producto.setProveedorId(rs.getInt("id_proveedor"));
         producto.setNombre(rs.getString("nombre"));
         producto.setCodigoBarras(rs.getString("codigo_barras"));
         producto.setPrecioPublico(rs.getDouble("precio_publico"));
         producto.setCosto(rs.getDouble("costo"));
-        
+        producto.setDescripcion(rs.getString("descripcion"));
         producto.setCategoria(rs.getString("categoria"));
         producto.setMarca(rs.getString("marca"));
         
     }
     
     private void mapProducto(Producto producto, PreparedStatement st) throws SQLException {
-        st.setInt(1, producto.getProveedorId());
-        st.setString(2, producto.getNombre());
+        st.setString(1, producto.getNombre());
+        st.setString(2, producto.getDescripcion());
         st.setString(3, producto.getCodigoBarras());
         st.setDouble(4, producto.getPrecioPublico());
         st.setDouble(5, producto.getCosto());
-        
+        st.setInt(6, producto.getProveedorId());
         st.setString(7, producto.getCategoria());
         st.setString(8, producto.getMarca());
         
