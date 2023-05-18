@@ -7,6 +7,9 @@ package views;
 import controllers.AutenticacionController;
 import db.SelectStatementMapper;
 import java.awt.Toolkit;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import models.DetallesVenta;
@@ -180,16 +183,17 @@ public class HomeFrame extends javax.swing.JFrame {
 
         SelectStatementMapper<DetallesVenta> mapper = 
                 new SelectStatementMapper<>("detalles_venta");
+        
         try {
-            String[][] datos = mapper.selectAllAsArray(DetallesVenta.class, null,
-                    new String[]{"Ver detalles"});
+            String[][] datos = mapper.selectAllAsArray(DetallesVenta.class, null);
             
-            String[] columnasTabla = {"ID Venta", "Producto", "Cantidad", "Precio_unitario", "Telefono", ""};
-            
+            String[] columnasTabla = {"ID Venta", "Producto", "Cantidad", "Precio_unitario"};
             
             
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            
+        } catch (IllegalAccessException | IllegalArgumentException | 
+                InstantiationException | NoSuchMethodException | 
+                InvocationTargetException | SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
 

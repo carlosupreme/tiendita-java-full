@@ -22,10 +22,6 @@ public class SelectStatementMapper<T> {
 
     private final Connection conexion = ConexionDB.getInstance().getConnection();
     private final String nombreTabla;
-    
-    private ArrayList<String> camposIgnorados;
-    
-    
 
     public SelectStatementMapper(String nombreTabla) {
         this.nombreTabla = nombreTabla;
@@ -61,7 +57,8 @@ public class SelectStatementMapper<T> {
         } else {
             query = String.format("SELECT * FROM %s", nombreTabla);
         }
-        try (PreparedStatement statement = conexion.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement statement = conexion.prepareStatement(query); 
+                ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 T objeto = crearObjDesdeResultSet(resultSet, clazz);
                 objetos.add(objeto);
@@ -70,7 +67,7 @@ public class SelectStatementMapper<T> {
         return objetos;
     }
 
-    public String[][] selectAllAsArray(Class<T> clazz, String sql, String[] btnsNombres)
+    public String[][] selectAllAsArray(Class<T> clazz, String sql)
             throws SQLException,
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
             NoSuchMethodException, InstantiationException, InstantiationException,
@@ -83,14 +80,12 @@ public class SelectStatementMapper<T> {
         } else {
             query = String.format("SELECT * FROM %s", nombreTabla);
         }
-        try (PreparedStatement statement = conexion.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement statement = conexion.prepareStatement(query); 
+                ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 String[] valores;
-                if (btnsNombres.length != 0) {
-                    valores = obtenerValoresAttrMasBtns(resultSet, clazz, btnsNombres);
-                } else {
-                    valores = obtenerValoresAttr(resultSet, clazz);
-                }
+
+                valores = obtenerValoresAttr(resultSet, clazz);
 
                 valoresRegistros.add(valores);
             }
@@ -107,7 +102,7 @@ public class SelectStatementMapper<T> {
 
         for (Field field : clazz.getDeclaredFields()) {
             String nombreAttr = field.getName();
-            
+
             field.setAccessible(true);
             Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
             field.set(objeto, valor);
@@ -118,10 +113,10 @@ public class SelectStatementMapper<T> {
             currentClass = currentClass.getSuperclass();
             for (Field field : currentClass.getDeclaredFields()) {
                 String nombreAttr = field.getName();
-                
+
                 field.setAccessible(true);
                 Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
-                if(valor instanceof BigDecimal) {
+                if (valor instanceof BigDecimal) {
                     BigDecimal decimal = (BigDecimal) valor;
                     field.setDouble(objeto, decimal.doubleValue());
                 } else {
@@ -142,7 +137,9 @@ public class SelectStatementMapper<T> {
         int i = 0;
 
         for (Field field : fields) {
+
             String nombreAttr = field.getName();
+
             field.setAccessible(true);
             Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
 
@@ -152,31 +149,4 @@ public class SelectStatementMapper<T> {
 
         return valores;
     }
-
-    private String[] obtenerValoresAttrMasBtns(ResultSet resultSet, Class<T> clazz,
-            String[] btnsNombres)
-            throws SQLException, IllegalArgumentException, IllegalAccessException,
-            NoSuchMethodException, InstantiationException, InvocationTargetException {
-
-        Field[] fields = clazz.getDeclaredFields();
-        String[] valores = new String[fields.length + btnsNombres.length];
-        int i = 0;
-
-        for (Field field : fields) {
-            String nombreAttr = field.getName();
-            field.setAccessible(true);
-            Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
-
-            valores[i] = valor.toString();
-            i++;
-        }
-
-        for (String str : btnsNombres) {
-            valores[i] = str;
-            i++;
-        }
-
-        return valores;
-    }
-
 }
