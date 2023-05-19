@@ -25,6 +25,15 @@ public class SelectStatementMapper<T> {
     private String nombreTabla;
     private String sql;
     private HashMap<String, String> mapeoAtributos = new HashMap<>();
+    private String[] labelsAdicionales;
+
+    public String[] getLabelsAdicionales() {
+        return labelsAdicionales;
+    }
+
+    public void setLabelsAdicionales(String[] labelsAdicionales) {
+        this.labelsAdicionales = labelsAdicionales;
+    }
 
     public HashMap<String, String> getMapeoAtributos() {
         return mapeoAtributos;
