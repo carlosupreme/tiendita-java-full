@@ -195,10 +195,10 @@ public class HomeFrame extends javax.swing.JFrame {
         SelectStatementMapper<DetallesVenta> mapper
                 = new SelectStatementMapper<>("detalles_venta");
 
-        HashMap<String, String> mapeosAttr = new HashMap<>();
-        mapeosAttr.put("idProducto", "Ver detalles");
+        //HashMap<String, String> mapeosAttr = new HashMap<>();
+        //mapeosAttr.put("idProducto", "Ver detalles");
 
-        mapper.setMapeoAtributos(mapeosAttr);
+        //mapper.setMapeoAtributos(mapeosAttr);
 
         try {
             String[][] datos = mapper.selectAllAsArray(DetallesVenta.class);
@@ -216,15 +216,14 @@ public class HomeFrame extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                     JTable table = (JTable) e.getSource();
                     int modelRow = Integer.parseInt(e.getActionCommand());
-                    Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
-                    JOptionPane.showMessageDialog(null, valor.toString());
+                    Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 1);
+                    JOptionPane.showMessageDialog(null, "Detalles del producto con id = " + 
+                            valor.toString());
                     
                 }
             };
             
             ButtonColumn btnDetalles1 =  new ButtonColumn(tabla, detallesProductoBtn, 1);
-            
-            tabla.setFont(new Font("Arial", Font.PLAIN, 15));
             
             JFrame f = new JFrame();
             f.setSize(800, 500);

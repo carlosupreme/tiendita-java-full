@@ -24,7 +24,7 @@ public class SelectStatementMapper<T> {
     private final Connection conexion = ConexionDB.getInstance().getConnection();
     private String nombreTabla;
     private String sql;
-    private HashMap<String, String> mapeoAtributos;
+    private HashMap<String, String> mapeoAtributos = new HashMap<>();
 
     public HashMap<String, String> getMapeoAtributos() {
         return mapeoAtributos;
