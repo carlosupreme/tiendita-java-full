@@ -21,17 +21,26 @@ import java.util.List;
 public class SelectStatementMapper<T> {
 
     private final Connection conexion = ConexionDB.getInstance().getConnection();
-    private final String nombreTabla;
+    private String nombreTabla;
+    private String sql;
+
+    public String getSql() {
+        return sql;
+    }
+
+    public void setSql(String sql) {
+        this.sql = sql;
+        nombreTabla = null;
+    }
 
     public SelectStatementMapper(String nombreTabla) {
         this.nombreTabla = nombreTabla;
+        sql = String.format("SELECT * FROM %s", nombreTabla);
     }
+    
+    public SelectStatementMapper() {}
 
-    public SelectStatementMapper() {
-        this.nombreTabla = null;
-    }
-
-    public T selectOne(Class<T> clazz, String sql, String id) throws SQLException,
+    public T findById(Class<T> clazz, String id) throws SQLException,
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
             NoSuchMethodException, InstantiationException, InstantiationException,
             InvocationTargetException {
@@ -39,25 +48,19 @@ public class SelectStatementMapper<T> {
         PreparedStatement statement = conexion.prepareStatement(sql);
         statement.setString(1, id);
         try (statement; ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) {
+            if (resultSet.next()) 
                 objeto = crearObjDesdeResultSet(resultSet, clazz);
-            }
         }
         return objeto;
     }
 
-    public List<T> selectAll(Class<T> clazz, String sql) throws SQLException,
+    public List<T> selectAll(Class<T> clazz) throws SQLException,
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
             NoSuchMethodException, InstantiationException, InstantiationException,
             InvocationTargetException {
         List<T> objetos = new ArrayList<>();
-        String query;
-        if (sql != null) {
-            query = sql;
-        } else {
-            query = String.format("SELECT * FROM %s", nombreTabla);
-        }
-        try (PreparedStatement statement = conexion.prepareStatement(query); 
+        
+        try (PreparedStatement statement = conexion.prepareStatement(sql); 
                 ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 T objeto = crearObjDesdeResultSet(resultSet, clazz);
@@ -67,6 +70,39 @@ public class SelectStatementMapper<T> {
         return objetos;
     }
 
+    private void iterarCamposDeClase(ResultSet resultSet, Class<T> clazz, T objeto)
+            throws IllegalAccessException, SQLException {
+        for (Field field : clazz.getDeclaredFields()) {
+            String nombreAttr = field.getName();
+
+            field.setAccessible(true);
+            Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
+
+            if (valor instanceof BigDecimal) {
+                BigDecimal decimal = (BigDecimal) valor;
+                field.setDouble(objeto, decimal.doubleValue());
+            } else {
+                field.set(objeto, valor);
+            }
+
+            field.set(objeto, valor);
+        }
+    }
+
+    private T crearObjDesdeResultSet(ResultSet resultSet, Class<T> clazz)
+            throws SQLException, IllegalArgumentException, IllegalAccessException,
+            NoSuchMethodException, InstantiationException, InvocationTargetException {
+        Class<?> currentClass = clazz;
+        T objeto = clazz.getDeclaredConstructor().newInstance();
+        
+        do {
+            currentClass = currentClass.getSuperclass();
+            iterarCamposDeClase(resultSet, clazz, objeto);
+        } while (currentClass.getSuperclass() != null);
+
+        return objeto;
+    }
+
     public String[][] selectAllAsArray(Class<T> clazz, String sql)
             throws SQLException,
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
@@ -74,13 +110,7 @@ public class SelectStatementMapper<T> {
             InvocationTargetException {
 
         ArrayList<String[]> valoresRegistros = new ArrayList<>();
-        String query;
-        if (sql != null) {
-            query = sql;
-        } else {
-            query = String.format("SELECT * FROM %s", nombreTabla);
-        }
-        try (PreparedStatement statement = conexion.prepareStatement(query); 
+        try (PreparedStatement statement = conexion.prepareStatement(sql); 
                 ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 String[] valores;
@@ -92,40 +122,6 @@ public class SelectStatementMapper<T> {
         }
 
         return valoresRegistros.toArray(String[][]::new);
-    }
-
-    private T crearObjDesdeResultSet(ResultSet resultSet, Class<T> clazz)
-            throws SQLException, IllegalArgumentException, IllegalAccessException,
-            NoSuchMethodException, InstantiationException, InvocationTargetException {
-
-        T objeto = clazz.getDeclaredConstructor().newInstance();
-
-        for (Field field : clazz.getDeclaredFields()) {
-            String nombreAttr = field.getName();
-
-            field.setAccessible(true);
-            Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
-            field.set(objeto, valor);
-        }
-
-        Class<?> currentClass = clazz;
-        while (currentClass.getSuperclass() != null) {
-            currentClass = currentClass.getSuperclass();
-            for (Field field : currentClass.getDeclaredFields()) {
-                String nombreAttr = field.getName();
-
-                field.setAccessible(true);
-                Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
-                if (valor instanceof BigDecimal) {
-                    BigDecimal decimal = (BigDecimal) valor;
-                    field.setDouble(objeto, decimal.doubleValue());
-                } else {
-                    field.set(objeto, valor);
-                }
-            }
-        }
-
-        return objeto;
     }
 
     private String[] obtenerValoresAttr(ResultSet resultSet, Class<T> clazz)

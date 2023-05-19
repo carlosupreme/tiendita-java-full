@@ -196,7 +196,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 InvocationTargetException | SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-
+        
     }//GEN-LAST:event_ventasBtnActionPerformed
 
     private void cobrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cobrarBtnActionPerformed

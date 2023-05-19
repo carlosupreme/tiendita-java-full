@@ -58,15 +58,19 @@ public class CobrarPanel extends JPanel {
     private static ProductoVenta selectByCodigoBarras(String codigoDeBarras) throws SQLException {
 
         SelectStatementMapper<ProductoVenta> stm = new SelectStatementMapper<>();
+        stm.setSql(SELECT_BY_CODIGO_BARRAS_QUERY);
 
-        ProductoVenta producto = null;
+        ProductoVenta producto;
 
         try {
-            producto = stm.selectOne(ProductoVenta.class, SELECT_BY_CODIGO_BARRAS_QUERY, codigoDeBarras);
+            producto = stm.findById(ProductoVenta.class, codigoDeBarras);
         } catch (IllegalArgumentException | IllegalAccessException
                 | NoSuchMethodException | InstantiationException | InvocationTargetException ex) {
+            ex.printStackTrace();
             producto = null;
         }
+        
+        System.out.println(producto);
 
         return producto;
     }
@@ -178,9 +182,7 @@ public class CobrarPanel extends JPanel {
         pnlBusqueda.add(new JLabel("Código de barras:"));
         pnlBusqueda.add(txtCodigoBarras);
         pnlBusqueda.add(btnAgregar);
-        add(pnlBusqueda, BorderLayout.NORTH);
-
-        
+        add(pnlBusqueda, BorderLayout.NORTH);        
 
         // Panel de productos agregados
         pnlProductos = new JPanel();
@@ -261,6 +263,7 @@ public class CobrarPanel extends JPanel {
                         }
                         
                     } catch (SQLException | IllegalAccessException ex) {
+                        ex.printStackTrace();
                         throw new SQLException(ex.getMessage());
                     }
                 }
@@ -463,7 +466,6 @@ public class CobrarPanel extends JPanel {
                         "No se encontró ningún producto con ese código de barras");
             }
         } catch (SQLException ex) {
-            //ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error al buscar el producto en la base de datos");
         }
         txtCodigoBarras.setText("");
