@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -23,6 +24,15 @@ public class SelectStatementMapper<T> {
     private final Connection conexion = ConexionDB.getInstance().getConnection();
     private String nombreTabla;
     private String sql;
+    private HashMap<String, String> mapeoAtributos;
+
+    public HashMap<String, String> getMapeoAtributos() {
+        return mapeoAtributos;
+    }
+
+    public void setMapeoAtributos(HashMap<String, String> mapeoAtributos) {
+        this.mapeoAtributos = mapeoAtributos;
+    }
 
     public String getSql() {
         return sql;
@@ -100,7 +110,7 @@ public class SelectStatementMapper<T> {
         return objeto;
     }
 
-    public String[][] selectAllAsArray(Class<T> clazz, String sql)
+    public String[][] selectAllAsArray(Class<T> clazz)
             throws SQLException,
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
             NoSuchMethodException, InstantiationException, InstantiationException,
@@ -110,11 +120,11 @@ public class SelectStatementMapper<T> {
         try (PreparedStatement statement = conexion.prepareStatement(sql); 
                 ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
-                String[] valores;
+                String[] valoresAtributos;
 
-                valores = obtenerValoresAttr(resultSet, clazz);
+                valoresAtributos = obtenerValoresAttr(resultSet, clazz);
 
-                valoresRegistros.add(valores);
+                valoresRegistros.add(valoresAtributos);
             }
         }
 
@@ -136,7 +146,11 @@ public class SelectStatementMapper<T> {
             field.setAccessible(true);
             Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
 
-            valores[i] = valor.toString();
+            if(mapeoAtributos.containsKey(nombreAttr)) {
+                valores[i] = mapeoAtributos.get(nombreAttr);
+            } else {
+                valores[i] = valor.toString();
+            }
             i++;
         }
 

@@ -39,7 +39,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import models.DetallesVenta;
 import models.ProductoVenta;
 import models.Venta;
@@ -96,25 +95,27 @@ public class CobrarPanel extends JPanel {
 
         // Restricciones para la primera columna
         constraints.gridx = 0;  // Columna 0
-        constraints.gridy = 0;  // Fila 0
-        constraints.gridwidth = 1;  // Ocupa una sola celda
-        constraints.gridheight = 1;
-        constraints.weightx = 0;  // No se ajusta horizontalmente
+        constraints.gridy = 1;  // Fila 0
+        constraints.gridwidth = 1;  // Ocupa una sola columna
+        constraints.gridheight = 1; // Ocupa una sola fila 
+        constraints.weightx = 0.0;  // No se ajusta horizontalmente
         constraints.fill = GridBagConstraints.NONE;  // No se estira
         constraints.anchor = GridBagConstraints.WEST;  // Alineado a la izquierda
         constraints.insets = new Insets(0, 0, 0, 15);  // Margen de 15px a la derecha
 
-        JTextField labelNombre = new JTextField("Nombre", 30);
+        JTextField labelNombre = new JTextField("Nombre", 35);
         labelNombre.setEditable(false);
 
         layout.setConstraints(labelNombre, constraints);
         pnlColumnas.add(labelNombre);
 
+        constraints.weightx = 1.0 / 5.0;
+        
         // Componente para la segunda celda
         JLabel labelCodigoBarras = new JLabel("Código de barras");
         constraints.gridx = 1;  // Columna 2
         constraints.ipadx = 0;
-        constraints.weightx = 1;  // Se ajusta horizontalmente
+        
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -125,7 +126,6 @@ public class CobrarPanel extends JPanel {
         JLabel labelPrecio = new JLabel("Precio");
         constraints.gridx = 2;  // Columna 3
         constraints.ipadx = 0;
-        constraints.weightx = 1;  // Se ajusta horizontalmente
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -136,7 +136,6 @@ public class CobrarPanel extends JPanel {
         // Componente para la cuarta celda
         constraints.gridx = 3;  // Columna 4
         constraints.ipadx = 0;
-        constraints.weightx = 1;  // Se ajusta horizontalmente
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -147,7 +146,6 @@ public class CobrarPanel extends JPanel {
         JLabel lblSubtotal = new JLabel("Subtotal");
         constraints.gridx = 4;  // Columna 5
         constraints.ipadx = 0;
-        constraints.weightx = 1;  // Se ajusta horizontalmente
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -158,7 +156,6 @@ public class CobrarPanel extends JPanel {
         JLabel eliminarLabel = new JLabel("Acción");
         constraints.gridx = 5;  // Columna 6
         constraints.ipadx = 0;
-        constraints.weightx = 1;  // Se ajusta horizontalmente
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST;
         constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -358,12 +355,13 @@ public class CobrarPanel extends JPanel {
                                 this, "No hay suficiente stock para agregar otro producto");
                     }
                 } else {
+                    
                     // Crea un nuevo panel para el producto
                     PanelProducto pnlProducto = new PanelProducto();
-
+                    
                     GridBagLayout layout = new GridBagLayout();
                     pnlProducto.setLayout(layout);
-
+                    
                     pnlProducto.setProducto(productoEncontrado);
                     pnlProducto.setCantidadStock(1);
                     pnlProducto.setBorder(
@@ -377,22 +375,23 @@ public class CobrarPanel extends JPanel {
                     constraints.gridy = 0;  // Fila 0
                     constraints.gridwidth = 1;  // Ocupa una sola celda
                     constraints.gridheight = 1;
-                    constraints.weightx = 0;  // No se ajusta horizontalmente
+                    constraints.weightx = 0.0;  // No se ajusta horizontalmente
                     constraints.fill = GridBagConstraints.NONE;  // No se estira
                     constraints.anchor = GridBagConstraints.WEST;  // Alineado a la izquierda
                     constraints.insets = new Insets(0, 0, 0, 15);  // Margen de 15px a la derecha
 
-                    JTextField labelNombre = new JTextField(nombre, 30);
+                    JTextField labelNombre = new JTextField(nombre, 35);
                     labelNombre.setEditable(false);
 
                     layout.setConstraints(labelNombre, constraints);
                     pnlProducto.add(labelNombre);
+                    
+                    constraints.weightx = 1.0 / 5.0;
 
                     // Componente para la segunda celda
                     JLabel labelCodigoBarras = new JLabel(codigoBarrasEncontrado);
                     constraints.gridx = 1;  // Columna 2
                     constraints.ipadx = 0;
-                    constraints.weightx = 1;  // Se ajusta horizontalmente
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
                     constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -403,7 +402,6 @@ public class CobrarPanel extends JPanel {
                     JLabel labelPrecio = new JLabel("$" + precio);
                     constraints.gridx = 2;  // Columna 3
                     constraints.ipadx = 0;
-                    constraints.weightx = 1;  // Se ajusta horizontalmente
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
                     constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -411,20 +409,16 @@ public class CobrarPanel extends JPanel {
                     pnlProducto.add(labelPrecio);
 
                     JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
-                    spnCantidad.addChangeListener(new ChangeListener() {
-                        @Override
-                        public void stateChanged(ChangeEvent e) {
-                            JSpinner spnCantidad = (JSpinner) e.getSource();
-                            int cantidad = (int) spnCantidad.getValue();
-                            pnlProducto.setCantidadStock(cantidad);
-                            actualizarSubtotal(pnlProducto, precio, stock);
-                        }
+                    spnCantidad.addChangeListener((ChangeEvent e) -> {
+                        JSpinner spnCantidad1 = (JSpinner) e.getSource();
+                        int cantidad = (int) spnCantidad1.getValue();
+                        pnlProducto.setCantidadStock(cantidad);
+                        actualizarSubtotal(pnlProducto, precio, stock);
                     });
 
                     // Componente para la cuarta celda
                     constraints.gridx = 3;  // Columna 4
                     constraints.ipadx = 0;
-                    constraints.weightx = 1;  // Se ajusta horizontalmente
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
                     constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -435,7 +429,6 @@ public class CobrarPanel extends JPanel {
                     JLabel lblSubtotal = new JLabel("$" + precio);
                     constraints.gridx = 4;  // Columna 5
                     constraints.ipadx = 0;
-                    constraints.weightx = 1;  // Se ajusta horizontalmente
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
                     constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -446,7 +439,6 @@ public class CobrarPanel extends JPanel {
                     btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto, precio));
                     constraints.gridx = 5;  // Columna 6
                     constraints.ipadx = 0;
-                    constraints.weightx = 1;  // Se ajusta horizontalmente
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
                     constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
