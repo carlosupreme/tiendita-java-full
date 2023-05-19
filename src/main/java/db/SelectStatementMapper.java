@@ -70,7 +70,7 @@ public class SelectStatementMapper<T> {
         return objetos;
     }
 
-    private void iterarCamposDeClase(ResultSet resultSet, Class<T> clazz, T objeto)
+    private void llenarCamposDeClase(ResultSet resultSet, Class<?> clazz, T objeto)
             throws IllegalAccessException, SQLException {
         for (Field field : clazz.getDeclaredFields()) {
             String nombreAttr = field.getName();
@@ -84,8 +84,6 @@ public class SelectStatementMapper<T> {
             } else {
                 field.set(objeto, valor);
             }
-
-            field.set(objeto, valor);
         }
     }
 
@@ -96,9 +94,8 @@ public class SelectStatementMapper<T> {
         T objeto = clazz.getDeclaredConstructor().newInstance();
         
         do {
-            currentClass = currentClass.getSuperclass();
-            iterarCamposDeClase(resultSet, clazz, objeto);
-        } while (currentClass.getSuperclass() != null);
+            llenarCamposDeClase(resultSet, currentClass, objeto);
+        } while ((currentClass = currentClass.getSuperclass()) != null);
 
         return objeto;
     }
