@@ -25,15 +25,6 @@ public class SelectStatementMapper<T> {
     private String nombreTabla;
     private String sql;
     private HashMap<String, String> mapeoAtributos = new HashMap<>();
-    private String[] labelsAdicionales;
-
-    public String[] getLabelsAdicionales() {
-        return labelsAdicionales;
-    }
-
-    public void setLabelsAdicionales(String[] labelsAdicionales) {
-        this.labelsAdicionales = labelsAdicionales;
-    }
 
     public HashMap<String, String> getMapeoAtributos() {
         return mapeoAtributos;
@@ -119,7 +110,7 @@ public class SelectStatementMapper<T> {
         return objeto;
     }
 
-    public String[][] selectAllAsArray(Class<T> clazz)
+    public String[][] selectAllAsArray(Class<T> clazz, String[] adicionales)
             throws SQLException,
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
             NoSuchMethodException, InstantiationException, InstantiationException,
@@ -131,7 +122,7 @@ public class SelectStatementMapper<T> {
             while (resultSet.next()) {
                 String[] valoresAtributos;
 
-                valoresAtributos = obtenerValoresAttr(resultSet, clazz);
+                valoresAtributos = obtenerValoresAttr(resultSet, clazz, adicionales);
 
                 valoresRegistros.add(valoresAtributos);
             }
@@ -140,7 +131,7 @@ public class SelectStatementMapper<T> {
         return valoresRegistros.toArray(String[][]::new);
     }
 
-    private String[] obtenerValoresAttr(ResultSet resultSet, Class<T> clazz)
+    private String[] obtenerValoresAttr(ResultSet resultSet, Class<T> clazz, String[] adicionales)
             throws SQLException, IllegalArgumentException, IllegalAccessException,
             NoSuchMethodException, InstantiationException, InvocationTargetException {
 

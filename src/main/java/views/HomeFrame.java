@@ -201,7 +201,7 @@ public class HomeFrame extends javax.swing.JFrame {
         //mapper.setMapeoAtributos(mapeosAttr);
 
         try {
-            String[][] datos = mapper.selectAllAsArray(DetallesVenta.class);
+            String[][] datos = mapper.selectAllAsArray(DetallesVenta.class, new String[]{});
 
             String[] columnasTabla = {"ID Venta", "Producto", "Cantidad", "Precio Unitario"};
 
