@@ -136,7 +136,7 @@ public class SelectStatementMapper<T> {
             NoSuchMethodException, InstantiationException, InvocationTargetException {
 
         Field[] fields = clazz.getDeclaredFields();
-        String[] valores = new String[fields.length];
+        String[] valores = new String[fields.length + adicionales.length];
         int i = 0;
 
         for (Field field : fields) {
@@ -151,6 +151,11 @@ public class SelectStatementMapper<T> {
             } else {
                 valores[i] = valor.toString();
             }
+            i++;
+        }
+        
+        for(String str : adicionales) {
+            valores[i] = str;
             i++;
         }
 

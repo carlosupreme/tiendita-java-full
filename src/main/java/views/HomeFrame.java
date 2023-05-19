@@ -7,23 +7,18 @@ package views;
 import controllers.AutenticacionController;
 import db.SelectStatementMapper;
 import java.awt.BorderLayout;
-import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.Action;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableColumnModel;
 import models.DetallesVenta;
 
 /**

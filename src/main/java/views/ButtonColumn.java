@@ -17,8 +17,8 @@ import javax.swing.table.*;
 public class ButtonColumn extends AbstractCellEditor
         implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
 
-    private JTable tabla;
-    private Action action;
+    private final JTable tabla;
+    private final Action action;
     private int mnemonic;
     private Border originalBorder;
     private Border focusBorder;
@@ -27,6 +27,7 @@ public class ButtonColumn extends AbstractCellEditor
     private JButton editButton;
     private Object editorValue;
     private boolean isButtonColumnEditor;
+    private Icon iconoBtn;
     
     public ButtonColumn(JTable table, Action action, int columnIndex) {
         this.tabla = table;
