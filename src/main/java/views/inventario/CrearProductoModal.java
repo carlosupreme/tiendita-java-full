@@ -10,19 +10,21 @@ import repositories.ProveedorRepository;
 
 @SuppressWarnings("serial")
 public class CrearProductoModal extends javax.swing.JDialog {
-    
+
     private final ProductoRepository productoRepository;
     private final ProveedorRepository proveedorRepository;
-    
+    InventarioFrame parent;
+
     public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
         this.productoRepository = productoRepository;
         this.proveedorRepository = proveedorRepository;
-        
+        this.parent = (InventarioFrame) parent;
+
         getProveedoresIds();
     }
-    
+
     private void getProveedoresIds() {
         try {
             proveedorRepository.findAll().forEach(proveedor -> {
@@ -31,7 +33,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
                 ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
                 model.insertElementAt(item, 0);
             });
-            
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos al obtener los proveedores");
             System.err.println(e.getMessage());
@@ -39,7 +41,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -72,12 +74,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Agregar producto");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1124, 32));
-
-        nombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreActionPerformed(evt);
-            }
-        });
         getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(272, 63, 136, -1));
 
         jLabel2.setText("Nombre");
@@ -132,20 +128,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
         jLabel3.setText("Descripcion");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 60, -1, -1));
-
-        descripcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                descripcionActionPerformed(evt);
-            }
-        });
         getContentPane().add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, 215, 131));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nombreActionPerformed
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
         dispose();
@@ -153,9 +140,9 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         try {
-            
+
             ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
-            
+
             Producto producto = new Producto();
             producto.setProveedorId(proveedorItem.getId());
             producto.setNombre(nombre.getText());
@@ -165,11 +152,12 @@ public class CrearProductoModal extends javax.swing.JDialog {
             producto.setCosto(Double.parseDouble(costo.getText()));
             producto.setCategoria(categoria.getText());
             producto.setMarca(marca.getText());
-            
+
             productoRepository.save(producto);
-            
+
             dispose();
             JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
+            parent.loadEntries();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agergó el producto");
             System.err.println(e.getMessage());
@@ -181,10 +169,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, "El proveedor es requerido");
         }
     }//GEN-LAST:event_agregarBtnActionPerformed
-
-    private void descripcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_descripcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_descripcionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarBtn;

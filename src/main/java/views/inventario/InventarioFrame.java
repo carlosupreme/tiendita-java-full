@@ -3,10 +3,7 @@ package views.inventario;
 import controllers.AutenticacionController;
 import db.ConexionDB;
 import exceptions.ValidationModelException;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +14,7 @@ import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
 
 @SuppressWarnings("serial")
-public class InventarioFrame extends javax.swing.JFrame {
+public final class InventarioFrame extends javax.swing.JFrame {
 
     private final AutenticacionController authController;
     private final ProductoRepository productoRepository;
@@ -27,7 +24,6 @@ public class InventarioFrame extends javax.swing.JFrame {
 
     public InventarioFrame(AutenticacionController authController) {
         initComponents();
-        fullScreen();
         this.authController = authController;
         this.productoRepository = new ProductoRepository();
         this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
@@ -79,23 +75,22 @@ public class InventarioFrame extends javax.swing.JFrame {
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
     }
 
-    private void loadEntries() {
+    public void loadEntries() {
         model.setRowCount(0);
-        ArrayList<Object[]> data = new ArrayList<>();
         try {
             productoRepository.findAll().forEach(producto -> {
                 try {
                     Object[] row = new Object[6];
                     row[0] = producto.getId();
                     row[1] = producto.getNombre();
-                    row[2] = producto.getMarca();
+                    row[2] = producto.getDescripcion();
                     row[3] = producto.getPrecioPublico();
                     row[4] = proveedorRepository.findById(producto.getProveedorId()).getNombre();
                     row[5] = "";
-                    data.add(row);
+                    model.addRow(row);
                 } catch (SQLException ex) {
                     JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
                     System.err.println(ex.getMessage());
@@ -109,20 +104,6 @@ public class InventarioFrame extends javax.swing.JFrame {
         } catch (ValidationModelException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
-
-        for (Object[] row : data) {
-            model.addRow(row);
-        }
-    }
-
-    private void fullScreen() {
-        setLocationRelativeTo(null);
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(0, 0);
-        this.setSize(dimension.width, dimension.height);
-        this.setResizable(false);
-        this.setTitle("Inventario");
-        this.setVisible(true);
     }
 
     @SuppressWarnings("unchecked")
@@ -130,16 +111,17 @@ public class InventarioFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         crearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         refreshBtn = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Noto Sans CJK HK", 1, 24)); // NOI18N
-        jLabel1.setText("INVENTARIO");
+        jPanel1.setMinimumSize(new java.awt.Dimension(1300, 720));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         crearBtn.setText("Agregar producto");
         crearBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -147,13 +129,14 @@ public class InventarioFrame extends javax.swing.JFrame {
                 crearBtnActionPerformed(evt);
             }
         });
+        jPanel1.add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, -1, -1));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nombre", "Marca", "Precio", "Proveedor", "Acciones"
+                "ID", "Nombre", "Descripción", "Precio", "Proveedor", "Acciones"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -167,61 +150,29 @@ public class InventarioFrame extends javax.swing.JFrame {
         table.setRowHeight(50);
         jScrollPane1.setViewportView(table);
 
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1300, 600));
+
         refreshBtn.setText("Actualizar");
         refreshBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 refreshBtnActionPerformed(evt);
             }
         });
+        jPanel1.add(refreshBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(refreshBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel1)
-                        .addGap(277, 277, 277)
-                        .addComponent(crearBtn)
-                        .addContainerGap(375, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(31, Short.MAX_VALUE))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(crearBtn)
-                    .addComponent(refreshBtn))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
-        );
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("INVENTARIO");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 400, 60));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-7, 0, 1360, 720));
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
-        CrearProductoModal crearProductoModal = new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository);
-        crearProductoModal.setVisible(true);
+        new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
     private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
