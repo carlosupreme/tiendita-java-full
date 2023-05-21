@@ -158,7 +158,7 @@ public class CobrarPanel extends JPanel {
         constraints.ipadx = 0;
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST;
-        constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+        constraints.insets = new Insets(0, 0, 0, 0);  // Margen de 15px a la izquierda y derecha
         layout.setConstraints(eliminarLabel, constraints);
         pnlColumnas.add(eliminarLabel);
         
@@ -441,7 +441,7 @@ public class CobrarPanel extends JPanel {
                     constraints.ipadx = 0;
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
-                    constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+                    constraints.insets = new Insets(0, 0, 0, 0);  // Margen de 15px a la izquierda y derecha
                     layout.setConstraints(btnEliminar, constraints);
                     pnlProducto.add(btnEliminar);
 
