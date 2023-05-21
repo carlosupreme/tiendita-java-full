@@ -192,57 +192,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed
 
-        SelectStatementMapper<DetallesVenta> mapper
-                = new SelectStatementMapper<>("detalles_venta");
-
-        //HashMap<String, String> mapeosAttr = new HashMap<>();
-        //mapeosAttr.put("idProducto", "Ver detalles");
-        //mapper.setMapeoAtributos(mapeosAttr);
-        try {
-            String[][] datos = mapper.selectAllAsArray(DetallesVenta.class, new String[]{});
-
-            String[] columnasTabla = {"ID de venta", "ID del producto", "Cantidad", "Precio Unitario"};
-
-            DefaultTableModel modelo = new DefaultTableModel(datos, columnasTabla);
-            modelo.setDataVector(datos, columnasTabla);
-
-            JTable tabla = new JTable(modelo);
-
-            Action detallesProductoBtn;
-            detallesProductoBtn = new AbstractAction() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JTable table = (JTable) e.getSource();
-                    int modelRow = Integer.parseInt(e.getActionCommand());
-                    Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 1);
-                    JOptionPane.showMessageDialog(null, "Detalles del producto con id = "
-                            + valor.toString());
-                }
-            };
-
-            ButtonColumn btnDetalles1 = new ButtonColumn(tabla, detallesProductoBtn, 1,
-                    new ImageIcon(getClass().getResource("/info_icon.png")));
-            
-            tabla.setRowHeight(30);
-
-            JFrame f = new JFrame();
-            f.setSize(800, 500);
-            f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-            JPanel panel = new JPanel();
-            panel.setLayout(new BorderLayout());
-            JScrollPane scroll = new JScrollPane(tabla);
-            panel.add(scroll, BorderLayout.CENTER);
-            f.add(panel);
-
-            f.setVisible(true);
-
-        } catch (IllegalAccessException | IllegalArgumentException
-                | InstantiationException | NoSuchMethodException
-                | InvocationTargetException | SQLException ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
+        
 
     }//GEN-LAST:event_ventasBtnActionPerformed
 
