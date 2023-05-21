@@ -14,6 +14,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
  *
@@ -146,8 +149,14 @@ public class SelectStatementMapper<T> {
             field.setAccessible(true);
             Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
 
-            if(mapeoAtributos.containsKey(nombreAttr)) {
+            if (mapeoAtributos.containsKey(nombreAttr)) {
                 valores[i] = mapeoAtributos.get(nombreAttr);
+            } else if(valor instanceof Instant) {
+                Instant fechaSQL = (Instant) valor;
+                ZoneId z = ZoneId.of("GMT-6");
+                ZonedDateTime zdt = fechaSQL.atZone(z);
+                Instant fechaZona = zdt.toInstant();
+                valores[i] = fechaZona.toString();
             } else {
                 valores[i] = valor.toString();
             }

@@ -179,7 +179,7 @@ public class CobrarPanel extends JPanel {
         pnlBusqueda.add(new JLabel("Código de barras:"));
         pnlBusqueda.add(txtCodigoBarras);
         pnlBusqueda.add(btnAgregar);
-        add(pnlBusqueda, BorderLayout.NORTH);        
+        add(pnlBusqueda, BorderLayout.NORTH);
 
         // Panel de productos agregados
         pnlProductos = new JPanel();
@@ -343,7 +343,7 @@ public class CobrarPanel extends JPanel {
                         i++;
                     }*/
                     JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
-                    int cantidad = (int) spnCantidad.getValue();
+                    int cantidad = (int) (double) spnCantidad.getValue();
                     //System.out.println("cantidad = " + cantidad + ", stock = " + stock
                     //+ ", " + cantidad + " < " + stock + " = " + (cantidad < stock));
                     if (cantidad < stock) {
@@ -394,7 +394,7 @@ public class CobrarPanel extends JPanel {
                     constraints.ipadx = 0;
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
-                    constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
+                    constraints.insets = new Insets(0, 10, 0, 10);  // Margen de 15px a la izquierda y derecha
                     layout.setConstraints(labelCodigoBarras, constraints);
                     pnlProducto.add(labelCodigoBarras);
 
@@ -411,14 +411,16 @@ public class CobrarPanel extends JPanel {
                     JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
                     spnCantidad.addChangeListener((ChangeEvent e) -> {
                         JSpinner spnCantidad1 = (JSpinner) e.getSource();
-                        int cantidad = (int) spnCantidad1.getValue();
-                        pnlProducto.setCantidadStock(cantidad);
+                        
+                        Double cantidad = (Double) spnCantidad1.getValue();
+                        
+                        pnlProducto.setCantidadStock(cantidad.intValue());
                         actualizarSubtotal(pnlProducto, precio, stock);
                     });
 
                     // Componente para la cuarta celda
                     constraints.gridx = 3;  // Columna 4
-                    constraints.ipadx = 0;
+                    constraints.ipadx = 5;
                     constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
                     constraints.anchor = GridBagConstraints.WEST;
                     constraints.insets = new Insets(0, 15, 0, 15);  // Margen de 15px a la izquierda y derecha
@@ -467,7 +469,7 @@ public class CobrarPanel extends JPanel {
     private void actualizarSubtotal(PanelProducto pnlProducto, double precio, long stock) {
 
         JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
-        int cantidad = (int) spnCantidad.getValue();
+        int cantidad = (int) (double) spnCantidad.getValue();
 
         if (cantidad == stock) {
             Runnable myThread = () -> {
@@ -503,7 +505,7 @@ public class CobrarPanel extends JPanel {
                 .orElse(Long.valueOf(-1));
         mapProductos.remove(id);
         JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
-        double subtotal = (int) spnCantidad.getValue() * precio;
+        double subtotal = (double) spnCantidad.getValue() * precio;
         sumarAlTotal(-subtotal);
     }
 
