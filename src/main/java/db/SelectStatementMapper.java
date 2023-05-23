@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -145,18 +146,35 @@ public class SelectStatementMapper<T> {
         for (Field field : fields) {
 
             String nombreAttr = field.getName();
-
+            
             field.setAccessible(true);
-            Object valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
+            
+            Object valor;
+            
+            if(field.getType().toString().equals("class java.time.Instant")) {
+                
+                OffsetDateTime odt = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr), 
+                        OffsetDateTime.class);
+                
+                valor = odt.toInstant();
+                
+            } else {
+            
+                valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
+            
+            }
 
             if (mapeoAtributos.containsKey(nombreAttr)) {
                 valores[i] = mapeoAtributos.get(nombreAttr);
-            } else if(valor instanceof Instant) {
+            } 
+            
+            if(valor instanceof Instant) {
                 Instant fechaSQL = (Instant) valor;
-                ZoneId z = ZoneId.of("GMT-6");
+                ZoneId z = ZoneId.of("UTC-6");
                 ZonedDateTime zdt = fechaSQL.atZone(z);
-                Instant fechaZona = zdt.toInstant();
-                valores[i] = fechaZona.toString();
+                
+                System.out.println(zdt.toString());
+                valores[i] = zdt.toString();
             } else {
                 valores[i] = valor.toString();
             }

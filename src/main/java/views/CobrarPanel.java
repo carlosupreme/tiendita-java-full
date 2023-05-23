@@ -412,9 +412,9 @@ public class CobrarPanel extends JPanel {
                     spnCantidad.addChangeListener((ChangeEvent e) -> {
                         JSpinner spnCantidad1 = (JSpinner) e.getSource();
                         
-                        Double cantidad = (Double) spnCantidad1.getValue();
+                        Integer cantidad = (Integer) spnCantidad1.getValue();
                         
-                        pnlProducto.setCantidadStock(cantidad.intValue());
+                        pnlProducto.setCantidadStock(cantidad);
                         actualizarSubtotal(pnlProducto, precio, stock);
                     });
 

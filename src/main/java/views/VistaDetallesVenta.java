@@ -24,7 +24,7 @@ import models.DetallesVenta;
  *
  * @author Raul
  */
-public class VistaDetallesVenta {
+public class VistaDetallesVenta extends JFrame {
     
     private int idVenta;
 
@@ -59,22 +59,21 @@ public class VistaDetallesVenta {
                 }
             };
 
-            ButtonColumn btnDetalles1 = new ButtonColumn(tabla, detallesProductoBtn, 1,
+            new ButtonColumn(tabla, detallesProductoBtn, 1,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
             
             tabla.setRowHeight(30);
-
-            JFrame f = new JFrame();
-            f.setSize(800, 500);
-            f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            
+            setSize(800, 500);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane(tabla);
             panel.add(scroll, BorderLayout.CENTER);
-            f.add(panel);
+            add(panel);
 
-            f.setVisible(true);
+            setVisible(true);
 
         } catch (IllegalAccessException | IllegalArgumentException
                 | InstantiationException | NoSuchMethodException

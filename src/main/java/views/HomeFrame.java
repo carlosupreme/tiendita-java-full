@@ -7,8 +7,6 @@ package views;
 import controllers.AutenticacionController;
 import db.SelectStatementMapper;
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.InvocationTargetException;
@@ -19,12 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.table.DefaultTableCellRenderer;
-import models.DetallesVenta;
 import models.Venta;
 
 /**
@@ -199,7 +195,7 @@ public class HomeFrame extends javax.swing.JFrame {
         try {
             String[][] datos = ventaMap.selectAllAsArray(Venta.class, new String[]{"Detalles"});
 
-            String[] columnasTabla = {"ID de Venta", "Fecha", "Total", "Usuario ID", "Forma pago", ""};
+            String[] columnasTabla = {"ID de Venta", "Total", "Fecha", "Usuario ID", "Forma pago", ""};
 
             DefaultTableModel modelo = new DefaultTableModel(datos, columnasTabla);
             modelo.setDataVector(datos, columnasTabla);
@@ -218,7 +214,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 }
             };
 
-            ButtonColumn btnUsuarioId = new ButtonColumn(tabla, usuarioIDAction, 3,
+            new ButtonColumn(tabla, usuarioIDAction, 3,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
             
             Action detallesVentaAction;
@@ -231,6 +227,8 @@ public class HomeFrame extends javax.swing.JFrame {
                     int id = Integer.parseInt(valor.toString());
                     
                     VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
+                    JDialog dialog = new JDialog(detalleVenta, true);
+                    dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
                     
                 }
             };
