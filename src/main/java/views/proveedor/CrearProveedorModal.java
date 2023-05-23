@@ -16,7 +16,7 @@ import repositories.ProveedorRepository;
  * @author ili
  */
 public class CrearProveedorModal extends javax.swing.JDialog {
-    
+
     private final ProveedorRepository proveedorRepository;
 
     /**
@@ -147,22 +147,22 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     private void direccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_direccionActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_direccionActionPerformed
-    
+
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
         dispose();
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelarBtnActionPerformed
-    
+
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         try {
             Proveedor proveedor = new Proveedor();
             proveedor.setNombre(nombre.getText());
             proveedor.setDireccion(direccion.getText());
             proveedor.setEmail(correoE.getText());
-            proveedor.setTelefono(Integer.parseInt(numTelefono.getText()));
-            
+            proveedor.setTelefono(numTelefono.getText());
+
             proveedorRepository.save(proveedor);
-            
+
             dispose();
             JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
             new ProveedorFrame(new AutenticacionController()).setVisible(true);
