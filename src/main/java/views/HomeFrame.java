@@ -227,28 +227,28 @@ public class HomeFrame extends javax.swing.JFrame {
                     int id = Integer.parseInt(valor.toString());
                     
                     VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
-                    JDialog dialog = new JDialog(detalleVenta, true);
-                    dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                    detalleVenta.setAlwaysOnTop(true);
+                    detalleVenta.setVisible(true);
                     
                 }
             };
 
-            ButtonColumn btnDetalleVenta = new ButtonColumn(tabla, detallesVentaAction, 5,
+            new ButtonColumn(tabla, detallesVentaAction, 5,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
 
             tabla.setRowHeight(30);
 
-            JFrame f = new JFrame();
-            f.setSize(800, 500);
-            f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            JDialog dialog = new JDialog(HomeFrame.this);
+            dialog.setSize(1300, 500);
 
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane(tabla);
             panel.add(scroll, BorderLayout.CENTER);
-            f.add(panel);
-
-            f.setVisible(true);
+            dialog.add(panel);
+            
+            dialog.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            dialog.setVisible(true);
 
         } catch (IllegalAccessException | IllegalArgumentException
                 | InstantiationException | NoSuchMethodException

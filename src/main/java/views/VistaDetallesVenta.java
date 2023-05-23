@@ -6,12 +6,15 @@ package views;
 
 import db.SelectStatementMapper;
 import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Files;
 import java.sql.SQLException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,7 +27,7 @@ import models.DetallesVenta;
  *
  * @author Raul
  */
-public class VistaDetallesVenta extends JFrame {
+public class VistaDetallesVenta extends JDialog {
     
     private int idVenta;
 
@@ -64,16 +67,14 @@ public class VistaDetallesVenta extends JFrame {
             
             tabla.setRowHeight(30);
             
-            setSize(800, 500);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+            setSize(800, 500);
+            
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane(tabla);
             panel.add(scroll, BorderLayout.CENTER);
             add(panel);
-
-            setVisible(true);
 
         } catch (IllegalAccessException | IllegalArgumentException
                 | InstantiationException | NoSuchMethodException

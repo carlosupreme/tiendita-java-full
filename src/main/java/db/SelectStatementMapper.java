@@ -152,28 +152,20 @@ public class SelectStatementMapper<T> {
             Object valor;
             
             if(field.getType().toString().equals("class java.time.Instant")) {
-                
                 OffsetDateTime odt = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr), 
                         OffsetDateTime.class);
-                
                 valor = odt.toInstant();
-                
             } else {
-            
                 valor = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr));
-            
             }
 
-            if (mapeoAtributos.containsKey(nombreAttr)) {
+            /*if (mapeoAtributos.containsKey(nombreAttr)) {
                 valores[i] = mapeoAtributos.get(nombreAttr);
-            } 
+            }*/
             
             if(valor instanceof Instant) {
                 Instant fechaSQL = (Instant) valor;
-                ZoneId z = ZoneId.of("UTC-6");
-                ZonedDateTime zdt = fechaSQL.atZone(z);
-                
-                System.out.println(zdt.toString());
+                ZonedDateTime zdt = fechaSQL.atZone(ZoneId.of("UTC-6"));
                 valores[i] = zdt.toString();
             } else {
                 valores[i] = valor.toString();
