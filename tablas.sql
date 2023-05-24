@@ -8,7 +8,7 @@ CREATE TABLE proveedores (
   direccion VARCHAR(255) NOT NULL,
   telefono VARCHAR(20) NOT NULL,
   email VARCHAR(40) NOT NULL,
-  `status` TINYINT NOT NULL DEFAULT 1
+  activo TINYINT NOT NULL DEFAULT 1
 ); 
 
 CREATE TABLE productos (
@@ -19,6 +19,7 @@ CREATE TABLE productos (
   costo DECIMAL(10,2) NOT NULL,
   id_proveedor INT UNSIGNED,
   categoria VARCHAR(50) NOT NULL,
+  activo TINYINT NOT NULL DEFAULT 1,
   FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
