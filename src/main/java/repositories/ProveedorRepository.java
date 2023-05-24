@@ -24,7 +24,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     @Override
     public void save(Proveedor proveedor) throws SQLException, ValidationModelException {
-        
+
     }
 
     @Override
@@ -47,20 +47,20 @@ public class ProveedorRepository implements Repository<Proveedor> {
         return all;
     }
 
-    @Override
-    public Proveedor findById(int id) throws SQLException, ValidationModelException {
+    //@Override
+    public Proveedor findById(long id) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement("SELECT * FROM proveedores WHERE id = ?");
-        st.setInt(1, id);
+        st.setLong(1, id);
         ResultSet rs = st.executeQuery();
 
         if (!rs.next()) {
-            return null; 
+            return null;
         }
         Proveedor proveedor = new Proveedor();
         proveedor.setId(rs.getInt("id"));
         proveedor.setNombre(rs.getString("nombre"));
 
-        return proveedor; 
+        return proveedor;
     }
 
     @Override
@@ -80,5 +80,10 @@ public class ProveedorRepository implements Repository<Proveedor> {
         PreparedStatement st = connection.prepareStatement("DELETE FROM proveedor WHERE id = ? LIMIT 1");
         st.setInt(1, id);
         st.executeUpdate();
+    }
+
+    @Override
+    public Proveedor findById(int id) throws SQLException, ValidationModelException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

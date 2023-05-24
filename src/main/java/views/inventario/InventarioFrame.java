@@ -86,9 +86,9 @@ public final class InventarioFrame extends javax.swing.JFrame {
                     Object[] row = new Object[6];
                     row[0] = producto.getId();
                     row[1] = producto.getNombre();
-                    row[2] = producto.getDescripcion();
+                    row[2] = "";
                     row[3] = producto.getPrecioPublico();
-                    row[4] = proveedorRepository.findById(producto.getProveedorId()).getNombre();
+                    row[4] = proveedorRepository.findById(producto.getIdProveedor()).getNombre();
                     row[5] = "";
                     model.addRow(row);
                 } catch (SQLException ex) {

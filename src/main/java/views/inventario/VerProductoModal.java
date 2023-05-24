@@ -11,22 +11,21 @@ import repositories.ProveedorRepository;
  * @author Carlos
  */
 public class VerProductoModal extends javax.swing.JDialog {
-    
+
     public VerProductoModal(java.awt.Frame parent, Producto producto, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
-        
+
         id.setText(String.valueOf(producto.getId()));
         nombre.setText(producto.getNombre());
         codigoBarras.setText(producto.getCodigoBarras());
         precio.setText(String.valueOf(producto.getPrecioPublico()));
         costo.setText(String.valueOf(producto.getCosto()));
-        
+
         categoria.setText(producto.getCategoria());
-        marca.setText(producto.getMarca());
-        
+
         try {
-            proveedor.setText(proveedorRepository.findById(producto.getProveedorId()).getNombre());
+            proveedor.setText(proveedorRepository.findById(producto.getIdProveedor()).getNombre());
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(parent, "ERROR DB");
             System.err.println(ex.getMessage());

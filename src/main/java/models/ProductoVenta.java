@@ -10,23 +10,23 @@ package models;
  */
 public class ProductoVenta extends Producto {
 
-    private int stock;
+    private long stock;
 
     public ProductoVenta() {
     }
 
-    public ProductoVenta(int id, int proveedorId, String nombre,String descripcion,
+    public ProductoVenta(long id, int proveedorId, String nombre,
             String codigoBarras, double precioPublico, double costo,
             String categoria, String marca, int stock) {
-        super(id, proveedorId, nombre, descripcion, codigoBarras, precioPublico, costo, categoria, marca);
+        super(id, proveedorId, nombre, codigoBarras, precioPublico, costo, categoria);
         this.stock = stock;
     }
 
-    public int getStock() {
+    public long getStock() {
         return stock;
     }
 
-    public void setStock(int stock) {
+    public void setStock(long stock) {
         this.stock = stock;
     }
 

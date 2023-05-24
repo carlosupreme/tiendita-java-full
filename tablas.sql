@@ -14,13 +14,11 @@ CREATE TABLE proveedores (
 CREATE TABLE productos (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
-  descripcion VARCHAR(500) NOT NULL,
   codigo_barras VARCHAR(13) NOT NULL UNIQUE,
   precio_publico DECIMAL(10,2) NOT NULL,
   costo DECIMAL(10,2) NOT NULL,
   id_proveedor INT UNSIGNED,
   categoria VARCHAR(50) NOT NULL,
-  marca VARCHAR(255) NOT NULL, 
   FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );
 

@@ -17,8 +17,8 @@ import javax.swing.table.*;
 public class ButtonColumn extends AbstractCellEditor
         implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
 
-    private JTable tabla;
-    private Action action;
+    private final JTable tabla;
+    private final Action action;
     private int mnemonic;
     private Border originalBorder;
     private Border focusBorder;
@@ -28,12 +28,13 @@ public class ButtonColumn extends AbstractCellEditor
     private Object editorValue;
     private boolean isButtonColumnEditor;
     
-    public ButtonColumn(JTable table, Action action, int columnIndex) {
+    public ButtonColumn(JTable table, Action action, int columnIndex, Icon iconoBtn) {
         this.tabla = table;
         this.action = action;
 
-        renderButton = new JButton();
-        editButton = new JButton();
+        renderButton = new JButton(iconoBtn);        
+        editButton = new JButton(iconoBtn);
+        
         editButton.setFocusPainted(false);
         editButton.addActionListener(this);
         originalBorder = editButton.getBorder();
@@ -69,13 +70,13 @@ public class ButtonColumn extends AbstractCellEditor
             JTable table, Object value, boolean isSelected, int row, int column) {
         if (value == null) {
             editButton.setText("");
-            editButton.setIcon(null);
+            //editButton.setIcon(null);
         } else if (value instanceof Icon) {
             editButton.setText("");
             editButton.setIcon((Icon) value);
         } else {
             editButton.setText(value.toString());
-            editButton.setIcon(null);
+            //editButton.setIcon(null);
         }
 
         this.editorValue = value;
@@ -87,8 +88,12 @@ public class ButtonColumn extends AbstractCellEditor
         return editorValue;
     }
     
+    Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
+
+    
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        
         if (isSelected) {
             renderButton.setForeground(table.getSelectionForeground());
             renderButton.setBackground(table.getSelectionBackground());
@@ -106,13 +111,13 @@ public class ButtonColumn extends AbstractCellEditor
         //renderButton.setText( (value == null) ? "" : value.toString() );
         if (value == null) {
             renderButton.setText("");
-            renderButton.setIcon(null);
+            //renderButton.setIcon(null);
         } else if (value instanceof Icon) {
             renderButton.setText("");
             renderButton.setIcon((Icon) value);
         } else {
             renderButton.setText(value.toString());
-            renderButton.setIcon(null);
+            //renderButton.setIcon(null);
         }
 
         return renderButton;

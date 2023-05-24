@@ -1,5 +1,6 @@
 package views.inventario;
 
+import db.PreparedStatementMapper;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
@@ -58,15 +59,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
         proveedorSelect = new javax.swing.JComboBox<>();
         codigoBarras = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        marca = new javax.swing.JTextField();
-        jLabel8 = new javax.swing.JLabel();
         categoria = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         costo = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        descripcion = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -110,10 +107,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
         jLabel7.setText("Codigo de barras");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(139, 121, -1, -1));
-        getContentPane().add(marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(272, 253, 136, -1));
-
-        jLabel8.setText("Marca");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(139, 256, -1, -1));
         getContentPane().add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(264, 356, 144, -1));
 
         jLabel9.setText("Categoria");
@@ -126,10 +119,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jLabel12.setText("$");
         getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(314, 479, 12, -1));
 
-        jLabel3.setText("Descripcion");
-        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 60, -1, -1));
-        getContentPane().add(descripcion, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 100, 215, 131));
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -141,25 +130,28 @@ public class CrearProductoModal extends javax.swing.JDialog {
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         try {
 
+            PreparedStatementMapper<Producto> mapper = new PreparedStatementMapper<>("productos");
+
             ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
 
             Producto producto = new Producto();
-            producto.setProveedorId(proveedorItem.getId());
+            producto.setIdProveedor(proveedorItem.getId());
             producto.setNombre(nombre.getText());
-            producto.setDescripcion(descripcion.getText());
             producto.setCodigoBarras(codigoBarras.getText());
             producto.setPrecioPublico(Double.parseDouble(precio.getText()));
             producto.setCosto(Double.parseDouble(costo.getText()));
             producto.setCategoria(categoria.getText());
-            producto.setMarca(marca.getText());
 
-            productoRepository.save(producto);
+            //productoRepository.save(producto);
+            mapper.insertar(producto);
 
             dispose();
             JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
             parent.loadEntries();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agergó el producto");
+            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agregó el producto");
+            e.printStackTrace();
+            System.out.println("nsjaSDJASSJIOA");
             System.err.println(e.getMessage());
         } catch (ValidationModelException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
@@ -176,19 +168,15 @@ public class CrearProductoModal extends javax.swing.JDialog {
     private javax.swing.JTextField categoria;
     private javax.swing.JTextField codigoBarras;
     private javax.swing.JTextField costo;
-    private javax.swing.JTextField descripcion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField marca;
     private javax.swing.JTextField nombre;
     private javax.swing.JTextField precio;
     private javax.swing.JComboBox<String> proveedorSelect;

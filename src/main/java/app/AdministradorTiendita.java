@@ -1,13 +1,5 @@
 package app;
 
-import java.awt.*;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoField;
-import javax.swing.*;
 import views.*;
 
 /**
@@ -32,22 +24,5 @@ public class AdministradorTiendita {
             
             f.setVisible(true);
         });*/
-
-        /*SelectStatementMapper<Proveedor> mapper = new SelectStatementMapper<>("proveedores");
-
-        try {
-            String[][] datos = mapper.selectAllAsArray(Proveedor.class, null);
-            String[] columnasTabla = {"ID", "Nombre", "Direccion", "Email", "Telefono", "", "", ""};
-            
-            for(String[] datosA : datos) {
-                for(String datoB : datosA) {
-                    System.out.print(datoB + ", ");
-                }
-                System.out.println("");
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }*/
     }
 }
