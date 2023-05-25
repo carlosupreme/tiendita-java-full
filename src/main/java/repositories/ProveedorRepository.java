@@ -1,6 +1,6 @@
 package repositories;
 
-import app.ConexionDB;
+import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,10 +65,10 @@ public class ProveedorRepository implements Repository<Proveedor> {
         return all;
     }
 
-    @Override
-    public Proveedor findById(int id) throws SQLException, ValidationModelException {
+    //@Override
+    public Proveedor findById(long id) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement("SELECT * FROM proveedores WHERE id = ?");
-        st.setInt(1, id);
+        st.setLong(1, id);
         ResultSet rs = st.executeQuery();
 
         if (!rs.next()) {
@@ -101,5 +101,10 @@ public class ProveedorRepository implements Repository<Proveedor> {
         PreparedStatement st = connection.prepareStatement("DELETE FROM proveedores WHERE id = ? LIMIT 1");
         st.setInt(1, id);
         st.executeUpdate();
+    }
+
+    @Override
+    public Proveedor findById(int id) throws SQLException, ValidationModelException {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -1,38 +1,42 @@
 package controllers;
 
 import app.Sesion;
+import db.ConexionDB;
+import java.sql.Connection;
+import java.sql.SQLException;
 import models.Usuario;
+import org.mindrot.jbcrypt.BCrypt;
+import repositories.UsuarioRepository;
 
-/**
- * 
- * Controlador de autenticación: proporciona un método para iniciar sesión
- * y otro para cerrar la sesión
- *
- * @author Raul
- */
 public class AutenticacionController {
-    
-    public boolean login(String username, String password) {
-        
-        // Autenticación básica sin acceder a una base de datos
-        
-        if("usuario".equals(username) && "contraseña".equals(password)) {
-            
-            Sesion.instance().setUsuario(
-                    new Usuario("Usuario", "Carlos", "Alberto"));
-            
-            return true;
-            
+
+    private final Connection connection;
+
+    public AutenticacionController() {
+        this.connection = ConexionDB.getInstance().getConnection();
+    }
+
+    public boolean login(String username, String password) throws SQLException, RuntimeException {
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+        Usuario usuario = usuarioRepository.findByUsername(username);
+
+        if (usuario == null) {
+            throw new RuntimeException("El usuario no existe");
+        }
+
+        if (!BCrypt.checkpw(password, usuario.getPassword())) {
+            throw new RuntimeException("La contraseña es incorrecta");
         }
         
-        return false;
-        
+        Sesion.instance().setUsuario(usuario);
+        return true;
+
     }
-    
+
     public void logout() {
-        
+
         Sesion.instance().setUsuario(null);
-        
+
     }
-    
+
 }

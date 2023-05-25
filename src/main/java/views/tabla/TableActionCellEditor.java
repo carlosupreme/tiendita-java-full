@@ -1,6 +1,5 @@
 package views.tabla;
 
-import views.tabla.PanelAction;
 import java.awt.Component;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
@@ -20,7 +19,8 @@ public class TableActionCellEditor extends DefaultCellEditor {
     }
     
     @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+    public Component getTableCellEditorComponent(JTable table, Object value, 
+            boolean isSelected, int row, int column) {
         PanelAction action = new PanelAction();
         action.initEvent(event, row);
         action.setBackground(table.getSelectionBackground());

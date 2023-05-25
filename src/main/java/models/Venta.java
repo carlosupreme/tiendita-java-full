@@ -4,7 +4,7 @@
  */
 package models;
 
-import java.util.Date;
+import java.time.Instant;
 
 /**
  *
@@ -13,15 +13,18 @@ import java.util.Date;
 public class Venta {
     
     private long id;
-    private Producto producto;
-    private int cantidad;
-    private Date fecha;
+    private double total;
+    private Instant fecha;
+    private int usuarioId;
+    private String formaPago;
+    
+    public Venta() {}
 
-    public Venta(long id, Producto producto, int cantidad, Date fecha) {
-        this.id = id;
-        this.producto = producto;
-        this.cantidad = cantidad;
+    public Venta(double total, Instant fecha, int usuarioId, String formaPago) {
+        this.total = total;
         this.fecha = fecha;
+        this.usuarioId = usuarioId;
+        this.formaPago = formaPago;
     }
 
     public long getId() {
@@ -32,28 +35,36 @@ public class Venta {
         this.id = id;
     }
 
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public Date getFecha() {
+    public Instant getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(Instant fecha) {
         this.fecha = fecha;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public String getFormaPago() {
+        return formaPago;
+    }
+
+    public void setFormaPago(String formaPago) {
+        this.formaPago = formaPago;
     }
     
 }

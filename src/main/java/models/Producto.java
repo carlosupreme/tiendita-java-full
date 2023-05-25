@@ -2,42 +2,52 @@ package models;
 
 import exceptions.ValidationModelException;
 import java.text.DecimalFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
-public final class Producto {
+public class Producto {
 
-    private int id;
-    private int proveedorId;
+    private long id;
+    private long idProveedor;
     private String nombre;
     private String codigoBarras;
     private double precioPublico;
     private double costo;
-    private LocalDate fechaCaducidad;
     private String categoria;
-    private String marca;
-    private String edicion;
 
-    public int getId() {
+    public Producto(long id, long proveedorId, String nombre, String codigoBarras, double precioPublico,
+            double costo, String categoria) {
+        this.id = id;
+        this.idProveedor = proveedorId;
+        this.nombre = nombre;
+        this.codigoBarras = codigoBarras;
+        this.precioPublico = precioPublico;
+        this.costo = costo;
+        this.categoria = categoria;
+    }
+
+    public Producto() {
+
+    }
+
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) throws ValidationModelException {
+    public void setId(long id) throws ValidationModelException {
         if (id < 0) {
             throw new ValidationModelException("El id del producto debe ser positivo");
         }
         this.id = id;
     }
 
-    public int getProveedorId() {
-        return proveedorId;
+    public long getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setProveedorId(int proveedorId) throws ValidationModelException {
-        if (proveedorId < 0) {
-            throw new ValidationModelException("El id '" + proveedorId + "' del proveedor debe ser positivo");
+    public void setIdProveedor(long idProveedor) throws ValidationModelException {
+        if (idProveedor < 0) {
+            throw new ValidationModelException("El id '" + idProveedor + "' del proveedor debe ser positivo");
         }
-        this.proveedorId = proveedorId;
+        this.idProveedor = idProveedor;
     }
 
     public String getNombre() {
@@ -87,19 +97,6 @@ public final class Producto {
         this.costo = Double.parseDouble(df.format(costo));
     }
 
-    public LocalDate getFechaCaducidad() {
-        return fechaCaducidad;
-    }
-
-    public String getFechaCaducidadFormateada() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return fechaCaducidad.format(formatter);
-    }
-
-    public void setFechaCaducidad(LocalDate fechaCaducidad) {
-        this.fechaCaducidad = fechaCaducidad;
-    }
-
     public String getCategoria() {
         return categoria;
     }
@@ -107,24 +104,6 @@ public final class Producto {
     public void setCategoria(String categoria) throws ValidationModelException {
         ensureValidText(categoria, "categoria");
         this.categoria = categoria;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) throws ValidationModelException {
-        ensureValidText(marca, "marca");
-        this.marca = marca;
-    }
-
-    public String getEdicion() {
-        return edicion;
-    }
-
-    public void setEdicion(String edicion) throws ValidationModelException {
-        ensureValidText(edicion, "edicion");
-        this.edicion = edicion;
     }
 
     private void ensureValidText(String t, String prop) throws ValidationModelException {

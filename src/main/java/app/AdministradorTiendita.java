@@ -1,6 +1,6 @@
 package app;
 
-import views.LoginFrame;
+import views.*;
 
 /**
  *
@@ -14,5 +14,15 @@ public class AdministradorTiendita {
         java.awt.EventQueue.invokeLater(() -> {
             new LoginFrame().setVisible(true);
         });
+
+        /*java.awt.EventQueue.invokeLater(() -> {
+            JFrame f = new JFrame();
+            f.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 500);
+            f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            
+            f.add(new CobrarPanel()); 
+            
+            f.setVisible(true);
+        });*/
     }
 }
