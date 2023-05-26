@@ -279,7 +279,6 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void inventarioBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtn1ActionPerformed
-        // TODO add your handling code here:
         new InventarioFrame(authController).setVisible(true);
     }//GEN-LAST:event_inventarioBtn1ActionPerformed
 

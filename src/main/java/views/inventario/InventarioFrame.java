@@ -3,6 +3,7 @@ package views.inventario;
 import controllers.AutenticacionController;
 import db.ConexionDB;
 import exceptions.ValidationModelException;
+import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -19,7 +20,6 @@ public final class InventarioFrame extends javax.swing.JFrame {
     private final AutenticacionController authController;
     private final ProductoRepository productoRepository;
     private final ProveedorRepository proveedorRepository;
-
     private final DefaultTableModel model;
 
     public InventarioFrame(AutenticacionController authController) {
@@ -28,12 +28,12 @@ public final class InventarioFrame extends javax.swing.JFrame {
         this.productoRepository = new ProductoRepository();
         this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
-        loadEntries();
+        loadEntries(false);
 
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                int id = (int) model.getValueAt(row, 0);
+                long id = (long) model.getValueAt(row, 0);
                 new EditarProductoModal(InventarioFrame.this, productoRepository, proveedorRepository, id).setVisible(true);
             }
 
@@ -43,13 +43,18 @@ public final class InventarioFrame extends javax.swing.JFrame {
                     table.getCellEditor().stopCellEditing();
                 }
 
-                int id = (int) model.getValueAt(row, 0);
-                int option = JOptionPane.showConfirmDialog(InventarioFrame.this, "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente", JOptionPane.YES_NO_OPTION);
+                long id = (long) model.getValueAt(row, 0);
+                int option = JOptionPane.showConfirmDialog(InventarioFrame.this,
+                        "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?",
+                        "Eliminar permanentemente",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
 
                 if (option == JOptionPane.YES_OPTION) {
                     try {
                         productoRepository.delete(id);
-                        loadEntries();
+                        loadEntries(false);
                         JOptionPane.showMessageDialog(InventarioFrame.this, "Eliminado correctamente");
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(InventarioFrame.this, "No se eliminó");
@@ -59,7 +64,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
             @Override
             public void onShow(int row) {
-                int id = (int) model.getValueAt(row, 0);
+                long id = (long) model.getValueAt(row, 0);
                 try {
                     new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException ex) {
@@ -76,18 +81,25 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        showDeleted.addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                loadEntries(true);
+            } else {
+                loadEntries(false);
+            }
+        });
     }
 
-    public void loadEntries() {
+    public void loadEntries(boolean showDeleted) {
         model.setRowCount(0);
         try {
-            productoRepository.findAll().forEach(producto -> {
+            productoRepository.findAll(showDeleted).forEach(producto -> {
                 try {
                     Object[] row = new Object[6];
                     row[0] = producto.getId();
                     row[1] = producto.getNombre();
-                    row[2] = "";
-                    row[3] = producto.getPrecioPublico();
+                    row[2] = producto.getPrecioPublico();
+                    row[3] = ""; //agregar cantidad en stock
                     row[4] = proveedorRepository.findById(producto.getIdProveedor()).getNombre();
                     row[5] = "";
                     model.addRow(row);
@@ -114,29 +126,35 @@ public final class InventarioFrame extends javax.swing.JFrame {
         crearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        refreshBtn = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        btnExit = new javax.swing.JLabel();
+        showDeleted = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setMinimumSize(new java.awt.Dimension(1300, 720));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        crearBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         crearBtn.setText("Agregar producto");
+        crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         crearBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 crearBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, -1, -1));
+        jPanel1.add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 30));
 
+        table.setAutoCreateRowSorter(true);
+        table.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID", "Nombre", "Descripción", "Precio", "Proveedor", "Acciones"
+                "ID", "Nombre", "Precio", "Cantidad", "Proveedor", "Acciones"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -148,24 +166,64 @@ public final class InventarioFrame extends javax.swing.JFrame {
             }
         });
         table.setRowHeight(50);
+        table.setShowGrid(true);
+        table.getTableHeader().setResizingAllowed(false);
+        table.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setResizable(false);
+            table.getColumnModel().getColumn(0).setPreferredWidth(10);
+            table.getColumnModel().getColumn(1).setResizable(false);
+            table.getColumnModel().getColumn(1).setPreferredWidth(500);
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(2).setPreferredWidth(20);
+            table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(3).setPreferredWidth(20);
+            table.getColumnModel().getColumn(4).setResizable(false);
+            table.getColumnModel().getColumn(4).setPreferredWidth(100);
+            table.getColumnModel().getColumn(5).setResizable(false);
+        }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 1300, 600));
-
-        refreshBtn.setText("Actualizar");
-        refreshBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(refreshBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 1230, 600));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("INVENTARIO");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 400, 60));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 310, 80));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-7, 0, 1360, 720));
+        btnExit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnExit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnExit.setText("X");
+        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnExitMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnExitMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnExitMouseExited(evt);
+            }
+        });
+        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 0, 30, -1));
+
+        showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        showDeleted.setText("Mostrar eliminados");
+        showDeleted.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                showDeletedItemStateChanged(evt);
+            }
+        });
+        showDeleted.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDeletedActionPerformed(evt);
+            }
+        });
+        jPanel1.add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, 30));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 720));
 
         pack();
         setLocationRelativeTo(null);
@@ -175,16 +233,33 @@ public final class InventarioFrame extends javax.swing.JFrame {
         new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
-    private void refreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshBtnActionPerformed
-        loadEntries();
-    }//GEN-LAST:event_refreshBtnActionPerformed
+    private void btnExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseEntered
+        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+    }//GEN-LAST:event_btnExitMouseEntered
+
+    private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
+        dispose();
+    }//GEN-LAST:event_btnExitMouseClicked
+
+    private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
+        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+    }//GEN-LAST:event_btnExitMouseExited
+
+    private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed
+
+    }//GEN-LAST:event_showDeletedActionPerformed
+
+    private void showDeletedItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showDeletedItemStateChanged
+
+    }//GEN-LAST:event_showDeletedItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btnExit;
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton refreshBtn;
+    private javax.swing.JCheckBox showDeleted;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

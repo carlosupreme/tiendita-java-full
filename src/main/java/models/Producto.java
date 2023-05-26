@@ -55,7 +55,7 @@ public class Producto {
     }
 
     public void setNombre(String nombre) throws ValidationModelException {
-        ensureValidText(nombre, "nombre");
+        esTextoValido(nombre);
         this.nombre = nombre;
     }
 
@@ -64,10 +64,7 @@ public class Producto {
     }
 
     public void setCodigoBarras(String codigoBarras) throws ValidationModelException {
-        if (!codigoBarras.matches("^(\\d{8}|\\d{12}|\\d{13})$")) {
-            throw new ValidationModelException("El codigo de barras '" + codigoBarras + "' no cumple el estandar EAN-13 o UPC-A");
-        }
-
+        esCodigoValido(codigoBarras);
         this.codigoBarras = codigoBarras;
     }
 
@@ -76,9 +73,7 @@ public class Producto {
     }
 
     public void setPrecioPublico(double precioPublico) throws ValidationModelException {
-        if (precioPublico <= 0) {
-            throw new ValidationModelException("El precio '" + precioPublico + "' debe ser mayor a 0");
-        }
+        esDineroValido(precioPublico);
 
         DecimalFormat df = new DecimalFormat("#.##");
         this.precioPublico = Double.parseDouble(df.format(precioPublico));
@@ -89,9 +84,7 @@ public class Producto {
     }
 
     public void setCosto(double costo) throws ValidationModelException {
-        if (costo <= 0) {
-            throw new ValidationModelException("El costo '" + costo + "' debe ser mayor a 0");
-        }
+        esDineroValido(costo);
 
         DecimalFormat df = new DecimalFormat("#.##");
         this.costo = Double.parseDouble(df.format(costo));
@@ -102,14 +95,48 @@ public class Producto {
     }
 
     public void setCategoria(String categoria) throws ValidationModelException {
-        ensureValidText(categoria, "categoria");
+        esTextoValido(categoria);
         this.categoria = categoria;
     }
 
-    private void ensureValidText(String t, String prop) throws ValidationModelException {
-        String regex = "^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$";
-        if (t == null || !t.matches(regex)) {
-            throw new ValidationModelException(prop + " '" + t + "' del producto debe contener al menos 2 letras o numeros sin caracteres especiales");
+    public static boolean esTextoValido(String t) throws ValidationModelException {
+        if (t.length() > 100) {
+            throw new ValidationModelException("Debe ser menor a 100 caracteres");
         }
+
+        if (t.trim().isEmpty()) {
+            throw new ValidationModelException("Es requerido");
+        }
+
+        // Valida que no sean espacios en blanco y que no contenga caracteres especiales
+        if (!t.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{1,100}$")) {
+            throw new ValidationModelException("No admite caracteres especiales");
+        }
+
+        return true;
+    }
+
+    public static boolean esCodigoValido(String codigoBarras) throws ValidationModelException {
+        if (codigoBarras.trim().isEmpty()) {
+            throw new ValidationModelException("El codigo de barras es requerido");
+        }
+
+        if (!codigoBarras.matches("^(\\d{8}|\\d{12}|\\d{13})$")) {
+            throw new ValidationModelException("El codigo de barras debe ser de 8, 12 o 13 diigtos");
+        }
+
+        return true;
+    }
+
+    public static boolean esDineroValido(double n) throws ValidationModelException {
+        if (n <= 0) {
+            throw new ValidationModelException("Debe ser mayor a 0");
+        }
+
+        if (n >= Double.MAX_VALUE || n <= Double.MIN_VALUE) {
+            throw new ValidationModelException("Debe ser un valor valido");
+        }
+
+        return true;
     }
 }
