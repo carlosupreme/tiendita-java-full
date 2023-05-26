@@ -198,7 +198,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
             mapper.insertar(producto);
 
             dispose();
-            parent.loadEntries();
+            parent.loadEntries(false);
             JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
         } catch (SQLException e) {
             if (e.getSQLState().equals("23000")) {

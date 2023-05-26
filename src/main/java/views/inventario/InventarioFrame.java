@@ -3,6 +3,7 @@ package views.inventario;
 import controllers.AutenticacionController;
 import db.ConexionDB;
 import exceptions.ValidationModelException;
+import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -27,12 +28,12 @@ public final class InventarioFrame extends javax.swing.JFrame {
         this.productoRepository = new ProductoRepository();
         this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
         model = (DefaultTableModel) table.getModel();
-        loadEntries();
+        loadEntries(false);
 
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                int id = (int) model.getValueAt(row, 0);
+                long id = (long) model.getValueAt(row, 0);
                 new EditarProductoModal(InventarioFrame.this, productoRepository, proveedorRepository, id).setVisible(true);
             }
 
@@ -42,13 +43,18 @@ public final class InventarioFrame extends javax.swing.JFrame {
                     table.getCellEditor().stopCellEditing();
                 }
 
-                int id = (int) model.getValueAt(row, 0);
-                int option = JOptionPane.showConfirmDialog(InventarioFrame.this, "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente", JOptionPane.YES_NO_OPTION);
+                long id = (long) model.getValueAt(row, 0);
+                int option = JOptionPane.showConfirmDialog(InventarioFrame.this,
+                        "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?",
+                        "Eliminar permanentemente",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.WARNING_MESSAGE
+                );
 
                 if (option == JOptionPane.YES_OPTION) {
                     try {
                         productoRepository.delete(id);
-                        loadEntries();
+                        loadEntries(false);
                         JOptionPane.showMessageDialog(InventarioFrame.this, "Eliminado correctamente");
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(InventarioFrame.this, "No se eliminó");
@@ -58,7 +64,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
             @Override
             public void onShow(int row) {
-                int id = (int) model.getValueAt(row, 0);
+                long id = (long) model.getValueAt(row, 0);
                 try {
                     new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException ex) {
@@ -75,12 +81,19 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        showDeleted.addItemListener((ItemEvent e) -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                loadEntries(true);
+            } else {
+                loadEntries(false);
+            }
+        });
     }
 
-    public void loadEntries() {
+    public void loadEntries(boolean showDeleted) {
         model.setRowCount(0);
         try {
-            productoRepository.findAll().forEach(producto -> {
+            productoRepository.findAll(showDeleted).forEach(producto -> {
                 try {
                     Object[] row = new Object[6];
                     row[0] = producto.getId();
@@ -115,6 +128,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
         table = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnExit = new javax.swing.JLabel();
+        showDeleted = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -195,6 +209,20 @@ public final class InventarioFrame extends javax.swing.JFrame {
         });
         jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 0, 30, -1));
 
+        showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        showDeleted.setText("Mostrar eliminados");
+        showDeleted.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                showDeletedItemStateChanged(evt);
+            }
+        });
+        showDeleted.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDeletedActionPerformed(evt);
+            }
+        });
+        jPanel1.add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, 30));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 720));
 
         pack();
@@ -217,12 +245,21 @@ public final class InventarioFrame extends javax.swing.JFrame {
         btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_btnExitMouseExited
 
+    private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed
+
+    }//GEN-LAST:event_showDeletedActionPerformed
+
+    private void showDeletedItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showDeletedItemStateChanged
+
+    }//GEN-LAST:event_showDeletedItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnExit;
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JCheckBox showDeleted;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
