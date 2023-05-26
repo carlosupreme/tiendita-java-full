@@ -4,7 +4,6 @@
  */
 package views.proveedor;
 
-import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -18,6 +17,7 @@ import repositories.ProveedorRepository;
 public class CrearProveedorModal extends javax.swing.JDialog {
 
     private final ProveedorRepository proveedorRepository;
+    private final ProveedorFrame parent;
 
     /**
      * Creates new form CrearProveedorModal
@@ -28,6 +28,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     public CrearProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
+        this.parent = (ProveedorFrame) parent;
         this.proveedorRepository = proveedorRepository;
     }
 
@@ -165,7 +166,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
             dispose();
             JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
-            new ProveedorFrame(new AutenticacionController()).setVisible(true);
+            parent.loadEntries();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agergó el proveedor");
             System.err.println(e.getMessage());

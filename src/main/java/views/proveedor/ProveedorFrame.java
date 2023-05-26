@@ -4,13 +4,11 @@
  */
 package views.proveedor;
 
-import db.ConexionDB;
 import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -23,7 +21,7 @@ import views.tabla.TableActionEvent;
  *
  * @author ili
  */
-public class ProveedorFrame extends javax.swing.JFrame {
+public final class ProveedorFrame extends javax.swing.JFrame {
 
     private final AutenticacionController authController;
     private final ProveedorRepository proveedorRepository;
@@ -36,7 +34,11 @@ public class ProveedorFrame extends javax.swing.JFrame {
      */
     public ProveedorFrame(AutenticacionController authController) {
         initComponents();
-        fullScreen();
+        //fullScreen(); //1300 x 720 
+        setSize(1300, 720);  // Establece el tamaño del marco
+        setLocationRelativeTo(null);  // Centra el marco en la pantalla
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Proveedor");
         this.authController = authController;
         this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
@@ -87,7 +89,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
     }
 
     /**
@@ -103,9 +105,9 @@ public class ProveedorFrame extends javax.swing.JFrame {
         crearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        anterior = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(1300, 7200));
 
         jLabel1.setText("PROVEEDORES ");
 
@@ -138,16 +140,12 @@ public class ProveedorFrame extends javax.swing.JFrame {
         table.setRowHeight(40);
         jScrollPane1.setViewportView(table);
 
-        anterior.setText("<-");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(anterior)
-                .addGap(144, 144, 144)
+                .addGap(234, 234, 234)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(crearBtn)
@@ -162,14 +160,14 @@ public class ProveedorFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(crearBtn)
-                    .addComponent(anterior))
+                    .addComponent(crearBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(14, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(741, 448));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
@@ -188,7 +186,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
         this.setVisible(true);
     }
 
-    private void loadEntries() {
+    public void loadEntries() {
         model.setRowCount(0);
         try {
             proveedorRepository.findAll().forEach(proveedor -> {
@@ -210,7 +208,6 @@ public class ProveedorFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel anterior;
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
