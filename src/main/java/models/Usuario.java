@@ -14,7 +14,6 @@ public class Usuario {
     private String username;
     private String nombre;
     private String password;
-    private Rol rol;
 
     public int getId() {
         return id;
@@ -60,13 +59,5 @@ public class Usuario {
         }
         this.password = password;
     }
-
-    public Rol getRol() {
-        return rol;
-    }
-
-    public void setRol(Rol rol) {
-        this.rol = rol;
-    }
-
+    
 }

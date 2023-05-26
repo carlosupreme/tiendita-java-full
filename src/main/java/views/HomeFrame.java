@@ -11,6 +11,8 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -20,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import models.Usuario;
 import models.Venta;
 import views.inventario.InventarioFrame;
 
@@ -205,15 +208,28 @@ public class HomeFrame extends javax.swing.JFrame {
             usuarioIDAction = new AbstractAction() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JTable table = (JTable) e.getSource();
-                    int modelRow = Integer.parseInt(e.getActionCommand());
-                    Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 3);
-                    JOptionPane.showMessageDialog(null, "Detalles del usuario con id = "
-                            + valor.toString());
+                    try {
+                        JTable table = (JTable) e.getSource();
+                        int modelRow = Integer.parseInt(e.getActionCommand());
+                        Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 3);
+                        
+                        SelectStatementMapper<Usuario> selectMap = new SelectStatementMapper<>();
+                        
+                        selectMap.setSql("SELECT * FROM usuarios WHERE id = ?");
+                        
+                        Usuario u = selectMap.findById(Usuario.class, valor.toString());
+                        
+                        JOptionPane.showMessageDialog(null, "Nombre: " + u.getNombre());
+                        
+                        //JOptionPane.showMessageDialog(null, "Detalles del usuario con id = "
+                        //        + valor.toString());
+                    } catch (SQLException | IllegalArgumentException | IllegalAccessException | NoSuchMethodException | InstantiationException | InvocationTargetException ex) {
+                        JOptionPane.showMessageDialog(null, ex.getMessage());
+                    }
                 }
             };
 
-            ButtonColumn btnUsuarioId = new ButtonColumn(tabla, usuarioIDAction, 3,
+            new ButtonColumn(tabla, usuarioIDAction, 3,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
 
             Action detallesVentaAction;
@@ -231,7 +247,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 }
             };
 
-            ButtonColumn btnDetalleVenta = new ButtonColumn(tabla, detallesVentaAction, 5,
+            new ButtonColumn(tabla, detallesVentaAction, 5,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
 
             tabla.setRowHeight(30);
