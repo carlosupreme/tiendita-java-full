@@ -3,7 +3,6 @@ package views.inventario;
 import db.PreparedStatementMapper;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
@@ -15,32 +14,35 @@ import repositories.ProveedorRepository;
 
 @SuppressWarnings("serial")
 public class CrearProductoModal extends javax.swing.JDialog {
-    
-    private final ProductoRepository productoRepository;
+
     private final ProveedorRepository proveedorRepository;
     InventarioFrame parent;
-    
+
     public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
-        this.productoRepository = productoRepository;
+
         this.proveedorRepository = proveedorRepository;
         this.parent = (InventarioFrame) parent;
         RealTimeValidator realTimeValidator = new RealTimeValidator();
-        
-        ArrayList<HashMap<JTextField, JLabel>> textInputs = new ArrayList<>();
-        HashMap<JTextField, JLabel> nombrehash = new HashMap<>();
-        
-        nombrehash.put(nombre, nombreError);
-        
-        textInputs.add(nombrehash);
-        
+
+        HashMap<JTextField, JLabel> textInputs = new HashMap<>();
+        textInputs.put(nombre, nombreError);
+        textInputs.put(categoria, categoriaError);
+
+        HashMap<JTextField, JLabel> numericInputs = new HashMap<>();
+        numericInputs.put(precio, precioError);
+        numericInputs.put(costo, costoError);
+
         realTimeValidator.setTextInputs(textInputs);
+        realTimeValidator.setNumericInputs(numericInputs);
         realTimeValidator.addTextValidation();
-        
+        realTimeValidator.addNumericValidation();
+        realTimeValidator.addCodigoBarrasValidation(codigoBarras, codigoBarrasError);
+
         getProveedoresIds();
     }
-    
+
     private void getProveedoresIds() {
         try {
             proveedorRepository.findAll().forEach(proveedor -> {
@@ -49,7 +51,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
                 ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
                 model.insertElementAt(item, 0);
             });
-            
+
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos al obtener los proveedores");
             System.err.println(e.getMessage());
@@ -57,7 +59,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -80,6 +82,10 @@ public class CrearProductoModal extends javax.swing.JDialog {
         costo = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         nombreError = new javax.swing.JLabel();
+        categoriaError = new javax.swing.JLabel();
+        costoError = new javax.swing.JLabel();
+        codigoBarrasError = new javax.swing.JLabel();
+        precioError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(204, 255, 255));
@@ -129,12 +135,12 @@ public class CrearProductoModal extends javax.swing.JDialog {
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 350, -1, 30));
 
         getContentPane().add(proveedorSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 350, 138, 30));
-        getContentPane().add(codigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 170, 40));
+        getContentPane().add(codigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 140, 330, 40));
 
         jLabel7.setLabelFor(codigoBarras);
         jLabel7.setText("Codigo de barras");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 110, 40));
-        getContentPane().add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 144, 30));
+        getContentPane().add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 280, 330, 30));
 
         jLabel9.setText("Categoria");
         getContentPane().add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, -1, 30));
@@ -150,6 +156,22 @@ public class CrearProductoModal extends javax.swing.JDialog {
         nombreError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         getContentPane().add(nombreError, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 100, 330, 20));
 
+        categoriaError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        categoriaError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        getContentPane().add(categoriaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 310, 330, 20));
+
+        costoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        costoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        getContentPane().add(costoError, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 250, 150, 20));
+
+        codigoBarrasError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        codigoBarrasError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        getContentPane().add(codigoBarrasError, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 180, 330, 20));
+
+        precioError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        precioError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        getContentPane().add(precioError, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 250, 150, 20));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -160,11 +182,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         try {
-            
+
             PreparedStatementMapper<Producto> mapper = new PreparedStatementMapper<>("productos");
-            
+
             ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
-            
+
             Producto producto = new Producto();
             producto.setIdProveedor(proveedorItem.getId());
             producto.setNombre(nombre.getText());
@@ -172,20 +194,24 @@ public class CrearProductoModal extends javax.swing.JDialog {
             producto.setPrecioPublico(Double.parseDouble(precio.getText()));
             producto.setCosto(Double.parseDouble(costo.getText()));
             producto.setCategoria(categoria.getText());
-            
+
             mapper.insertar(producto);
-            
+
             dispose();
             parent.loadEntries();
             JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agregó el producto");
+            if (e.getSQLState().equals("23000")) {
+                JOptionPane.showMessageDialog(parent, "El código de barras ya ha sido registrado", "Datos erróneos", JOptionPane.ERROR_MESSAGE, null);
+            } else {
+                JOptionPane.showMessageDialog(parent, "Error en la base de datos", "Datos erróneos", JOptionPane.ERROR_MESSAGE, null);
+            }
             System.err.println(e.getMessage());
         } catch (ValidationModelException ex) {
             JOptionPane.showMessageDialog(rootPane, ex.getMessage());
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(rootPane, "El precio debe ser un numero valido mayor a 0");
-        } catch (Exception ex) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(rootPane, "El proveedor es requerido");
         }
     }//GEN-LAST:event_agregarBtnActionPerformed
@@ -194,8 +220,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
     private javax.swing.JButton agregarBtn;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField categoria;
+    private javax.swing.JLabel categoriaError;
     private javax.swing.JTextField codigoBarras;
+    private javax.swing.JLabel codigoBarrasError;
     private javax.swing.JTextField costo;
+    private javax.swing.JLabel costoError;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -208,6 +237,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
     private javax.swing.JTextField nombre;
     private javax.swing.JLabel nombreError;
     private javax.swing.JTextField precio;
+    private javax.swing.JLabel precioError;
     private javax.swing.JComboBox<String> proveedorSelect;
     // End of variables declaration//GEN-END:variables
 }
