@@ -126,12 +126,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Correo Electronico"/>
+        <Property name="text" type="java.lang.String" value="Correo Electr&#xf3;nico"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Numero telefonico "/>
+        <Property name="text" type="java.lang.String" value="N&#xfa;mero telef&#xf3;nico "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nombre">

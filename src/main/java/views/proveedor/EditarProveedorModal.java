@@ -71,9 +71,9 @@ public class EditarProveedorModal extends javax.swing.JDialog {
 
         jLabel3.setText("Direccion ");
 
-        jLabel4.setText("Correo Electronico");
+        jLabel4.setText("Correo Electrónico");
 
-        jLabel5.setText("Numero telefonico ");
+        jLabel5.setText("Número telefónico ");
 
         cancelarBtn.setText("Cancelar ");
         cancelarBtn.addActionListener(new java.awt.event.ActionListener() {

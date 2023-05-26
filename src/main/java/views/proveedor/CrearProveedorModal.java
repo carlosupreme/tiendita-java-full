@@ -59,11 +59,11 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
         jLabel2.setText("Nombre");
 
-        jLabel3.setText("Direccion");
+        jLabel3.setText("Dirección");
 
-        jLabel4.setText("Correo Electronico ");
+        jLabel4.setText("Correo Electrónico");
 
-        jLabel5.setText("Numero telefonico ");
+        jLabel5.setText("Número telefónico ");
 
         direccion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +106,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
                     .addComponent(direccion)
                     .addComponent(correoE)
                     .addComponent(numTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cancelarBtn)
