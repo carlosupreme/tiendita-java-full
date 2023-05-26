@@ -18,7 +18,7 @@ CREATE TABLE productos (
   precio_publico DECIMAL(10,2) NOT NULL,
   costo DECIMAL(10,2) NOT NULL,
   id_proveedor INT UNSIGNED,
-  categoria VARCHAR(50) NOT NULL,
+  categoria VARCHAR(100) NOT NULL,
   activo TINYINT NOT NULL DEFAULT 1,
   FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE RESTRICT ON UPDATE CASCADE
 );

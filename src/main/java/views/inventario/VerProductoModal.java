@@ -10,6 +10,7 @@ import repositories.ProveedorRepository;
  *
  * @author Carlos
  */
+@SuppressWarnings("serial")
 public class VerProductoModal extends javax.swing.JDialog {
 
     public VerProductoModal(java.awt.Frame parent, Producto producto, ProveedorRepository proveedorRepository) {
@@ -21,7 +22,6 @@ public class VerProductoModal extends javax.swing.JDialog {
         codigoBarras.setText(producto.getCodigoBarras());
         precio.setText(String.valueOf(producto.getPrecioPublico()));
         costo.setText(String.valueOf(producto.getCosto()));
-
         categoria.setText(producto.getCategoria());
 
         try {
