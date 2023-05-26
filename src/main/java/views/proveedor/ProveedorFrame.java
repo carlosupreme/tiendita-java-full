@@ -35,10 +35,10 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     public ProveedorFrame(AutenticacionController authController) {
         initComponents();
         //fullScreen(); //1300 x 720 
-        setSize(1300, 720);  // Establece el tamaño del marco
-        setLocationRelativeTo(null);  // Centra el marco en la pantalla
+        setSize(1300, 720);
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Proveedor");
+        setTitle("Proveedores");
         this.authController = authController;
         this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
@@ -105,10 +105,13 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         crearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        exitBtn = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximumSize(new java.awt.Dimension(1300, 7200));
+        setUndecorated(true);
 
+        jLabel1.setFont(new java.awt.Font("STIXGeneral", 1, 24)); // NOI18N
         jLabel1.setText("PROVEEDORES ");
 
         crearBtn.setText("Crear");
@@ -137,36 +140,56 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        table.setRowHeight(40);
+        table.setMinimumSize(new java.awt.Dimension(90, 0));
+        table.setPreferredSize(new java.awt.Dimension(450, 0));
+        table.setRowHeight(50);
         jScrollPane1.setViewportView(table);
+
+        exitBtn.setFont(new java.awt.Font("STIXIntegralsSm", 1, 18)); // NOI18N
+        exitBtn.setText("X");
+        exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exitBtnMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(234, 234, 234)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(crearBtn)
-                .addGap(16, 16, 16))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(349, 349, 349)
+                        .addComponent(crearBtn)
+                        .addGap(176, 176, 176))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(exitBtn)
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(crearBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(crearBtn)))
+                    .addComponent(exitBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(741, 448));
+        setSize(new java.awt.Dimension(1300, 720));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -175,6 +198,14 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         cpm.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_crearBtnActionPerformed
+
+    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
+        // TODO add your handling code here:
+        int opt = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que deseas salir?", "Salir", JOptionPane.YES_NO_OPTION);
+        if (opt == JOptionPane.YES_OPTION) {
+            System.exit(0);
+        }
+    }//GEN-LAST:event_exitBtnMouseClicked
 
     private void fullScreen() {
         setLocationRelativeTo(null);
@@ -209,6 +240,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crearBtn;
+    private javax.swing.JLabel exitBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable table;
