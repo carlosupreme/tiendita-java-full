@@ -3,19 +3,20 @@ package models;
 import exceptions.ValidationModelException;
 
 /**
- * 
+ *
  * @author ili
  */
 public class Proveedor {
 
     private int id;
     private String nombre;
-    private String direccion; 
+    private String direccion;
     private String email;
     private String telefono;
 
-    public Proveedor(){} 
-    
+    public Proveedor() {
+    }
+
     public Proveedor(int id, String nombre, String direccion, String email, String telefono) {
         this.id = id;
         this.nombre = nombre;
@@ -51,8 +52,8 @@ public class Proveedor {
     }
 
     public void setDireccion(String direccion) throws ValidationModelException {
-        if (direccion == null || !direccion.matches("^(?=.*[^ \\d])[\\w#]+$")) {
-            throw new ValidationModelException("La direccion debe contener al menos 2 caracteres válidos ");
+        if (direccion == null || !direccion.matches("^[\\p{L}0-9\\s#\\-'áéíóúÁÉÍÓÚ]+$")) {
+            throw new ValidationModelException("La direccion no debe contener caracteres especiales (solo permite #). ");
         }
         this.direccion = direccion;
     }
@@ -74,7 +75,10 @@ public class Proveedor {
 
     public void setTelefono(String telefono) throws ValidationModelException {
         if (telefono.length() < 10) {
-            throw new ValidationModelException("El telefono debe contener al menos 10 caracteres");
+            throw new ValidationModelException("El telefono debe contener al menos 10 números");
+        }
+        if (!telefono.matches("\\d+")) {
+            throw new ValidationModelException("El teléfono solo debe contener números.");
         }
         this.telefono = telefono;
     }

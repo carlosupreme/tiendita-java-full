@@ -203,7 +203,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int opt = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que deseas salir?", "Salir", JOptionPane.YES_NO_OPTION);
         if (opt == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            dispose();
         }
     }//GEN-LAST:event_exitBtnMouseClicked
 
