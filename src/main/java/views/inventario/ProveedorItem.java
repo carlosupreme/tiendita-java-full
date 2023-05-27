@@ -9,15 +9,15 @@ package views.inventario;
  */
 public class ProveedorItem {
 
-    private int id;
+    private long id;
     private String nombre;
 
-    public ProveedorItem(int id, String nombre) {
+    public ProveedorItem(long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

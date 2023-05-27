@@ -49,7 +49,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
             proveedorRepository.findAll().forEach(proveedor -> {
                 @SuppressWarnings("unchecked")
                 DefaultComboBoxModel<ProveedorItem> model = (DefaultComboBoxModel) proveedorSelect.getModel();
-                ProveedorItem item = new ProveedorItem((int) proveedor.getId(), proveedor.getNombre());
+                ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
                 model.insertElementAt(item, 0);
 
                 if (proveedor.getId() == proveedorIdSelected) {

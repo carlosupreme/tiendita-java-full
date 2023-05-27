@@ -93,7 +93,7 @@ public class ProveedorRepository {
     }
 
     public void delete(long id) throws SQLException {
-        PreparedStatement st = connection.prepareStatement("DELETE FROM proveedores WHERE id = ? LIMIT 1");
+        PreparedStatement st = connection.prepareStatement("UPDATE proveedores SET activo = 0 WHERE id = ? LIMIT 1");
         st.setLong(1, id);
         st.executeUpdate();
     }
