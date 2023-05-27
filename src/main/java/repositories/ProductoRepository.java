@@ -18,13 +18,18 @@ public class ProductoRepository {
 
     public ProductoRepository() {
         connection = ConexionDB.getInstance().getConnection();
-        INSERT_QUERY = "INSERT INTO productos (nombre, descripcion, codigo_barras, precio_publico, costo, id_proveedor, categoria) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        INSERT_QUERY = "INSERT INTO productos (nombre, codigo_barras, precio_publico, costo, id_proveedor, categoria) values (?, ?, ?, ?, ?, ?)";
     }
 
     public void save(Producto producto) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
 
-        mapProducto(producto, st);
+        st.setString(1, producto.getNombre());
+        st.setString(2, producto.getCodigoBarras());
+        st.setDouble(3, producto.getPrecioPublico());
+        st.setDouble(4, producto.getCosto());
+        st.setLong(5, producto.getIdProveedor());
+        st.setString(6, producto.getCategoria());
 
         if (st.executeUpdate() == 0) {
             throw new SQLException("No se creó el producto.");
