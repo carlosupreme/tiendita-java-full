@@ -34,7 +34,6 @@ public final class ProveedorFrame extends javax.swing.JFrame {
      */
     public ProveedorFrame(AutenticacionController authController) {
         initComponents();
-        //fullScreen(); //1300 x 720 
         setSize(1300, 720);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,12 +102,11 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         crearBtn = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
         exitBtn = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1300, 7200));
         setUndecorated(true);
 
         jLabel1.setFont(new java.awt.Font("STIXGeneral", 1, 24)); // NOI18N
@@ -121,30 +119,6 @@ public final class ProveedorFrame extends javax.swing.JFrame {
             }
         });
 
-        table.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "I.d", "Nombre", "Direccion", "Correo", "Telefono", "Acciones"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        table.setMinimumSize(new java.awt.Dimension(90, 0));
-        table.setPreferredSize(new java.awt.Dimension(450, 0));
-        table.setRowHeight(50);
-        jScrollPane1.setViewportView(table);
-
         exitBtn.setFont(new java.awt.Font("STIXIntegralsSm", 1, 18)); // NOI18N
         exitBtn.setText("X");
         exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -153,12 +127,30 @@ public final class ProveedorFrame extends javax.swing.JFrame {
             }
         });
 
+        table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "id", "Nombre ", "Direccion", "Email ", "Telefono", "Avance "
+            }
+        ));
+        table.setRowHeight(50);
+        jScrollPane2.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setResizable(false);
+            table.getColumnModel().getColumn(1).setResizable(false);
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(5).setResizable(false);
+        }
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(515, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -170,9 +162,9 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                         .addComponent(exitBtn)
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,9 +176,9 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(crearBtn)))
                     .addComponent(exitBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         setSize(new java.awt.Dimension(1300, 720));
@@ -194,13 +186,10 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
-        CrearProveedorModal cpm = new CrearProveedorModal(this, proveedorRepository);
-        cpm.setVisible(true);
-        // TODO add your handling code here:
+        new CrearProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
     private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
-        // TODO add your handling code here:
         int opt = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que deseas salir?", "Salir", JOptionPane.YES_NO_OPTION);
         if (opt == JOptionPane.YES_OPTION) {
             dispose();
@@ -242,7 +231,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel exitBtn;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
