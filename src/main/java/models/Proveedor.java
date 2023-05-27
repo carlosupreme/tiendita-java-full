@@ -8,7 +8,7 @@ import exceptions.ValidationModelException;
  */
 public class Proveedor {
 
-    private int id;
+    private long id;
     private String nombre;
     private String direccion;
     private String email;
@@ -17,7 +17,7 @@ public class Proveedor {
     public Proveedor() {
     }
 
-    public Proveedor(int id, String nombre, String direccion, String email, String telefono) {
+    public Proveedor(long id, String nombre, String direccion, String email, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
@@ -25,11 +25,11 @@ public class Proveedor {
         this.telefono = telefono;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) throws ValidationModelException {
+    public void setId(long id) throws ValidationModelException {
         if (id < 0) {
             throw new ValidationModelException("El id del producto debe ser positivo");
         }

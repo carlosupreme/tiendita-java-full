@@ -17,12 +17,12 @@ import repositories.ProveedorRepository;
 public class EditarProveedorModal extends javax.swing.JDialog {
 
     private final ProveedorRepository proveedorRepository;
-    private final int proveedorId;
+    private final long proveedorId;
 
     /**
      * Creates new form EditarProveedorModal
      */
-    public EditarProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository, int id) {
+    public EditarProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository, long id) {
         super(parent, true);
         initComponents();
         this.proveedorRepository = proveedorRepository;

@@ -15,7 +15,7 @@ import models.Proveedor;
  *
  * @author ili
  */
-public class ProveedorRepository implements Repository<Proveedor> {
+public class ProveedorRepository {
 
     private final Connection connection;
 
@@ -23,7 +23,6 @@ public class ProveedorRepository implements Repository<Proveedor> {
         this.connection = ConexionDB.getInstance().getConnection();
     }
 
-    @Override
     public void save(Proveedor proveedor) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement("INSERT INTO proveedores (nombre, direccion, email, telefono) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
         st.setString(1, proveedor.getNombre());
@@ -45,7 +44,6 @@ public class ProveedorRepository implements Repository<Proveedor> {
         System.out.println(proveedor);
     }
 
-    @Override
     public List<Proveedor> findAll() throws SQLException, ValidationModelException {
         List<Proveedor> all = new ArrayList<>();
         Statement stmt = connection.createStatement();
@@ -53,7 +51,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
         while (rs.next()) {
             Proveedor proveedor = new Proveedor();
-            proveedor.setId(rs.getInt("id"));
+            proveedor.setId(rs.getLong("id"));
             proveedor.setNombre(rs.getString("nombre"));
             proveedor.setDireccion(rs.getString("direccion"));
             proveedor.setEmail(rs.getString("email"));
@@ -65,7 +63,6 @@ public class ProveedorRepository implements Repository<Proveedor> {
         return all;
     }
 
-    //@Override
     public Proveedor findById(long id) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement("SELECT * FROM proveedores WHERE id = ?");
         st.setLong(1, id);
@@ -75,7 +72,7 @@ public class ProveedorRepository implements Repository<Proveedor> {
             return null;
         }
         Proveedor proveedor = new Proveedor();
-        proveedor.setId(rs.getInt("id"));
+        proveedor.setId(rs.getLong("id"));
         proveedor.setNombre(rs.getString("nombre"));
         proveedor.setDireccion(rs.getString("direccion"));
         proveedor.setTelefono(rs.getString("telefono"));
@@ -84,27 +81,24 @@ public class ProveedorRepository implements Repository<Proveedor> {
         return proveedor;
     }
 
-    @Override
-    public void update(int id, Proveedor proveedor) throws SQLException {
+    public void update(long id, Proveedor proveedor) throws SQLException {
         PreparedStatement st = connection.prepareStatement("UPDATE proveedores SET nombre = ?, direccion = ?, email = ?,  telefono = ?  WHERE id = ?");
         st.setString(1, proveedor.getNombre());
         st.setString(2, proveedor.getDireccion());
         st.setString(3, proveedor.getEmail());
         st.setString(4, proveedor.getTelefono());
-        st.setInt(5, id);
+        st.setLong(5, id);
 
         st.executeUpdate();
     }
 
-    @Override
-    public void delete(int id) throws SQLException {
+    public void delete(long id) throws SQLException {
         PreparedStatement st = connection.prepareStatement("DELETE FROM proveedores WHERE id = ? LIMIT 1");
-        st.setInt(1, id);
+        st.setLong(1, id);
         st.executeUpdate();
     }
 
-    @Override
-    public Proveedor findById(int id) throws SQLException, ValidationModelException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    // public Proveedor findById(long id) throws SQLException, ValidationModelException {
+    //   throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    //}
 }

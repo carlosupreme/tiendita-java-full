@@ -46,7 +46,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                int id = (int) model.getValueAt(row, 0);
+                long id = (long) model.getValueAt(row, 0);
                 new EditarProveedorModal(ProveedorFrame.this, proveedorRepository, id).setVisible(true);
             }
 
