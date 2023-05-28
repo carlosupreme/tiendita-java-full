@@ -5,7 +5,10 @@ import exceptions.ValidationModelException;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import repositories.InventarioRepository;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import views.ErrorHandler;
@@ -18,12 +21,14 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
     private final ProductoRepository productoRepository;
     private final ProveedorRepository proveedorRepository;
+    private final InventarioRepository inventarioRepository;
     private final DefaultTableModel model;
 
     public InventarioFrame() {
         initComponents();
         this.productoRepository = new ProductoRepository();
         this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
+        this.inventarioRepository = new InventarioRepository();
         model = (DefaultTableModel) table.getModel();
         loadEntries(false);
         setTableButtons();
@@ -85,6 +90,10 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
         table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
+
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        table.setDefaultRenderer(Object.class, centerRenderer);
     }
 
     public void loadEntries(boolean showDeleted) {
@@ -94,10 +103,10 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 Object[] row = new Object[6];
                 row[0] = producto.getId();
                 row[1] = producto.getNombre();
-                row[2] = producto.getPrecioPublico();
-                row[3] = ""; //agregar cantidad en stock
+                row[2] = "$ " + producto.getPrecioPublico();
                 row[5] = "";
                 try {
+                    row[3] = inventarioRepository.getProductStock(producto.getId());
                     row[4] = proveedorRepository.findById(producto.getIdProveedor()).getNombre();
                 } catch (Exception ex) {
                     ErrorHandler.showErrorMessage(ex.getMessage());
@@ -165,13 +174,13 @@ public final class InventarioFrame extends javax.swing.JFrame {
             table.getColumnModel().getColumn(0).setResizable(false);
             table.getColumnModel().getColumn(0).setPreferredWidth(10);
             table.getColumnModel().getColumn(1).setResizable(false);
-            table.getColumnModel().getColumn(1).setPreferredWidth(500);
+            table.getColumnModel().getColumn(1).setPreferredWidth(400);
             table.getColumnModel().getColumn(2).setResizable(false);
-            table.getColumnModel().getColumn(2).setPreferredWidth(20);
+            table.getColumnModel().getColumn(2).setPreferredWidth(50);
             table.getColumnModel().getColumn(3).setResizable(false);
             table.getColumnModel().getColumn(3).setPreferredWidth(20);
             table.getColumnModel().getColumn(4).setResizable(false);
-            table.getColumnModel().getColumn(4).setPreferredWidth(100);
+            table.getColumnModel().getColumn(4).setPreferredWidth(200);
             table.getColumnModel().getColumn(5).setResizable(false);
         }
 
