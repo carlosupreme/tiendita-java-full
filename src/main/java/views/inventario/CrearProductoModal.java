@@ -12,6 +12,7 @@ import models.Producto;
 import repositories.InventarioRepository;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
+import views.ErrorHandler;
 
 @SuppressWarnings("serial")
 public class CrearProductoModal extends javax.swing.JDialog {
@@ -57,11 +58,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
                 model.insertElementAt(item, 0);
             });
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(rootPane, "Error en la base de datos al obtener los proveedores");
-            System.err.println(e.getMessage());
+        } catch (SQLException ex) {
+            ErrorHandler.showErrorMessage("Error obteniendo proveedores");
+            System.err.println(ex.getMessage());
         } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+            ErrorHandler.showErrorMessage(ex.getMessage());
         }
     }
 
@@ -342,16 +343,21 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(false);
-            JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
-        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(parent, "Agregado correctamente");
+        } catch (SQLException ex) {
+            ErrorHandler.showErrorMessage(ex.getMessage());
+            System.err.println(ex.getMessage());
+        } catch (NumberFormatException ex) {
+            ErrorHandler.showErrorMessage(ex.getMessage());
 
-            System.err.println(e.getMessage());
+            precio.requestFocusInWindow();
+            precio.selectAll();
+
         } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        } catch (IllegalArgumentException ex) {
-            JOptionPane.showMessageDialog(rootPane, "El precio debe ser un numero valido mayor a 0");
+            ErrorHandler.showErrorMessage(ex.getMessage());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(rootPane, "El proveedor es requerido");
+            ErrorHandler.showErrorMessage("El proveedor requerido");
+            System.err.println(e.getMessage());
         }
     }//GEN-LAST:event_agregarBtnActionPerformed
 
