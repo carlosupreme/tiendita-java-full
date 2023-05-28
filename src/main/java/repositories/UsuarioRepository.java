@@ -87,14 +87,14 @@ public class UsuarioRepository implements Repository<Usuario> {
         st.setString(1, usuario.getUsername());
         st.setString(2, usuario.getNombre());
         st.setString(3, BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
-        st.setString(4, usuario.getRol().toString());
+        
     }
 
     private void mapResultSet(ResultSet rs, Usuario usuario) throws SQLException {
         usuario.setId(rs.getInt("id"));
         usuario.setUsername(rs.getString("username"));
         usuario.setPassword(rs.getString("password"));
-        usuario.setRol(Rol.valueOf(rs.getString("rol")));
+        
         usuario.setNombre(rs.getString("nombre"));
     }
 

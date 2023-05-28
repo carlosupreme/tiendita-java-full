@@ -227,7 +227,7 @@ public class RegisterFrame extends javax.swing.JFrame {
             usuario.setNombre(nombre.getText());
             usuario.setPassword(password.getText());
             usuario.setUsername(username.getText());
-            usuario.setRol(Rol.valueOf((String) rolSelect.getSelectedItem()));
+            
 
             usuarioRepository.save(usuario);
 

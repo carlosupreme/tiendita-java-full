@@ -1,8 +1,6 @@
 package app;
 
-import controllers.AutenticacionController;
 import views.HomeFrame;
-import views.inventario.InventarioFrame;
 
 /**
  *
@@ -13,6 +11,7 @@ import views.inventario.InventarioFrame;
 public class AdministradorTiendita {
 
     public static void main(String[] args) {
+
         java.awt.EventQueue.invokeLater(() -> {
             new HomeFrame(null).setVisible(true);
             //new InventarioFrame(new AutenticacionController()).setVisible(true);
