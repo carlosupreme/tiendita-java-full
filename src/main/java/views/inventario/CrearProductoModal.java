@@ -87,9 +87,10 @@ public class CrearProductoModal extends javax.swing.JDialog {
         agregarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setBackground(new java.awt.Color(204, 255, 255));
+        setTitle("Agregar producto");
+        setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
-        setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        setFont(new java.awt.Font("Liberation Sans", 0, 14)); // NOI18N
         setModal(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

@@ -33,6 +33,15 @@ public class InventarioRepository {
         }
     }
 
+    public void updateStock(long id, long stock) throws SQLException {
+        PreparedStatement st = connection.prepareStatement("UPDATE inventario SET stock = ? WHERE id_producto = ?");
+
+        st.setLong(1, stock);
+        st.setLong(2, id);
+
+        st.executeUpdate();
+    }
+
     public long getProductStock(long id) throws SQLException {
         long stock = 0;
         String query = "SELECT stock from inventario where id_producto = ?";
