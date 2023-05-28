@@ -56,8 +56,10 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                     table.getCellEditor().stopCellEditing();
                 }
 
-                int id = (int) model.getValueAt(row, 0);
-                int option = JOptionPane.showConfirmDialog(ProveedorFrame.this, "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente", JOptionPane.YES_NO_OPTION);
+                long id = (long) model.getValueAt(row, 0);
+                int option = JOptionPane.showConfirmDialog(ProveedorFrame.this,
+                        "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                 if (option == JOptionPane.YES_OPTION) {
                     try {
@@ -190,7 +192,9 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_crearBtnActionPerformed
 
     private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
-        int opt = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que deseas salir?", "Salir", JOptionPane.YES_NO_OPTION);
+        int opt = JOptionPane.showConfirmDialog(rootPane,
+                "¿Estás seguro de que deseas salir?", "Salir",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (opt == JOptionPane.YES_OPTION) {
             dispose();
         }

@@ -97,8 +97,8 @@ public class ProveedorRepository {
         st.setLong(1, id);
         st.executeUpdate();
     }
-
-    // public Proveedor findById(long id) throws SQLException, ValidationModelException {
-    //   throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    //}
+//
+//     public Proveedor findById(long id) throws SQLException, ValidationModelException {
+//     throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
 }
