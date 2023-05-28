@@ -51,6 +51,7 @@ public class RealTimeValidator {
 
                 private void validateTextField() {
                     String text = input.getText();
+                    labelError.setForeground(Color.RED);
 
                     try {
                         Producto.esTextoValido(text);

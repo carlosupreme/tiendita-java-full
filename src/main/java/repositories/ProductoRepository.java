@@ -11,21 +11,25 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Producto;
 
-public class ProductoRepository implements Repository<Producto> {
+public class ProductoRepository {
 
     private final Connection connection;
     private final String INSERT_QUERY;
 
     public ProductoRepository() {
         connection = ConexionDB.getInstance().getConnection();
-        INSERT_QUERY = "INSERT INTO productos (nombre, descripcion, codigo_barras, precio_publico, costo, id_proveedor, categoria) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        INSERT_QUERY = "INSERT INTO productos (nombre, codigo_barras, precio_publico, costo, id_proveedor, categoria) values (?, ?, ?, ?, ?, ?)";
     }
 
-    @Override
     public void save(Producto producto) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
 
-        mapProducto(producto, st);
+        st.setString(1, producto.getNombre());
+        st.setString(2, producto.getCodigoBarras());
+        st.setDouble(3, producto.getPrecioPublico());
+        st.setDouble(4, producto.getCosto());
+        st.setLong(5, producto.getIdProveedor());
+        st.setString(6, producto.getCategoria());
 
         if (st.executeUpdate() == 0) {
             throw new SQLException("No se creó el producto.");
@@ -39,12 +43,16 @@ public class ProductoRepository implements Repository<Producto> {
         }
     }
 
-    @Override
-    public List<Producto> findAll() throws SQLException, ValidationModelException {
+    public List<Producto> findAll(boolean showDeleted) throws SQLException, ValidationModelException {
         ArrayList<Producto> all = new ArrayList<>();
+        String query = "SELECT * FROM productos";
+
+        if (!showDeleted) {
+            query += " WHERE activo = 1";
+        }
 
         Statement st = connection.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM productos");
+        ResultSet rs = st.executeQuery(query);
 
         while (rs.next()) {
             Producto producto = new Producto();
@@ -56,10 +64,9 @@ public class ProductoRepository implements Repository<Producto> {
         return all;
     }
 
-    @Override
-    public Producto findById(int id) throws SQLException, ValidationModelException {
+    public Producto findById(long id) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement("SELECT * FROM productos WHERE id = ?");
-        st.setInt(1, id);
+        st.setLong(1, id);
         ResultSet rs = st.executeQuery();
 
         if (!rs.next()) {
@@ -72,43 +79,38 @@ public class ProductoRepository implements Repository<Producto> {
         return producto;
     }
 
-    @Override
-    public void update(int id, Producto producto) throws SQLException {
-        PreparedStatement st = connection.prepareStatement("UPDATE productos SET id_proveedor = ?, nombre = ?, codigo_barras = ?, precio_publico = ?, costo = ?, fecha_caducidad = ?, categoria = ? WHERE id = ?");
+    public void update(long id, Producto producto) throws SQLException {
+        PreparedStatement st = connection.prepareStatement("UPDATE productos SET id_proveedor = ?, nombre = ?, codigo_barras = ?, precio_publico = ?, costo = ?, categoria = ? WHERE id = ?");
         mapProducto(producto, st);
-        st.setInt(10, id);
+        st.setLong(7, id);
 
         st.executeUpdate();
     }
 
-    @Override
-    public void delete(int id) throws SQLException {
-        PreparedStatement st = connection.prepareStatement("DELETE FROM productos WHERE id = ? LIMIT 1");
-        st.setInt(1, id);
+    public void delete(long id) throws SQLException {
+        PreparedStatement st = connection.prepareStatement("UPDATE productos SET activo = 0 WHERE id = ? LIMIT 1");
+        st.setLong(1, id);
         st.executeUpdate();
     }
 
     private void mapResultSet(ResultSet rs, Producto producto) throws SQLException {
-        producto.setId(rs.getInt("id"));
+        producto.setId(rs.getLong("id"));
         producto.setIdProveedor(rs.getInt("id_proveedor"));
         producto.setNombre(rs.getString("nombre"));
         producto.setCodigoBarras(rs.getString("codigo_barras"));
         producto.setPrecioPublico(rs.getDouble("precio_publico"));
         producto.setCosto(rs.getDouble("costo"));
-
         producto.setCategoria(rs.getString("categoria"));
 
     }
 
     private void mapProducto(Producto producto, PreparedStatement st) throws SQLException {
-        st.setString(1, producto.getNombre());
-
-        st.setString(2, producto.getCodigoBarras());
-        st.setDouble(3, producto.getPrecioPublico());
-        st.setDouble(4, producto.getCosto());
-        st.setLong(5, producto.getIdProveedor());
+        st.setLong(1, producto.getIdProveedor());
+        st.setString(2, producto.getNombre());
+        st.setString(3, producto.getCodigoBarras());
+        st.setDouble(4, producto.getPrecioPublico());
+        st.setDouble(5, producto.getCosto());
         st.setString(6, producto.getCategoria());
-
     }
 
 }
