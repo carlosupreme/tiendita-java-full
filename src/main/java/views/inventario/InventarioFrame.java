@@ -1,15 +1,14 @@
 package views.inventario;
 
-import controllers.AutenticacionController;
 import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
+import views.ErrorHandler;
 import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
@@ -17,19 +16,24 @@ import views.tabla.TableActionEvent;
 @SuppressWarnings("serial")
 public final class InventarioFrame extends javax.swing.JFrame {
 
-    private final AutenticacionController authController;
     private final ProductoRepository productoRepository;
     private final ProveedorRepository proveedorRepository;
     private final DefaultTableModel model;
 
-    public InventarioFrame(AutenticacionController authController) {
+    public InventarioFrame() {
         initComponents();
-        this.authController = authController;
         this.productoRepository = new ProductoRepository();
         this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
         model = (DefaultTableModel) table.getModel();
         loadEntries(false);
+        setTableButtons();
 
+        showDeleted.addItemListener((ItemEvent e) -> {
+            loadEntries(e.getStateChange() == ItemEvent.SELECTED);
+        });
+    }
+
+    private void setTableButtons() {
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
@@ -44,22 +48,25 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 }
 
                 long id = (long) model.getValueAt(row, 0);
-                int option = JOptionPane.showConfirmDialog(InventarioFrame.this,
+                int option = JOptionPane.showConfirmDialog(null,
                         "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?",
                         "Eliminar permanentemente",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE
                 );
 
-                if (option == JOptionPane.YES_OPTION) {
-                    try {
-                        productoRepository.delete(id);
-                        loadEntries(false);
-                        JOptionPane.showMessageDialog(InventarioFrame.this, "Eliminado correctamente");
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(InventarioFrame.this, "No se eliminó");
-                    }
+                if (option != JOptionPane.YES_OPTION) {
+                    return;
                 }
+
+                try {
+                    productoRepository.delete(id);
+                    loadEntries(false);
+                    JOptionPane.showMessageDialog(null, "Eliminado correctamente");
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "No se eliminó");
+                }
+
             }
 
             @Override
@@ -68,53 +75,37 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 try {
                     new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(InventarioFrame.this, "Error BBDD");
+                    JOptionPane.showMessageDialog(null, "Error BBDD");
                     System.err.println(ex.getMessage());
                 } catch (ValidationModelException ex) {
-                    JOptionPane.showMessageDialog(InventarioFrame.this, ex.getMessage());
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
             }
         };
 
         table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
-
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        showDeleted.addItemListener((ItemEvent e) -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                loadEntries(true);
-            } else {
-                loadEntries(false);
-            }
-        });
     }
 
     public void loadEntries(boolean showDeleted) {
         model.setRowCount(0);
         try {
             productoRepository.findAll(showDeleted).forEach(producto -> {
+                Object[] row = new Object[6];
+                row[0] = producto.getId();
+                row[1] = producto.getNombre();
+                row[2] = producto.getPrecioPublico();
+                row[3] = ""; //agregar cantidad en stock
+                row[5] = "";
                 try {
-                    Object[] row = new Object[6];
-                    row[0] = producto.getId();
-                    row[1] = producto.getNombre();
-                    row[2] = producto.getPrecioPublico();
-                    row[3] = ""; //agregar cantidad en stock
                     row[4] = proveedorRepository.findById(producto.getIdProveedor()).getNombre();
-                    row[5] = "";
-                    model.addRow(row);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
-                    System.err.println(ex.getMessage());
-                } catch (ValidationModelException ex) {
-                    JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                } catch (Exception ex) {
+                    ErrorHandler.showErrorMessage(ex.getMessage());
                 }
+                model.addRow(row);
             });
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
-            System.err.println(ex.getMessage());
-        } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        } catch (Exception ex) {
+            ErrorHandler.showErrorMessage(ex.getMessage());
         }
     }
 
@@ -211,16 +202,6 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
         showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         showDeleted.setText("Mostrar eliminados");
-        showDeleted.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                showDeletedItemStateChanged(evt);
-            }
-        });
-        showDeleted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showDeletedActionPerformed(evt);
-            }
-        });
         jPanel1.add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, 30));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 720));
@@ -244,14 +225,6 @@ public final class InventarioFrame extends javax.swing.JFrame {
     private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
         btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
     }//GEN-LAST:event_btnExitMouseExited
-
-    private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed
-
-    }//GEN-LAST:event_showDeletedActionPerformed
-
-    private void showDeletedItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showDeletedItemStateChanged
-
-    }//GEN-LAST:event_showDeletedItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnExit;

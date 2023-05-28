@@ -1,69 +1,52 @@
 package views.inventario;
 
 import exceptions.ValidationModelException;
+import java.lang.reflect.Field;
 import java.sql.SQLException;
-import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import models.Inventario;
 import models.Producto;
 import repositories.InventarioRepository;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
+import services.InventarioService;
 import views.ErrorHandler;
 
 @SuppressWarnings("serial")
 public class CrearProductoModal extends javax.swing.JDialog {
 
-    private final ProveedorRepository proveedorRepository;
-    private final ProductoRepository productoRepository;
-    private final InventarioRepository inventarioRepository;
     private final InventarioFrame parent;
+    private final InventarioService inventarioService;
 
     public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
-
-        this.proveedorRepository = proveedorRepository;
-        this.productoRepository = productoRepository;
-        this.inventarioRepository = new InventarioRepository();
         this.parent = (InventarioFrame) parent;
-        RealTimeValidator realTimeValidator = new RealTimeValidator();
-
-        HashMap<JTextField, JLabel> textInputs = new HashMap<>();
-        textInputs.put(nombre, nombreError);
-        textInputs.put(categoria, categoriaError);
-
-        HashMap<JTextField, JLabel> numericInputs = new HashMap<>();
-        numericInputs.put(precio, precioError);
-        numericInputs.put(costo, costoError);
-
-        realTimeValidator.setTextInputs(textInputs);
-        realTimeValidator.setNumericInputs(numericInputs);
-        realTimeValidator.addTextValidation();
-        realTimeValidator.addNumericValidation();
-        realTimeValidator.addCodigoBarrasValidation(codigoBarras, codigoBarrasError);
-
+        this.inventarioService = new InventarioService(productoRepository, proveedorRepository, new InventarioRepository());
         getProveedoresIds();
+        addRealTimeValidation();
     }
 
     private void getProveedoresIds() {
+        DefaultComboBoxModel<ProveedorItem> model = (DefaultComboBoxModel) proveedorSelect.getModel();
         try {
-            proveedorRepository.findAll().forEach(proveedor -> {
-                @SuppressWarnings("unchecked")
-                DefaultComboBoxModel<ProveedorItem> model = (DefaultComboBoxModel) proveedorSelect.getModel();
-                ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
-                model.insertElementAt(item, 0);
-            });
-
+            inventarioService.fillProveedoresCombobox(model);
         } catch (SQLException ex) {
-            ErrorHandler.showErrorMessage("Error obteniendo proveedores");
-            System.err.println(ex.getMessage());
-        } catch (ValidationModelException ex) {
             ErrorHandler.showErrorMessage(ex.getMessage());
         }
+    }
+
+    private void addRealTimeValidation() {
+        RealTimeValidator realTimeValidator = new RealTimeValidator();
+
+        realTimeValidator.addValidation(nombre, new ValidationRule(Producto::esNombreValido, nombreError));
+        realTimeValidator.addValidation(codigoBarras, new ValidationRule(Producto::esCodigoValido, codigoBarrasError));
+        realTimeValidator.addValidation(categoria, new ValidationRule(Producto::esCategotiaValido, categoriaError));
+        realTimeValidator.addValidation(costo, new ValidationRule(this::validarCosto, costoError));
+        realTimeValidator.addValidation(precio, new ValidationRule(this::validarPrecio, precioError));
+        realTimeValidator.addValidation(cantidad, new ValidationRule(this::validarCantidad, cantidadError));
+
     }
 
     @SuppressWarnings("unchecked")
@@ -128,11 +111,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         cantidad.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         cantidad.setMargin(new java.awt.Insets(2, 10, 2, 6));
         cantidad.setOpaque(true);
-        cantidad.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cantidadActionPerformed(evt);
-            }
-        });
         jPanel5.add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
         getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 70));
@@ -163,17 +141,12 @@ public class CrearProductoModal extends javax.swing.JDialog {
         costo.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         costo.setMargin(new java.awt.Insets(2, 10, 2, 6));
         costo.setOpaque(true);
-        costo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                costoActionPerformed(evt);
-            }
-        });
         jPanel2.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 200, 40));
 
         costoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         costoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         costoError.setOpaque(true);
-        jPanel2.add(costoError, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 200, 20));
+        jPanel2.add(costoError, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 250, 20));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("$");
@@ -188,11 +161,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         precio.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         precio.setMargin(new java.awt.Insets(2, 10, 2, 6));
         precio.setOpaque(true);
-        precio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                precioActionPerformed(evt);
-            }
-        });
         jPanel2.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 260, 40));
 
         precioError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
@@ -224,11 +192,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         categoria.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         categoria.setMargin(new java.awt.Insets(2, 10, 2, 6));
         categoria.setOpaque(true);
-        categoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                categoriaActionPerformed(evt);
-            }
-        });
         jPanel1.add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 700, 60));
@@ -250,11 +213,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         codigoBarras.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         codigoBarras.setMargin(new java.awt.Insets(2, 10, 2, 6));
         codigoBarras.setOpaque(true);
-        codigoBarras.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                codigoBarrasActionPerformed(evt);
-            }
-        });
         jPanel.add(codigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
         getContentPane().add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
@@ -282,11 +240,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         nombre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         nombre.setMargin(new java.awt.Insets(2, 10, 2, 6));
         nombre.setOpaque(true);
-        nombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreActionPerformed(evt);
-            }
-        });
         nombrePanel.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
         getContentPane().add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 700, 60));
@@ -323,67 +276,99 @@ public class CrearProductoModal extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
-    private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
+    private boolean validarPrecio(String precio) throws ValidationModelException {
         try {
+            Double p = Double.parseDouble(precio);
+            Producto.esPrecioValido(p);
+        } catch (Exception ex) {
+            throw new ValidationModelException("El precio debe ser un numero valido mayor a 0");
+        }
 
-            ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
+        return true;
+    }
 
-            Producto producto = new Producto();
-            producto.setIdProveedor(proveedorItem.getId());
+    private boolean validarCosto(String costo) throws ValidationModelException {
+        try {
+            Double p = Double.parseDouble(costo);
+            Producto.esCostoValido(p);
+        } catch (Exception ex) {
+            throw new ValidationModelException("El costo debe ser un numero valido mayor a 0");
+        }
+
+        return true;
+    }
+
+    private boolean validarCantidad(String cantidad) throws ValidationModelException {
+        try {
+            long p = Long.parseLong(cantidad);
+            if (p <= 0 || p >= Long.MAX_VALUE) {
+                throw new Exception();
+            }
+        } catch (Exception ex) {
+            throw new ValidationModelException("La cantidad debe ser un numero entero valido mayor a 0");
+        }
+
+        return true;
+    }
+
+    private void focusInput(String message) {
+        try {
+            Class<?> clazz = this.getClass();
+            for (Field field : clazz.getDeclaredFields()) {
+
+                if (!field.getType().equals(JTextField.class) || !message.contains(field.getName())) {
+                    continue;
+                }
+
+                JTextField textField = (JTextField) field.get(this);
+                textField.requestFocus();
+                textField.selectAll();
+            }
+        } catch (IllegalAccessException e) {
+            System.out.println("No se pudo acceder a los campos.");
+            e.printStackTrace();
+        }
+    }
+
+    private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
+        Producto producto = new Producto();
+
+        try {
             producto.setNombre(nombre.getText());
             producto.setCodigoBarras(codigoBarras.getText());
-            producto.setPrecioPublico(Double.parseDouble(precio.getText()));
+            producto.setCategoria(categoria.getText());
+
+            validarCosto(costo.getText());
             producto.setCosto(Double.parseDouble(costo.getText()));
-            producto.setCategoria(cantidad.getText());
 
-            productoRepository.save(producto);
+            validarPrecio(precio.getText());
+            producto.setPrecioPublico(Double.parseDouble(precio.getText()));
+            ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
+            producto.setIdProveedor(proveedorItem.getId());
 
-            Inventario i = new Inventario(producto.getId(), Long.valueOf(cantidad.getText()));
-            inventarioRepository.save(i);
+            validarCantidad(cantidad.getText());
+
+            inventarioService.agregarProducto(producto, Long.parseLong(cantidad.getText()));
 
             dispose();
             parent.loadEntries(false);
-            JOptionPane.showMessageDialog(parent, "Agregado correctamente");
+            JOptionPane.showMessageDialog(null, "Producto agregado correctamente");
         } catch (SQLException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
-            System.err.println(ex.getMessage());
-        } catch (NumberFormatException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
-
-            precio.requestFocusInWindow();
-            precio.selectAll();
-
+            if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {
+                ErrorHandler.showErrorMessage("El código de barras ya fue registrado, ingresa uno diferente");
+                codigoBarras.requestFocus();
+                codigoBarras.selectAll();
+            } else {
+                ErrorHandler.showErrorMessage(ex.getMessage());
+            }
         } catch (ValidationModelException ex) {
             ErrorHandler.showErrorMessage(ex.getMessage());
+            focusInput(ex.getMessage().contains("codigo de barras") ? "codigoBarras" : ex.getMessage());
         } catch (Exception e) {
-            ErrorHandler.showErrorMessage("El proveedor requerido");
-            System.err.println(e.getMessage());
+            ErrorHandler.showErrorMessage("El proveedor es requerido");
+            proveedorSelect.requestFocus();
         }
     }//GEN-LAST:event_agregarBtnActionPerformed
-
-    private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nombreActionPerformed
-
-    private void cantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cantidadActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cantidadActionPerformed
-
-    private void costoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_costoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_costoActionPerformed
-
-    private void precioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_precioActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_precioActionPerformed
-
-    private void categoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoriaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_categoriaActionPerformed
-
-    private void codigoBarrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codigoBarrasActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_codigoBarrasActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarBtn;
