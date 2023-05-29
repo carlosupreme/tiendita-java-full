@@ -42,7 +42,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="views.dise&#xf1;otabla.ActionButton" name="verBtn">
+    <Component class="views.tabla.ActionButton" name="verBtn">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/eye.png"/>
@@ -55,7 +55,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="verBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="views.dise&#xf1;otabla.ActionButton" name="editarBtn">
+    <Component class="views.tabla.ActionButton" name="editarBtn">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/pen.png"/>
@@ -68,7 +68,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="editarBtnActionPerformed"/>
       </Events>
     </Component>
-    <Component class="views.dise&#xf1;otabla.ActionButton" name="eliminarBtn">
+    <Component class="views.tabla.ActionButton" name="eliminarBtn">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
           <Image iconType="3" name="/trash-bin.png"/>

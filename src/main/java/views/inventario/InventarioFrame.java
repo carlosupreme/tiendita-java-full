@@ -36,6 +36,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
         showDeleted.addItemListener((ItemEvent e) -> {
             loadEntries(e.getStateChange() == ItemEvent.SELECTED);
         });
+
     }
 
     private void setTableButtons() {
@@ -123,29 +124,18 @@ public final class InventarioFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        crearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        btnExit = new javax.swing.JLabel();
+        crearBtn = new javax.swing.JButton();
         showDeleted = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setMinimumSize(new java.awt.Dimension(1300, 720));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        crearBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        crearBtn.setText("Agregar producto");
-        crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        crearBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crearBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 30));
+        jPanel1.setLayout(new java.awt.CardLayout());
 
         table.setAutoCreateRowSorter(true);
         table.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -184,36 +174,29 @@ public final class InventarioFrame extends javax.swing.JFrame {
             table.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 1230, 600));
+        jPanel1.add(jScrollPane1, "card2");
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1300, 610));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("INVENTARIO");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 310, 80));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 50));
 
-        btnExit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnExit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnExit.setText("X");
-        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnExitMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnExitMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnExitMouseExited(evt);
+        crearBtn.setBackground(new java.awt.Color(51, 255, 51));
+        crearBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        crearBtn.setText("Agregar producto");
+        crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        crearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 0, 30, -1));
+        getContentPane().add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, 30));
 
         showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         showDeleted.setText("Mostrar eliminados");
-        jPanel1.add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, 30));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 720));
+        getContentPane().add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, -1, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -223,20 +206,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
         new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
-    private void btnExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseEntered
-        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-    }//GEN-LAST:event_btnExitMouseEntered
-
-    private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
-        dispose();
-    }//GEN-LAST:event_btnExitMouseClicked
-
-    private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
-        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-    }//GEN-LAST:event_btnExitMouseExited
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnExit;
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
