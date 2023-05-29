@@ -4,10 +4,7 @@
  */
 package views.proveedor;
 
-import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -23,25 +20,19 @@ import views.tabla.TableActionEvent;
  */
 public final class ProveedorFrame extends javax.swing.JFrame {
 
-    private final AutenticacionController authController;
     private final ProveedorRepository proveedorRepository;
     private final DefaultTableModel model;
 
-    /**
-     * Creates new form ProveedorFrame
-     *
-     * @param authController
-     */
-    public ProveedorFrame(AutenticacionController authController) {
+    public ProveedorFrame() {
         initComponents();
         setSize(1300, 720);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Proveedores");
-        this.authController = authController;
+
         this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
-        loadEntries();
+        loadEntries(false);
 
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
@@ -64,7 +55,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 if (option == JOptionPane.YES_OPTION) {
                     try {
                         proveedorRepository.delete(id);
-                        loadEntries();
+                        loadEntries(false);
                         JOptionPane.showMessageDialog(ProveedorFrame.this, "Eliminado correctamente");
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(ProveedorFrame.this, "No se eliminó");
@@ -200,20 +191,10 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_exitBtnMouseClicked
 
-    private void fullScreen() {
-        setLocationRelativeTo(null);
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(0, 0);
-        this.setSize(dimension.width, dimension.height);
-        this.setResizable(false);
-        this.setTitle("Inventario");
-        this.setVisible(true);
-    }
-
-    public void loadEntries() {
+    public void loadEntries(boolean showDelete) {
         model.setRowCount(0);
         try {
-            proveedorRepository.findAll().forEach(proveedor -> {
+            proveedorRepository.findAll(showDelete).forEach(proveedor -> {
                 Object[] row = new Object[6];
                 row[0] = proveedor.getId();
                 row[1] = proveedor.getNombre();

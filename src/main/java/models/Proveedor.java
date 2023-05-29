@@ -93,7 +93,7 @@ public class Proveedor {
     }
 
     public static boolean EmailValido(String email) throws ValidationModelException {
-        if (email.isEmpty()) {
+        if (email.trim().isEmpty()) {
             throw new ValidationModelException("Email es un campo obligatorio");
         }
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
@@ -103,8 +103,8 @@ public class Proveedor {
     }
 
     public static boolean TelefonoValido(String telefono) throws ValidationModelException {
-        if (telefono.length() < 10) {
-            throw new ValidationModelException("El telefono debe contener al menos 10 números");
+        if (telefono.length() != 10) {
+            throw new ValidationModelException("El telefono debe contener 10 dígitos");
         }
         if (!telefono.matches("\\d+")) {
             throw new ValidationModelException("El teléfono solo debe contener números.");

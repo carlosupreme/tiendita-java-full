@@ -44,11 +44,16 @@ public class ProveedorRepository {
         System.out.println(proveedor);
     }
 
-    public List<Proveedor> findAll() throws SQLException, ValidationModelException {
+    public List<Proveedor> findAll(boolean showDeleted) throws SQLException, ValidationModelException {
         List<Proveedor> all = new ArrayList<>();
         Statement stmt = connection.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT * FROM proveedores");
+        String query = "SELECT * FROM proveedores";
 
+        if (!showDeleted) {
+            query += " WHERE activo = 1";
+        }
+
+        ResultSet rs = stmt.executeQuery(query);
         while (rs.next()) {
             Proveedor proveedor = new Proveedor();
             proveedor.setId(rs.getLong("id"));

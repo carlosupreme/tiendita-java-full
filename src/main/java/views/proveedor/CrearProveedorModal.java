@@ -166,7 +166,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
             dispose();
             JOptionPane.showMessageDialog(rootPane, "Agregado correctamente");
-            parent.loadEntries();
+            parent.loadEntries(false);
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(rootPane, "Error en la base de datos, no se agergó el proveedor");
             System.err.println(e.getMessage());
