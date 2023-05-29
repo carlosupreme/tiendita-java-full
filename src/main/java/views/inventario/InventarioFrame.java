@@ -1,15 +1,16 @@
 package views.inventario;
 
-import controllers.AutenticacionController;
-import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import repositories.InventarioRepository;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
+import views.ErrorHandler;
 import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
@@ -17,19 +18,27 @@ import views.tabla.TableActionEvent;
 @SuppressWarnings("serial")
 public final class InventarioFrame extends javax.swing.JFrame {
 
-    private final AutenticacionController authController;
     private final ProductoRepository productoRepository;
     private final ProveedorRepository proveedorRepository;
+    private final InventarioRepository inventarioRepository;
     private final DefaultTableModel model;
 
-    public InventarioFrame(AutenticacionController authController) {
+    public InventarioFrame() {
         initComponents();
-        this.authController = authController;
         this.productoRepository = new ProductoRepository();
         this.proveedorRepository = new ProveedorRepository();
+        this.inventarioRepository = new InventarioRepository();
         model = (DefaultTableModel) table.getModel();
         loadEntries(false);
+        setTableButtons();
 
+        showDeleted.addItemListener((ItemEvent e) -> {
+            loadEntries(e.getStateChange() == ItemEvent.SELECTED);
+        });
+
+    }
+
+    private void setTableButtons() {
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
@@ -44,22 +53,25 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 }
 
                 long id = (long) model.getValueAt(row, 0);
-                int option = JOptionPane.showConfirmDialog(InventarioFrame.this,
+                int option = JOptionPane.showConfirmDialog(null,
                         "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?",
                         "Eliminar permanentemente",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE
                 );
 
-                if (option == JOptionPane.YES_OPTION) {
-                    try {
-                        productoRepository.delete(id);
-                        loadEntries(false);
-                        JOptionPane.showMessageDialog(InventarioFrame.this, "Eliminado correctamente");
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(InventarioFrame.this, "No se eliminó");
-                    }
+                if (option != JOptionPane.YES_OPTION) {
+                    return;
                 }
+
+                try {
+                    productoRepository.delete(id);
+                    loadEntries(false);
+                    JOptionPane.showMessageDialog(null, "Eliminado correctamente");
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "No se eliminó");
+                }
+
             }
 
             @Override
@@ -68,10 +80,10 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 try {
                     new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(InventarioFrame.this, "Error BBDD");
+                    JOptionPane.showMessageDialog(null, "Error BBDD");
                     System.err.println(ex.getMessage());
                 } catch (ValidationModelException ex) {
-                    JOptionPane.showMessageDialog(InventarioFrame.this, ex.getMessage());
+                    JOptionPane.showMessageDialog(null, ex.getMessage());
                 }
             }
         };
@@ -79,42 +91,30 @@ public final class InventarioFrame extends javax.swing.JFrame {
         table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
 
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        showDeleted.addItemListener((ItemEvent e) -> {
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                loadEntries(true);
-            } else {
-                loadEntries(false);
-            }
-        });
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        table.setDefaultRenderer(Object.class, centerRenderer);
     }
 
     public void loadEntries(boolean showDeleted) {
         model.setRowCount(0);
         try {
             productoRepository.findAll(showDeleted).forEach(producto -> {
+                Object[] row = new Object[6];
+                row[0] = producto.getId();
+                row[1] = producto.getNombre();
+                row[2] = "$ " + producto.getPrecioPublico();
+                row[5] = "";
                 try {
-                    Object[] row = new Object[6];
-                    row[0] = producto.getId();
-                    row[1] = producto.getNombre();
-                    row[2] = producto.getPrecioPublico();
-                    row[3] = ""; //agregar cantidad en stock
+                    row[3] = inventarioRepository.getProductStock(producto.getId());
                     row[4] = proveedorRepository.findById(producto.getIdProveedor()).getNombre();
-                    row[5] = "";
-                    model.addRow(row);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
-                    System.err.println(ex.getMessage());
-                } catch (ValidationModelException ex) {
-                    JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+                } catch (Exception ex) {
+                    ErrorHandler.showErrorMessage(ex.getMessage());
                 }
+                model.addRow(row);
             });
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
-            System.err.println(ex.getMessage());
-        } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        } catch (Exception ex) {
+            ErrorHandler.showErrorMessage(ex.getMessage());
         }
     }
 
@@ -123,29 +123,18 @@ public final class InventarioFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        crearBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        btnExit = new javax.swing.JLabel();
+        crearBtn = new javax.swing.JButton();
         showDeleted = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setMinimumSize(new java.awt.Dimension(1300, 720));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        crearBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        crearBtn.setText("Agregar producto");
-        crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        crearBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crearBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, -1, 30));
+        jPanel1.setLayout(new java.awt.CardLayout());
 
         table.setAutoCreateRowSorter(true);
         table.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -174,56 +163,39 @@ public final class InventarioFrame extends javax.swing.JFrame {
             table.getColumnModel().getColumn(0).setResizable(false);
             table.getColumnModel().getColumn(0).setPreferredWidth(10);
             table.getColumnModel().getColumn(1).setResizable(false);
-            table.getColumnModel().getColumn(1).setPreferredWidth(500);
+            table.getColumnModel().getColumn(1).setPreferredWidth(400);
             table.getColumnModel().getColumn(2).setResizable(false);
-            table.getColumnModel().getColumn(2).setPreferredWidth(20);
+            table.getColumnModel().getColumn(2).setPreferredWidth(50);
             table.getColumnModel().getColumn(3).setResizable(false);
             table.getColumnModel().getColumn(3).setPreferredWidth(20);
             table.getColumnModel().getColumn(4).setResizable(false);
-            table.getColumnModel().getColumn(4).setPreferredWidth(100);
+            table.getColumnModel().getColumn(4).setPreferredWidth(200);
             table.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 1230, 600));
+        jPanel1.add(jScrollPane1, "card2");
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1300, 610));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("INVENTARIO");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 0, 310, 80));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 50));
 
-        btnExit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        btnExit.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        btnExit.setText("X");
-        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        btnExit.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnExit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnExitMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                btnExitMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                btnExitMouseExited(evt);
+        crearBtn.setBackground(new java.awt.Color(51, 255, 51));
+        crearBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        crearBtn.setText("Agregar producto");
+        crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        crearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1270, 0, 30, -1));
+        getContentPane().add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, 30));
 
         showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         showDeleted.setText("Mostrar eliminados");
-        showDeleted.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                showDeletedItemStateChanged(evt);
-            }
-        });
-        showDeleted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showDeletedActionPerformed(evt);
-            }
-        });
-        jPanel1.add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, -1, 30));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 720));
+        getContentPane().add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 60, -1, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -233,28 +205,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
         new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
-    private void btnExitMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseEntered
-        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-    }//GEN-LAST:event_btnExitMouseEntered
-
-    private void btnExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseClicked
-        dispose();
-    }//GEN-LAST:event_btnExitMouseClicked
-
-    private void btnExitMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnExitMouseExited
-        btnExit.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-    }//GEN-LAST:event_btnExitMouseExited
-
-    private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed
-
-    }//GEN-LAST:event_showDeletedActionPerformed
-
-    private void showDeletedItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_showDeletedItemStateChanged
-
-    }//GEN-LAST:event_showDeletedItemStateChanged
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel btnExit;
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

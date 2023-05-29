@@ -21,6 +21,7 @@ public class ActionButton extends JButton {
     public ActionButton() {
         setContentAreaFilled(false);
         setBorder(new EmptyBorder(3, 3, 3, 3));
+	setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {

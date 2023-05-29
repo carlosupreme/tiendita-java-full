@@ -46,8 +46,7 @@ public class HomeFrame extends javax.swing.JFrame {
         cobrarBtn = new javax.swing.JButton();
         usuariosBtn1 = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
-        inventarioBtn1 = new javax.swing.JButton();
-        proveedoresBtn1 = new javax.swing.JButton();
+        inventarioBtn = new javax.swing.JButton();
         panelDerecho = new javax.swing.JPanel();
         panelContenido = new javax.swing.JPanel();
         contenidoParteArriba = new javax.swing.JPanel();
@@ -86,12 +85,7 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
-        inventarioBtn1.setText("INVENTARIO");
-        inventarioBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inventarioBtn1ActionPerformed(evt);
-            }
-        });
+        inventarioBtn.setText("INVENTARIO");
 
         proveedoresBtn1.setText("PROVEEDORES");
         proveedoresBtn1.setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -125,18 +119,14 @@ public class HomeFrame extends javax.swing.JFrame {
                         .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelIzquierdoLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inventarioBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(proveedoresBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(inventarioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelIzquierdoLayout.setVerticalGroup(
             panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelIzquierdoLayout.createSequentialGroup()
-                .addContainerGap(89, Short.MAX_VALUE)
-                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(inventarioBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(142, Short.MAX_VALUE)
+                .addComponent(inventarioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -175,9 +165,9 @@ public class HomeFrame extends javax.swing.JFrame {
         getContentPane().add(panelDerecho, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
-
-    }//GEN-LAST:event_inventarioBtnActionPerformed
+    private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
+        new InventarioFrame().setVisible(true);
+    }//GEN-LAST:event_proveedoresBtnActionPerformed
 
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed
 
@@ -278,8 +268,8 @@ public class HomeFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
 
-    private void inventarioBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtn1ActionPerformed
-        new InventarioFrame(authController).setVisible(true);
+    private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtn1ActionPerformed
+        new InventarioFrame().setVisible(true);
     }//GEN-LAST:event_inventarioBtn1ActionPerformed
 
     private void proveedoresBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtn1ActionPerformed
@@ -290,7 +280,7 @@ public class HomeFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cobrarBtn;
     private javax.swing.JPanel contenidoParteArriba;
-    private javax.swing.JButton inventarioBtn1;
+    private javax.swing.JButton inventarioBtn;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel panelContenido;
     private javax.swing.JPanel panelDerecho;
