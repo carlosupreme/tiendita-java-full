@@ -8,7 +8,7 @@ package exceptions;
  *
  * @author Carlos
  */
-public class ValidationModelException extends IllegalArgumentException {
+public class ValidationModelException extends RuntimeException {
 
     /**
      * Creates a new instance of <code>ValidationModelException</code> without

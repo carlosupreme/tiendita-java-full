@@ -61,7 +61,7 @@ public class VerProductoModal extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setBackground(new java.awt.Color(153, 255, 153));
+        setBackground(new java.awt.Color(255, 255, 255));
         setPreferredSize(new java.awt.Dimension(990, 380));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

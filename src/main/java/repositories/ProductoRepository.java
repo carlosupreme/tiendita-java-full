@@ -2,6 +2,7 @@ package repositories;
 
 import db.ConexionDB;
 import exceptions.ValidationModelException;
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +50,49 @@ public class ProductoRepository {
 
         if (!showDeleted) {
             query += " WHERE activo = 1";
+        }
+
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            Producto producto = new Producto();
+            mapResultSet(rs, producto);
+
+            all.add(producto);
+        }
+
+        return all;
+    }
+
+    public List<Producto> findByCriteria(boolean showDeleted, ProductoCriteria criteria) throws SQLException, ValidationModelException {
+        ArrayList<Producto> all = new ArrayList<>();
+        String query = "SELECT * FROM productos";
+
+        if (!showDeleted) {
+            query += " WHERE activo = 1";
+        }
+
+        query += " AND ";
+
+        for (Field f : criteria.getClass().getFields()) {
+
+            f.setAccessible(true);
+
+            try {
+                Object o = f.get(criteria);
+                f.getName();
+
+                if (o == null) {
+                    continue;
+                }
+
+                query += "  ";
+
+            } catch (IllegalArgumentException | IllegalAccessException ex) {
+
+            }
+
         }
 
         Statement st = connection.createStatement();

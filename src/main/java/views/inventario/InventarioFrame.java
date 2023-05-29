@@ -1,6 +1,5 @@
 package views.inventario;
 
-import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
@@ -27,7 +26,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
     public InventarioFrame() {
         initComponents();
         this.productoRepository = new ProductoRepository();
-        this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
+        this.proveedorRepository = new ProveedorRepository();
         this.inventarioRepository = new InventarioRepository();
         model = (DefaultTableModel) table.getModel();
         loadEntries(false);
@@ -176,7 +175,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane1, "card2");
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1300, 610));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 110, 1300, 580));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

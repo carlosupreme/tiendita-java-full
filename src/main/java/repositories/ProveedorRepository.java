@@ -1,5 +1,6 @@
 package repositories;
 
+import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +19,8 @@ public class ProveedorRepository implements Repository<Proveedor> {
 
     private final Connection connection;
 
-    public ProveedorRepository(Connection connection) {
-        this.connection = connection;
+    public ProveedorRepository() {
+        this.connection = ConexionDB.getInstance().getConnection();
     }
 
     @Override
