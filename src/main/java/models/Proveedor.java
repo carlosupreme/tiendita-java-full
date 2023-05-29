@@ -78,7 +78,6 @@ public class Proveedor {
         }
         if (nombre.length() > 255) {
             throw new ValidationModelException("La nombre debe ser menor a 255 caracteres");
-
         }
         if (!nombre.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$")) {
             throw new ValidationModelException("el nombre no debe contener caracteres especiales  ");

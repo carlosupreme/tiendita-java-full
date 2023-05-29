@@ -66,7 +66,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
             @Override
             public void onShow(int row) {
-                int id = (int) model.getValueAt(row, 0);
+                long id = (long) model.getValueAt(row, 0);
                 try {
                     new VerProveedorModal(ProveedorFrame.this, proveedorRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException | ValidationModelException ex) {
