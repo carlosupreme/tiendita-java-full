@@ -7,7 +7,6 @@ package views.proveedor;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import models.Producto;
 import models.Proveedor;
 import repositories.ProveedorRepository;
 import views.ErrorHandler;
@@ -35,7 +34,11 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         this.parent = (ProveedorFrame) parent;
         this.proveedorRepository = proveedorRepository;
 
-        RealTimeValidator.addValidation(nombre, new ValidationRule(Producto::esNombreValido, nombreError));
+        RealTimeValidator.addValidation(nombre, new ValidationRule(Proveedor::NombreValido, nombreError));
+        RealTimeValidator.addValidation(direccion, new ValidationRule(Proveedor::DireccionValida, direccionError));
+        RealTimeValidator.addValidation(telefono, new ValidationRule(Proveedor::TelefonoValido, telefonoError));
+        RealTimeValidator.addValidation(email, new ValidationRule(Proveedor::EmailValido, emailError));
+
     }
 
     /**
@@ -171,7 +174,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
         tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Agregar producto");
+        tituloLbl.setText("Agregar proveedor");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
