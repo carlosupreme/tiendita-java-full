@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProveedorRepository;
+import views.ErrorHandler;
 import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
@@ -58,7 +59,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                         loadEntries(false);
                         JOptionPane.showMessageDialog(ProveedorFrame.this, "Eliminado correctamente");
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(ProveedorFrame.this, "No se eliminó");
+                        ErrorHandler.showErrorMessage(ex.getMessage());
                     }
                 }
             }
@@ -68,11 +69,8 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 int id = (int) model.getValueAt(row, 0);
                 try {
                     new VerProveedorModal(ProveedorFrame.this, proveedorRepository.findById(id), proveedorRepository).setVisible(true);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(ProveedorFrame.this, "Error BBDD");
-                    System.err.println(ex.getMessage());
-                } catch (ValidationModelException ex) {
-                    JOptionPane.showMessageDialog(ProveedorFrame.this, ex.getMessage());
+                } catch (SQLException | ValidationModelException ex) {
+                    ErrorHandler.showErrorMessage(ex.getMessage());
                 }
             }
         };
@@ -95,12 +93,11 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         crearBtn = new javax.swing.JButton();
-        exitBtn = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setUndecorated(true);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("STIXGeneral", 1, 24)); // NOI18N
         jLabel1.setText("PROVEEDORES ");
@@ -109,14 +106,6 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         crearBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 crearBtnActionPerformed(evt);
-            }
-        });
-
-        exitBtn.setFont(new java.awt.Font("STIXIntegralsSm", 1, 18)); // NOI18N
-        exitBtn.setText("X");
-        exitBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                exitBtnMouseClicked(evt);
             }
         });
 
@@ -145,15 +134,9 @@ public final class ProveedorFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(515, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(349, 349, 349)
-                        .addComponent(crearBtn)
-                        .addGap(176, 176, 176))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(exitBtn)
-                        .addContainerGap())))
+                .addGap(349, 349, 349)
+                .addComponent(crearBtn)
+                .addGap(176, 176, 176))
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1218, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -162,34 +145,22 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(crearBtn)))
-                    .addComponent(exitBtn))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(crearBtn))
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(34, Short.MAX_VALUE))
         );
 
-        setSize(new java.awt.Dimension(1300, 720));
+        setSize(new java.awt.Dimension(1300, 748));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
         new CrearProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
-
-    private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exitBtnMouseClicked
-        int opt = JOptionPane.showConfirmDialog(rootPane,
-                "¿Estás seguro de que deseas salir?", "Salir",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (opt == JOptionPane.YES_OPTION) {
-            dispose();
-        }
-    }//GEN-LAST:event_exitBtnMouseClicked
 
     public void loadEntries(boolean showDelete) {
         model.setRowCount(0);
@@ -204,17 +175,13 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 row[5] = "";
                 model.addRow(row);
             });
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
-            System.err.println(ex.getMessage());
-        } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        } catch (SQLException | ValidationModelException ex) {
+            ErrorHandler.showErrorMessage(ex.getMessage());
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crearBtn;
-    private javax.swing.JLabel exitBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable table;

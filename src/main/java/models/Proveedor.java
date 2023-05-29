@@ -76,6 +76,10 @@ public class Proveedor {
         if (nombre.trim().isEmpty()) {
             throw new ValidationModelException("Nombre es un dato obligatorio");
         }
+        if (nombre.length() > 255) {
+            throw new ValidationModelException("La nombre debe ser menor a 255 caracteres");
+
+        }
         if (!nombre.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$")) {
             throw new ValidationModelException("el nombre no debe contener caracteres especiales  ");
         }
@@ -86,6 +90,10 @@ public class Proveedor {
         if (direccion.trim().isEmpty()) {
             throw new ValidationModelException("Direccion requerida");
         }
+        if (direccion.length() > 255) {
+            throw new ValidationModelException("La dirección debe ser menor a 255 caracteres");
+
+        }
         if (!direccion.matches("^[\\p{L}0-9\\s#\\-'áéíóúÁÉÍÓÚ]+$")) {
             throw new ValidationModelException("La direccion no debe contener caracteres especiales, solo permite #.");
         }
@@ -95,6 +103,10 @@ public class Proveedor {
     public static boolean EmailValido(String email) throws ValidationModelException {
         if (email.trim().isEmpty()) {
             throw new ValidationModelException("Email es un campo obligatorio");
+        }
+        if (email.length() > 40) {
+            throw new ValidationModelException("La email debe ser menor a 40 caracteres");
+
         }
         if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
             throw new ValidationModelException("email debe contener un dominio valido");
