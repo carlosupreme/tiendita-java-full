@@ -5,6 +5,7 @@
 package views.proveedor;
 
 import exceptions.ValidationModelException;
+import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -80,6 +81,10 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+        showDeleted.addItemListener((ItemEvent e) -> {
+            loadEntries(e.getStateChange() == ItemEvent.SELECTED);
+        });
+
     }
 
     /**
@@ -92,31 +97,55 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        showDeleted = new javax.swing.JCheckBox();
         crearBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("STIXGeneral", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setText("PROVEEDORES ");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, 53));
 
+        showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        showDeleted.setText("Mostrar eliminados");
+        showDeleted.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDeletedActionPerformed(evt);
+            }
+        });
+        getContentPane().add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 40, -1, 30));
+
+        crearBtn.setBackground(new java.awt.Color(129, 140, 248));
+        crearBtn.setFont(new java.awt.Font("Noto Sans Myanmar", 1, 14)); // NOI18N
+        crearBtn.setForeground(new java.awt.Color(255, 255, 255));
         crearBtn.setText("Crear");
         crearBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 crearBtnActionPerformed(evt);
             }
         });
+        getContentPane().add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 30, -1, -1));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "id", "Nombre ", "Direccion", "Email ", "Telefono", "Avance "
+                "id", "Nombre ", "Direccion", "Email ", "Telefono", "Acciones"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, false, false, false, false, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         table.setRowHeight(50);
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
@@ -124,35 +153,11 @@ public final class ProveedorFrame extends javax.swing.JFrame {
             table.getColumnModel().getColumn(1).setResizable(false);
             table.getColumnModel().getColumn(2).setResizable(false);
             table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(4).setResizable(false);
             table.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(515, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(349, 349, 349)
-                .addComponent(crearBtn)
-                .addGap(176, 176, 176))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(crearBtn))
-                .addGap(46, 46, 46)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 581, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
-        );
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 1218, 581));
 
         setSize(new java.awt.Dimension(1300, 748));
         setLocationRelativeTo(null);
@@ -161,6 +166,10 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
         new CrearProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
+
+    private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showDeletedActionPerformed
 
     public void loadEntries(boolean showDelete) {
         model.setRowCount(0);
@@ -184,6 +193,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JCheckBox showDeleted;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

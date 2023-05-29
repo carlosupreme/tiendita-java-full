@@ -240,7 +240,7 @@ public class EditarProveedorModal extends javax.swing.JDialog {
             proveedor.setDireccion(direccion.getText());
             proveedor.setEmail(email.getText());
             proveedor.setTelefono(telefono.getText());
-            proveedorRepository.save(proveedor);
+            proveedorRepository.update(proveedorId, proveedor);
 
             dispose();
             parent.loadEntries(false);
