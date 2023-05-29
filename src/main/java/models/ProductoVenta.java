@@ -15,7 +15,7 @@ public class ProductoVenta extends Producto {
     public ProductoVenta() {
     }
 
-    public ProductoVenta(long id, int proveedorId, String nombre,
+    public ProductoVenta(long id, long proveedorId, String nombre,
             String codigoBarras, double precioPublico, double costo,
             String categoria, String marca, int stock) {
         super(id, proveedorId, nombre, codigoBarras, precioPublico, costo, categoria);

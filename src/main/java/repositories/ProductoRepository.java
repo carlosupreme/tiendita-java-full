@@ -37,7 +37,7 @@ public class ProductoRepository {
 
         ResultSet generatedKeys = st.getGeneratedKeys();
         if (generatedKeys.next()) {
-            producto.setId(generatedKeys.getInt(1));
+            producto.setId(generatedKeys.getLong(1));
         } else {
             throw new SQLException("No se obtuvo el ID");
         }
@@ -123,7 +123,7 @@ public class ProductoRepository {
 
     private void mapResultSet(ResultSet rs, Producto producto) throws SQLException {
         producto.setId(rs.getLong("id"));
-        producto.setIdProveedor(rs.getInt("id_proveedor"));
+        producto.setIdProveedor(rs.getLong("id_proveedor"));
         producto.setNombre(rs.getString("nombre"));
         producto.setCodigoBarras(rs.getString("codigo_barras"));
         producto.setPrecioPublico(rs.getDouble("precio_publico"));

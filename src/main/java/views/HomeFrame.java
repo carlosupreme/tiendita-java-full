@@ -22,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models.Venta;
 import views.inventario.InventarioFrame;
+import views.proveedor.ProveedorFrame;
 
 /**
  *
@@ -29,9 +30,9 @@ import views.inventario.InventarioFrame;
  */
 @SuppressWarnings("serial")
 public class HomeFrame extends javax.swing.JFrame {
-
+    
     private final AutenticacionController authController;
-
+    
     public HomeFrame(AutenticacionController authController) {
         this.authController = authController;
         initComponents();
@@ -41,10 +42,9 @@ public class HomeFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         panelIzquierdo = new javax.swing.JPanel();
-        proveedoresBtn = new javax.swing.JButton();
         ventasBtn = new javax.swing.JButton();
         cobrarBtn = new javax.swing.JButton();
-        proveedoresBtn1 = new javax.swing.JButton();
+        proveedoresBtn = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
         inventarioBtn = new javax.swing.JButton();
         panelDerecho = new javax.swing.JPanel();
@@ -56,13 +56,6 @@ public class HomeFrame extends javax.swing.JFrame {
         setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100));
 
         panelIzquierdo.setBackground(new java.awt.Color(0, 51, 204));
-
-        proveedoresBtn.setText("PROVEEDORES");
-        proveedoresBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proveedoresBtnActionPerformed(evt);
-            }
-        });
 
         ventasBtn.setText("VENTAS");
         ventasBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -78,10 +71,10 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
-        proveedoresBtn1.setText("USUARIOS");
-        proveedoresBtn1.addActionListener(new java.awt.event.ActionListener() {
+        proveedoresBtn.setText("PROVEEDORES");
+        proveedoresBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proveedoresBtn1ActionPerformed(evt);
+                proveedoresBtnActionPerformed(evt);
             }
         });
 
@@ -93,6 +86,11 @@ public class HomeFrame extends javax.swing.JFrame {
         });
 
         inventarioBtn.setText("INVENTARIO");
+        inventarioBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inventarioBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelIzquierdoLayout = new javax.swing.GroupLayout(panelIzquierdo);
         panelIzquierdo.setLayout(panelIzquierdoLayout);
@@ -104,7 +102,7 @@ public class HomeFrame extends javax.swing.JFrame {
                         .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(panelIzquierdoLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(proveedoresBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelIzquierdoLayout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addComponent(logoutBtn))
@@ -119,11 +117,6 @@ public class HomeFrame extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(inventarioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelIzquierdoLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(proveedoresBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         panelIzquierdoLayout.setVerticalGroup(
             panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -135,15 +128,10 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(cobrarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(proveedoresBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(109, 109, 109)
                 .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
-            .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(panelIzquierdoLayout.createSequentialGroup()
-                    .addGap(84, 84, 84)
-                    .addComponent(proveedoresBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(384, Short.MAX_VALUE)))
         );
 
         getContentPane().add(panelIzquierdo, java.awt.BorderLayout.LINE_START);
@@ -173,25 +161,21 @@ public class HomeFrame extends javax.swing.JFrame {
         getContentPane().add(panelDerecho, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
-        new InventarioFrame().setVisible(true);
-    }//GEN-LAST:event_proveedoresBtnActionPerformed
-
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed
-
+        
         SelectStatementMapper<Venta> ventaMap
                 = new SelectStatementMapper<>("ventas");
-
+        
         try {
             String[][] datos = ventaMap.selectAllAsArray(Venta.class, new String[]{"Detalles"});
-
+            
             String[] columnasTabla = {"ID de Venta", "Total", "Fecha", "Usuario ID", "Forma pago", ""};
-
+            
             DefaultTableModel modelo = new DefaultTableModel(datos, columnasTabla);
             modelo.setDataVector(datos, columnasTabla);
-
+            
             JTable tabla = new JTable(modelo);
-
+            
             Action usuarioIDAction;
             usuarioIDAction = new AbstractAction() {
                 @Override
@@ -203,10 +187,10 @@ public class HomeFrame extends javax.swing.JFrame {
                             + valor.toString());
                 }
             };
-
+            
             ButtonColumn btnUsuarioId = new ButtonColumn(tabla, usuarioIDAction, 3,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
-
+            
             Action detallesVentaAction;
             detallesVentaAction = new AbstractAction() {
                 @Override
@@ -215,70 +199,70 @@ public class HomeFrame extends javax.swing.JFrame {
                     int modelRow = Integer.parseInt(e.getActionCommand());
                     Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
                     int id = Integer.parseInt(valor.toString());
-
+                    
                     VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
                     detalleVenta.setVisible(true);
-
+                    
                 }
             };
-
+            
             ButtonColumn btnDetalleVenta = new ButtonColumn(tabla, detallesVentaAction, 5,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
-
+            
             tabla.setRowHeight(30);
-
+            
             JFrame f = new JFrame();
             f.setSize(800, 500);
             f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+            
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane(tabla);
             panel.add(scroll, BorderLayout.CENTER);
             f.add(panel);
-
+            
             f.setVisible(true);
-
+            
         } catch (IllegalAccessException | IllegalArgumentException
                 | InstantiationException | NoSuchMethodException
                 | InvocationTargetException | SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-
+        
     }//GEN-LAST:event_ventasBtnActionPerformed
-
+    
     private void cobrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cobrarBtnActionPerformed
         // TODO add your handling code here:
 
         JFrame f = new JFrame();
         f.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 500);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        
         f.add(new CobrarPanel());
-
+        
         f.setVisible(true);
-
+        
     }//GEN-LAST:event_cobrarBtnActionPerformed
-
-    private void proveedoresBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_proveedoresBtn1ActionPerformed
-
+    
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-
+        
         int option = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que desea cerrar la sesión?");
-
+        
         if (option == JOptionPane.YES_OPTION) {
             dispose();
             authController.logout();
             new LoginFrame().setVisible(true);
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
-
-    private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtn1ActionPerformed
+    
+    private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
         new InventarioFrame().setVisible(true);
-    }//GEN-LAST:event_inventarioBtn1ActionPerformed
+    }//GEN-LAST:event_inventarioBtnActionPerformed
+    
+    private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
+        new ProveedorFrame().setVisible(true);
+    }//GEN-LAST:event_proveedoresBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cobrarBtn;
@@ -290,7 +274,6 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelIzquierdo;
     private javax.swing.JScrollPane panelScroll;
     private javax.swing.JButton proveedoresBtn;
-    private javax.swing.JButton proveedoresBtn1;
     private javax.swing.JButton ventasBtn;
     // End of variables declaration//GEN-END:variables
 }

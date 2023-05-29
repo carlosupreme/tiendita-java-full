@@ -4,16 +4,14 @@
  */
 package views.proveedor;
 
-import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
-import java.awt.Dimension;
-import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProveedorRepository;
+import views.ErrorHandler;
 import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
@@ -22,29 +20,26 @@ import views.tabla.TableActionEvent;
  *
  * @author ili
  */
-public class ProveedorFrame extends javax.swing.JFrame {
+public final class ProveedorFrame extends javax.swing.JFrame {
 
-    private final AutenticacionController authController;
     private final ProveedorRepository proveedorRepository;
     private final DefaultTableModel model;
 
-    /**
-     * Creates new form ProveedorFrame
-     *
-     * @param authController
-     */
-    public ProveedorFrame(AutenticacionController authController) {
+    public ProveedorFrame() {
         initComponents();
-        fullScreen();
-        this.authController = authController;
+        setSize(1300, 720);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Proveedores");
+
         this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
-        loadEntries();
+        loadEntries(false);
 
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
-                int id = (int) model.getValueAt(row, 0);
+                long id = (long) model.getValueAt(row, 0);
                 new EditarProveedorModal(ProveedorFrame.this, proveedorRepository, id).setVisible(true);
             }
 
@@ -54,24 +49,30 @@ public class ProveedorFrame extends javax.swing.JFrame {
                     table.getCellEditor().stopCellEditing();
                 }
 
-                int id = (int) model.getValueAt(row, 0);
-                int option = JOptionPane.showConfirmDialog(ProveedorFrame.this, "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente", JOptionPane.YES_NO_OPTION);
+                long id = (long) model.getValueAt(row, 0);
+                int option = JOptionPane.showConfirmDialog(ProveedorFrame.this,
+                        "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                 if (option == JOptionPane.YES_OPTION) {
                     try {
                         proveedorRepository.delete(id);
-                        loadEntries();
+                        loadEntries(false);
                         JOptionPane.showMessageDialog(ProveedorFrame.this, "Eliminado correctamente");
                     } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(ProveedorFrame.this, "No se eliminó");
+                        ErrorHandler.showErrorMessage(ex.getMessage());
                     }
                 }
             }
 
             @Override
             public void onShow(int row) {
-                int id = (int) model.getValueAt(row, 0);
-                new VerProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
+                long id = (long) model.getValueAt(row, 0);
+                try {
+                    new VerProveedorModal(ProveedorFrame.this, proveedorRepository.findById(id), proveedorRepository).setVisible(true);
+                } catch (SQLException | ValidationModelException ex) {
+                    ErrorHandler.showErrorMessage(ex.getMessage());
+                }
             }
         };
 
@@ -79,6 +80,10 @@ public class ProveedorFrame extends javax.swing.JFrame {
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        showDeleted.addItemListener((ItemEvent e) -> {
+            loadEntries(e.getStateChange() == ItemEvent.SELECTED);
+        });
 
     }
 
@@ -92,92 +97,84 @@ public class ProveedorFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        showDeleted = new javax.swing.JCheckBox();
         crearBtn = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setText("PROVEEDORES ");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, 53));
 
+        showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        showDeleted.setText("Mostrar eliminados");
+        showDeleted.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showDeletedActionPerformed(evt);
+            }
+        });
+        getContentPane().add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 40, -1, 30));
+
+        crearBtn.setBackground(new java.awt.Color(129, 140, 248));
+        crearBtn.setFont(new java.awt.Font("Noto Sans Myanmar", 1, 14)); // NOI18N
+        crearBtn.setForeground(new java.awt.Color(255, 255, 255));
         crearBtn.setText("Crear");
         crearBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 crearBtnActionPerformed(evt);
             }
         });
+        getContentPane().add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 30, -1, -1));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "I.d", "Nombre", "Correo", "Telefono", "Direccion", "Acciones"
+                "id", "Nombre ", "Direccion", "Email ", "Telefono", "Acciones"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                true, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(table);
+        table.setRowHeight(50);
+        jScrollPane2.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setResizable(false);
+            table.getColumnModel().getColumn(1).setResizable(false);
+            table.getColumnModel().getColumn(2).setResizable(false);
+            table.getColumnModel().getColumn(3).setResizable(false);
+            table.getColumnModel().getColumn(4).setResizable(false);
+            table.getColumnModel().getColumn(5).setResizable(false);
+        }
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(crearBtn)
-                .addGap(16, 16, 16))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 741, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(crearBtn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 1218, 581));
 
-        pack();
+        setSize(new java.awt.Dimension(1300, 748));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
-        CrearProveedorModal cpm = new CrearProveedorModal(this, proveedorRepository);
-        cpm.setVisible(true);
-        // TODO add your handling code here:
+        new CrearProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
-    private void fullScreen() {
-        setLocationRelativeTo(null);
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        this.setLocation(0, 0);
-        this.setSize(dimension.width, dimension.height);
-        this.setResizable(false);
-        this.setTitle("Inventario");
-        this.setVisible(true);
-    }
+    private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_showDeletedActionPerformed
 
-    private void loadEntries() {
+    public void loadEntries(boolean showDelete) {
         model.setRowCount(0);
-        ArrayList<Object[]> data = new ArrayList<>();
         try {
-            proveedorRepository.findAll().forEach(proveedor -> {
+            proveedorRepository.findAll(showDelete).forEach(proveedor -> {
                 Object[] row = new Object[6];
                 row[0] = proveedor.getId();
                 row[1] = proveedor.getNombre();
@@ -185,24 +182,18 @@ public class ProveedorFrame extends javax.swing.JFrame {
                 row[3] = proveedor.getEmail();
                 row[4] = proveedor.getTelefono();
                 row[5] = "";
-                data.add(row);
+                model.addRow(row);
             });
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, "ERROR BBDD");
-            System.err.println(ex.getMessage());
-        } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        }
-
-        for (Object[] row : data) {
-            model.addRow(row);
+        } catch (SQLException | ValidationModelException ex) {
+            ErrorHandler.showErrorMessage(ex.getMessage());
         }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crearBtn;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JCheckBox showDeleted;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

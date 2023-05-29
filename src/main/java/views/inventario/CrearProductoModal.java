@@ -77,7 +77,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         codigoBarrasError = new javax.swing.JLabel();
         codigoBarras = new javax.swing.JTextField();
-        tituloLbl = new javax.swing.JLabel();
         nombrePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nombreError = new javax.swing.JLabel();
@@ -85,6 +84,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         cancelarBtn = new javax.swing.JButton();
         agregarBtn = new javax.swing.JButton();
+        tituloLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar producto");
@@ -218,11 +218,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
         getContentPane().add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
 
-        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Agregar producto");
-        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
-
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Nimbus Sans", 0, 15)); // NOI18N
@@ -268,6 +263,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jPanel4.add(agregarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 700, 80));
+
+        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLbl.setText("Agregar producto");
+        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
 
         pack();
         setLocationRelativeTo(null);
