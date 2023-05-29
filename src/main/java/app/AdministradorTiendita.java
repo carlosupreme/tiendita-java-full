@@ -11,8 +11,8 @@ import views.HomeFrame;
 public class AdministradorTiendita {
 
     public static void main(String[] args) {
-
         java.awt.EventQueue.invokeLater(() -> {
+            
             new HomeFrame(null).setVisible(true);
             //new InventarioFrame(new AutenticacionController()).setVisible(true);
         });

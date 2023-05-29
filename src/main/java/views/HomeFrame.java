@@ -47,12 +47,10 @@ public class HomeFrame extends javax.swing.JFrame {
         proveedoresBtn = new javax.swing.JButton();
         ventasBtn = new javax.swing.JButton();
         cobrarBtn = new javax.swing.JButton();
-        proveedoresBtn1 = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
         inventarioBtn1 = new javax.swing.JButton();
         panelDerecho = new javax.swing.JPanel();
         panelContenido = new javax.swing.JPanel();
-        contenidoParteArriba = new javax.swing.JPanel();
         panelScroll = new javax.swing.JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -81,13 +79,6 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
-        proveedoresBtn1.setText("USUARIOS");
-        proveedoresBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                proveedoresBtn1ActionPerformed(evt);
-            }
-        });
-
         logoutBtn.setText("Cerrar sesión");
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -110,9 +101,6 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelIzquierdoLayout.createSequentialGroup()
                         .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelIzquierdoLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(panelIzquierdoLayout.createSequentialGroup()
                                 .addGap(49, 49, 49)
                                 .addComponent(logoutBtn))
@@ -142,9 +130,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cobrarBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(proveedoresBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(109, 109, 109)
+                .addGap(162, 162, 162)
                 .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
             .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,21 +145,6 @@ public class HomeFrame extends javax.swing.JFrame {
         panelDerecho.setLayout(new java.awt.BorderLayout());
 
         panelContenido.setLayout(new java.awt.BorderLayout());
-
-        contenidoParteArriba.setBackground(new java.awt.Color(51, 204, 255));
-
-        javax.swing.GroupLayout contenidoParteArribaLayout = new javax.swing.GroupLayout(contenidoParteArriba);
-        contenidoParteArriba.setLayout(contenidoParteArribaLayout);
-        contenidoParteArribaLayout.setHorizontalGroup(
-            contenidoParteArribaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 682, Short.MAX_VALUE)
-        );
-        contenidoParteArribaLayout.setVerticalGroup(
-            contenidoParteArribaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 58, Short.MAX_VALUE)
-        );
-
-        panelContenido.add(contenidoParteArriba, java.awt.BorderLayout.PAGE_START);
         panelContenido.add(panelScroll, java.awt.BorderLayout.CENTER);
 
         panelDerecho.add(panelContenido, java.awt.BorderLayout.CENTER);
@@ -286,10 +257,6 @@ public class HomeFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cobrarBtnActionPerformed
 
-    private void proveedoresBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtn1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_proveedoresBtn1ActionPerformed
-
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
 
         int option = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que desea cerrar la sesión?");
@@ -307,7 +274,6 @@ public class HomeFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cobrarBtn;
-    private javax.swing.JPanel contenidoParteArriba;
     private javax.swing.JButton inventarioBtn1;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel panelContenido;
@@ -315,7 +281,6 @@ public class HomeFrame extends javax.swing.JFrame {
     private javax.swing.JPanel panelIzquierdo;
     private javax.swing.JScrollPane panelScroll;
     private javax.swing.JButton proveedoresBtn;
-    private javax.swing.JButton proveedoresBtn1;
     private javax.swing.JButton ventasBtn;
     // End of variables declaration//GEN-END:variables
 }

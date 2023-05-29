@@ -67,7 +67,7 @@ public class CobrarPanel extends JPanel {
         } catch (IllegalArgumentException | IllegalAccessException
                 | NoSuchMethodException | InstantiationException | InvocationTargetException ex) {
             producto = null;
-            ex.printStackTrace();
+            //ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
 
@@ -122,8 +122,9 @@ public class CobrarPanel extends JPanel {
     private ArrayList<JComponent> getComponentesTitutlo() {
 
         ArrayList<JComponent> lista = new ArrayList<>();
-
+        
         JTextField labelNombre = new JTextField("Nombre", 50);
+        labelNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         labelNombre.setEditable(false);
         lista.add(labelNombre);
         lista.add(new JLabel("Código de barras"));
@@ -173,6 +174,10 @@ public class CobrarPanel extends JPanel {
         panelAbajo.add(cb);
 
         cobrarBtn.addActionListener((ActionEvent e) -> {
+            
+            if(mapProductos.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No hay productos para cobrar", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+            }
 
             InstruccionDML dml = () -> {
                 // Insertar venta
@@ -222,31 +227,35 @@ public class CobrarPanel extends JPanel {
                                     + "producto con id = " + pn.producto.getId());
                         }
 
-                    } catch (SQLException | IllegalAccessException ex) {
-                        ex.printStackTrace();
+                    } catch (SQLException | IllegalAccessException ex) {        
                         throw new SQLException(ex.getMessage());
                     }
                 }
             };
             try {
                 TransactionManager.ejecutarTransaccion(dml);
+                
+                JOptionPane.showMessageDialog(null, "Venta exitosa");
+                mapProductos = new HashMap<>();
+                pnlProductos.removeAll();
+
+                JPanel pnlColumnas = new JPanel();
+                crearFilaProductos(pnlColumnas, getComponentesTitutlo());
+                
+                total = 0;
+
+                pnlProductos.add(pnlColumnas);
+                pnlColumnas.setMaximumSize(new Dimension(
+                        Integer.MAX_VALUE, pnlColumnas.getMinimumSize().height));
+
+                CobrarPanel.this.revalidate();
+                CobrarPanel.this.repaint();
+                
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Fallo al ejecutar la transacción");
             }
 
-            JOptionPane.showMessageDialog(null, "Venta exitosa");
-            mapProductos = new HashMap<>();
-            pnlProductos.removeAll();
-
-            JPanel pnlColumnas = new JPanel();
-            crearFilaProductos(pnlColumnas, getComponentesTitutlo());
-
-            pnlProductos.add(pnlColumnas);
-            pnlColumnas.setMaximumSize(new Dimension(
-                    Integer.MAX_VALUE, pnlColumnas.getMinimumSize().height));
-
-            CobrarPanel.this.revalidate();
-            CobrarPanel.this.repaint();
+            
         });
 
         add(panelAbajo, BorderLayout.SOUTH);
@@ -324,8 +333,10 @@ public class CobrarPanel extends JPanel {
                     pnlProducto.setCantidadStock(1);
 
                     ArrayList<JComponent> componentes = new ArrayList<>();
-
-                    JTextField textNombre = new JTextField(nombre, 50);
+                    
+                    JTextField textNombre = new JTextField(nombre, 35);
+                    textNombre.setPreferredSize(new Dimension(50, 30));
+                    textNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
                     textNombre.setEditable(false);
                     componentes.add(textNombre);
                     componentes.add(new JLabel(codigoBarrasEncontrado));
@@ -339,11 +350,11 @@ public class CobrarPanel extends JPanel {
                         actualizarSubtotal(pnlProducto, precio, stock);
                     });
                     componentes.add(spnCantidad);
-
+                    
                     componentes.add(new JLabel("$" + String.format("%.2f", precio)));
-
+                    
                     JButton btnEliminar = new JButton("Eliminar");
-                    btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto, precio));
+                    btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto));
                     componentes.add(btnEliminar);
 
                     crearFilaProductos(pnlProducto, componentes);
@@ -394,7 +405,7 @@ public class CobrarPanel extends JPanel {
         txtCodigoBarras.requestFocus();
     }
 
-    private void eliminarProducto(PanelProducto pnlProducto, double precio) {
+    private void eliminarProducto(PanelProducto pnlProducto) {
         pnlProductos.remove(pnlProducto);
         pnlProductos.revalidate();
         pnlProductos.repaint();
@@ -404,8 +415,9 @@ public class CobrarPanel extends JPanel {
                 .map(Map.Entry::getKey)
                 .orElse(Long.valueOf(-1));
         mapProductos.remove(id);
-        JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
-        double subtotal = (double) spnCantidad.getValue() * precio;
+        
+        JLabel lblCantidad = (JLabel) pnlProducto.getComponent(4);
+        double subtotal = Double.parseDouble(lblCantidad.getText().substring(1));
         sumarAlTotal(-subtotal);
     }
 
