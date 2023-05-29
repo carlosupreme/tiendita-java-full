@@ -4,7 +4,6 @@
  */
 package views.proveedor;
 
-import db.ConexionDB;
 import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
 import java.awt.Dimension;
@@ -38,7 +37,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
         initComponents();
         fullScreen();
         this.authController = authController;
-        this.proveedorRepository = new ProveedorRepository(ConexionDB.getInstance().getConnection());
+        this.proveedorRepository = new ProveedorRepository();
         model = (DefaultTableModel) table.getModel();
         loadEntries();
 
@@ -80,7 +79,7 @@ public class ProveedorFrame extends javax.swing.JFrame {
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
     }
 
     /**

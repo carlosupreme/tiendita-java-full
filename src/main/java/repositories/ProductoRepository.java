@@ -2,7 +2,6 @@ package repositories;
 
 import db.ConexionDB;
 import exceptions.ValidationModelException;
-import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -69,30 +68,15 @@ public class ProductoRepository {
         ArrayList<Producto> all = new ArrayList<>();
         String query = "SELECT * FROM productos";
 
+        //en proceso xd
         if (!showDeleted) {
             query += " WHERE activo = 1";
-        }
-
-        query += " AND ";
-
-        for (Field f : criteria.getClass().getFields()) {
-
-            f.setAccessible(true);
-
-            try {
-                Object o = f.get(criteria);
-                f.getName();
-
-                if (o == null) {
-                    continue;
-                }
-
-                query += "  ";
-
-            } catch (IllegalArgumentException | IllegalAccessException ex) {
-
-            }
-
+            query += " AND (";
+            query += "nombre like '%" + criteria.nombre + "%'";
+            query += " OR categoria like '%" + criteria.categoria + "%'";
+            query += ")";
+        } else {
+            query += " WHERE nombre like '%" + criteria.nombre + "%'";
         }
 
         Statement st = connection.createStatement();
