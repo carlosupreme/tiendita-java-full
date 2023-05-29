@@ -11,8 +11,6 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
@@ -48,7 +46,7 @@ public class HomeFrame extends javax.swing.JFrame {
         ventasBtn = new javax.swing.JButton();
         cobrarBtn = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
-        inventarioBtn1 = new javax.swing.JButton();
+        inventarioBtn = new javax.swing.JButton();
         panelDerecho = new javax.swing.JPanel();
         panelContenido = new javax.swing.JPanel();
         panelScroll = new javax.swing.JScrollPane();
@@ -86,10 +84,10 @@ public class HomeFrame extends javax.swing.JFrame {
             }
         });
 
-        inventarioBtn1.setText("INVENTARIO");
-        inventarioBtn1.addActionListener(new java.awt.event.ActionListener() {
+        inventarioBtn.setText("INVENTARIO");
+        inventarioBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inventarioBtn1ActionPerformed(evt);
+                inventarioBtnActionPerformed(evt);
             }
         });
 
@@ -113,7 +111,7 @@ public class HomeFrame extends javax.swing.JFrame {
                         .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelIzquierdoLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(inventarioBtn1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(inventarioBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(panelIzquierdoLayout.createSequentialGroup()
@@ -125,7 +123,7 @@ public class HomeFrame extends javax.swing.JFrame {
             panelIzquierdoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelIzquierdoLayout.createSequentialGroup()
                 .addContainerGap(142, Short.MAX_VALUE)
-                .addComponent(inventarioBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inventarioBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ventasBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -153,12 +151,8 @@ public class HomeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
-        new InventarioFrame(authController).setVisible(true);
+        new InventarioFrame().setVisible(true);
     }//GEN-LAST:event_proveedoresBtnActionPerformed
-
-    private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
-
-    }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed
 
@@ -269,12 +263,17 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void inventarioBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtn1ActionPerformed
-        new InventarioFrame(authController).setVisible(true);
+        new InventarioFrame().setVisible(true);
     }//GEN-LAST:event_inventarioBtn1ActionPerformed
+
+    private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
+        // TODO add your handling code here:
+        new InventarioFrame().setVisible(true);
+    }//GEN-LAST:event_inventarioBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cobrarBtn;
-    private javax.swing.JButton inventarioBtn1;
+    private javax.swing.JButton inventarioBtn;
     private javax.swing.JButton logoutBtn;
     private javax.swing.JPanel panelContenido;
     private javax.swing.JPanel panelDerecho;

@@ -15,5 +15,6 @@ public class ErrorHandler {
                 JOptionPane.ERROR_MESSAGE,
                 null
         );
+        System.err.println(message);
     }
 }

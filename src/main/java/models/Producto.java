@@ -13,8 +13,15 @@ public class Producto {
     private double costo;
     private String categoria;
 
-    public Producto(long id, long proveedorId, String nombre, String codigoBarras, double precioPublico,
-            double costo, String categoria) {
+    public Producto(
+            long id,
+            long proveedorId,
+            String nombre,
+            String codigoBarras,
+            double precioPublico,
+            double costo,
+            String categoria
+    ) {
         this.id = id;
         this.idProveedor = proveedorId;
         this.nombre = nombre;
@@ -55,7 +62,7 @@ public class Producto {
     }
 
     public void setNombre(String nombre) throws ValidationModelException {
-        esTextoValido(nombre);
+        esNombreValido(nombre);
         this.nombre = nombre;
     }
 
@@ -73,7 +80,7 @@ public class Producto {
     }
 
     public void setPrecioPublico(double precioPublico) throws ValidationModelException {
-        esDineroValido(precioPublico);
+        esPrecioValido(precioPublico);
 
         DecimalFormat df = new DecimalFormat("#.##");
         this.precioPublico = Double.parseDouble(df.format(precioPublico));
@@ -84,7 +91,7 @@ public class Producto {
     }
 
     public void setCosto(double costo) throws ValidationModelException {
-        esDineroValido(costo);
+        esCostoValido(costo);
 
         DecimalFormat df = new DecimalFormat("#.##");
         this.costo = Double.parseDouble(df.format(costo));
@@ -95,22 +102,39 @@ public class Producto {
     }
 
     public void setCategoria(String categoria) throws ValidationModelException {
-        esTextoValido(categoria);
+        esCategotiaValido(categoria);
         this.categoria = categoria;
     }
 
-    public static boolean esTextoValido(String t) throws ValidationModelException {
+    public static boolean esNombreValido(String t) throws ValidationModelException {
         if (t.length() > 100) {
-            throw new ValidationModelException("Debe ser menor a 100 caracteres");
+            throw new ValidationModelException("EL nombre debe ser menor a 100 caracteres");
         }
 
         if (t.trim().isEmpty()) {
-            throw new ValidationModelException("Es requerido");
+            throw new ValidationModelException("El nombre es requerido");
         }
 
         // Valida que no sean espacios en blanco y que no contenga caracteres especiales
         if (!t.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{1,100}$")) {
-            throw new ValidationModelException("No admite caracteres especiales");
+            throw new ValidationModelException("El nombre no admite caracteres especiales");
+        }
+
+        return true;
+    }
+
+    public static boolean esCategotiaValido(String t) throws ValidationModelException {
+        if (t.length() > 100) {
+            throw new ValidationModelException("La categoria debe ser menor a 100 caracteres");
+        }
+
+        if (t.trim().isEmpty()) {
+            throw new ValidationModelException("La categoria es requerido");
+        }
+
+        // Valida que no sean espacios en blanco y que no contenga caracteres especiales
+        if (!t.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{1,100}$")) {
+            throw new ValidationModelException("La categoria no admite caracteres especiales");
         }
 
         return true;
@@ -128,13 +152,25 @@ public class Producto {
         return true;
     }
 
-    public static boolean esDineroValido(double n) throws ValidationModelException {
+    public static boolean esCostoValido(double n) throws ValidationModelException {
         if (n <= 0) {
-            throw new ValidationModelException("Debe ser mayor a 0");
+            throw new ValidationModelException("EL costo debe ser mayor a 0");
         }
 
-        if (n >= Double.MAX_VALUE || n <= Double.MIN_VALUE) {
-            throw new ValidationModelException("Debe ser un valor valido");
+        if (n >= Double.MAX_VALUE) {
+            throw new ValidationModelException("EL costo no puede ser tan grande");
+        }
+
+        return true;
+    }
+
+    public static boolean esPrecioValido(double n) throws ValidationModelException {
+        if (n <= 0) {
+            throw new ValidationModelException("EL precio debe ser mayor a 0");
+        }
+
+        if (n >= Double.MAX_VALUE) {
+            throw new ValidationModelException("EL precio no puede ser tan grande");
         }
 
         return true;
