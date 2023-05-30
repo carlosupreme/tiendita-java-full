@@ -35,7 +35,6 @@ public final class InventarioFrame extends javax.swing.JFrame {
         showDeleted.addItemListener((ItemEvent e) -> {
             loadEntries(e.getStateChange() == ItemEvent.SELECTED);
         });
-
     }
 
     private void setTableButtons() {
@@ -43,7 +42,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
             @Override
             public void onEdit(int row) {
                 long id = (long) model.getValueAt(row, 0);
-                new EditarProductoModal(InventarioFrame.this, productoRepository, proveedorRepository, id).setVisible(true);
+                new EditarProductoModal(InventarioFrame.this, productoRepository, proveedorRepository, id, showDeleted.isSelected()).setVisible(true);
             }
 
             @Override
@@ -66,7 +65,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
                 try {
                     productoRepository.delete(id);
-                    loadEntries(false);
+                    loadEntries(showDeleted.isSelected());
                     JOptionPane.showMessageDialog(null, "Eliminado correctamente");
                 } catch (SQLException ex) {
                     ErrorHandler.showErrorMessage(ex.getMessage());
@@ -208,7 +207,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
-        new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository).setVisible(true);
+        new CrearProductoModal(InventarioFrame.this, productoRepository, proveedorRepository, showDeleted.isSelected()).setVisible(true);
     }//GEN-LAST:event_crearBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
