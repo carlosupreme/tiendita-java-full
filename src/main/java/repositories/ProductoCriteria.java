@@ -6,10 +6,19 @@ package repositories;
  */
 public class ProductoCriteria {
 
-    public long idProveedor;
+    public String idProveedor;
     public String nombre;
     public String codigoBarras;
-    public double precioPublico;
-    public double costo;
+    public String precioPublico;
+    public String costo;
     public String categoria;
+
+    public ProductoCriteria() {
+        this.idProveedor = "";
+        this.nombre = "";
+        this.codigoBarras = "";
+        this.precioPublico = "";
+        this.costo = "";
+        this.categoria = "";
+    }
 }

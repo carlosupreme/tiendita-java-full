@@ -62,7 +62,9 @@ public class VerProductoModal extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         setPreferredSize(new java.awt.Dimension(990, 380));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         nombre.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
@@ -122,12 +124,12 @@ public class VerProductoModal extends javax.swing.JDialog {
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 150, 31));
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("PRODUCTO");
+        jLabel1.setText("Detalles del producto");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
 
-        pack();
+        setSize(new java.awt.Dimension(1037, 446));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

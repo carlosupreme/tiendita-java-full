@@ -68,16 +68,18 @@ public class ProductoRepository {
         ArrayList<Producto> all = new ArrayList<>();
         String query = "SELECT * FROM productos";
 
-        //en proceso xd
         if (!showDeleted) {
             query += " WHERE activo = 1";
-            query += " AND (";
-            query += "nombre like '%" + criteria.nombre + "%'";
-            query += " OR categoria like '%" + criteria.categoria + "%'";
-            query += ")";
+            query += " AND nombre like '%" + criteria.nombre + "%'";
         } else {
             query += " WHERE nombre like '%" + criteria.nombre + "%'";
         }
+
+        query += " AND categoria like '%" + criteria.categoria + "%'";
+        query += " AND codigo_barras like '%" + criteria.codigoBarras + "%'";
+        query += " AND precio_publico like '%" + criteria.precioPublico + "%'";
+        query += " AND costo like '%" + criteria.costo + "%'";
+        query += " AND id_proveedor like '%" + criteria.idProveedor + "%'";
 
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery(query);

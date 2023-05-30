@@ -48,18 +48,16 @@ public class EditarProductoModal extends javax.swing.JDialog {
     }
 
     private void addRealTimeValidation() {
-        RealTimeValidator realTimeValidator = new RealTimeValidator();
-
-        realTimeValidator.addValidation(nombre, new ValidationRule(Producto::esNombreValido, nombreError));
-        realTimeValidator.addValidation(codigoBarras, new ValidationRule(Producto::esCodigoValido, codigoBarrasError));
-        realTimeValidator.addValidation(categoria, new ValidationRule(Producto::esCategotiaValido, categoriaError));
-        realTimeValidator.addValidation(costo, new ValidationRule(this::validarCosto, costoError));
-        realTimeValidator.addValidation(precio, new ValidationRule(this::validarPrecio, precioError));
-        realTimeValidator.addValidation(cantidad, new ValidationRule(this::validarCantidad, cantidadError));
-
+        RealTimeValidator.addValidation(nombre, new ValidationRule(Producto::esNombreValido, nombreError));
+        RealTimeValidator.addValidation(codigoBarras, new ValidationRule(Producto::esCodigoValido, codigoBarrasError));
+        RealTimeValidator.addValidation(categoria, new ValidationRule(Producto::esCategotiaValido, categoriaError));
+        RealTimeValidator.addValidation(costo, new ValidationRule(this::validarCosto, costoError));
+        RealTimeValidator.addValidation(precio, new ValidationRule(this::validarPrecio, precioError));
+        RealTimeValidator.addValidation(cantidad, new ValidationRule(this::validarCantidad, cantidadError));
     }
 
     private void getProveedoresIds(long proveedorId) {
+        @SuppressWarnings("unchecked")
         DefaultComboBoxModel<ProveedorItem> model = (DefaultComboBoxModel) proveedorSelect.getModel();
         try {
             inventarioService.fillProveedoresCombobox(model, proveedorId);
@@ -118,7 +116,6 @@ public class EditarProductoModal extends javax.swing.JDialog {
             }
         } catch (IllegalAccessException e) {
             System.out.println("No se pudo acceder a los campos.");
-            e.printStackTrace();
         }
     }
 
@@ -160,7 +157,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
         editBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Editar prodcuto");
+        setTitle("Editar producto");
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setFont(new java.awt.Font("Liberation Sans", 0, 14)); // NOI18N
