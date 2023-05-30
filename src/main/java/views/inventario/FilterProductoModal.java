@@ -3,7 +3,7 @@ package views.inventario;
 import javax.swing.DefaultComboBoxModel;
 import repositories.ProductoCriteria;
 import services.InventarioService;
-import views.ErrorHandler;
+import views.MessageHandler;
 
 /**
  *
@@ -26,7 +26,7 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         try {
             inventarioService.fillProveedoresCombobox(model);
         } catch (Exception ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
 
     }

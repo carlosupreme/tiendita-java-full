@@ -4,14 +4,13 @@ import exceptions.ValidationModelException;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import models.Producto;
 import repositories.InventarioRepository;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import services.InventarioService;
-import views.ErrorHandler;
+import views.MessageHandler;
 import views.RealTimeValidator;
 import views.ValidationRule;
 
@@ -44,7 +43,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
 
             getProveedoresIds(producto.getIdProveedor());
         } catch (Exception ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }
 
@@ -63,7 +62,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
         try {
             inventarioService.fillProveedoresCombobox(model, proveedorId);
         } catch (SQLException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }
 
@@ -371,20 +370,20 @@ public class EditarProductoModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(showDeleted);
-            JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
+            MessageHandler.showSuccessMessage("Producto actualizado correctamente");
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {
-                ErrorHandler.showErrorMessage("El código de barras ya fue registrado, ingresa uno diferente");
+                MessageHandler.showErrorMessage("El código de barras ya fue registrado, ingresa uno diferente");
                 codigoBarras.requestFocus();
                 codigoBarras.selectAll();
             } else {
-                ErrorHandler.showErrorMessage(ex.getMessage());
+                MessageHandler.showErrorMessage(ex.getMessage());
             }
         } catch (ValidationModelException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
             focusInput(ex.getMessage().contains("codigo de barras") ? "codigoBarras" : ex.getMessage());
         } catch (Exception e) {
-            ErrorHandler.showErrorMessage("El proveedor es requerido");
+            MessageHandler.showErrorMessage("El proveedor es requerido");
             proveedorSelect.requestFocus();
         }
     }//GEN-LAST:event_editBtnActionPerformed

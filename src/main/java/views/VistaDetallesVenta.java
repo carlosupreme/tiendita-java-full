@@ -65,7 +65,7 @@ public class VistaDetallesVenta extends JDialog {
                     try {
                         new VerProductoModal(null, pr.findById(id), pr, new ProveedorRepository()).setVisible(true);
                     } catch (SQLException | ValidationModelException ex) {
-                        ErrorHandler.showErrorMessage(ex.getMessage());
+                        MessageHandler.showErrorMessage(ex.getMessage());
                     }
 
                 }

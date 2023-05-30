@@ -6,10 +6,9 @@ package views.proveedor;
 
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import models.Proveedor;
 import repositories.ProveedorRepository;
-import views.ErrorHandler;
+import views.MessageHandler;
 import views.RealTimeValidator;
 import views.ValidationRule;
 
@@ -41,7 +40,7 @@ public class EditarProveedorModal extends javax.swing.JDialog {
             telefono.setText(String.valueOf(proveedor.getTelefono()));
 
         } catch (SQLException | ValidationModelException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
         RealTimeValidator.addValidation(nombre, new ValidationRule(Proveedor::NombreValido, nombreError));
         RealTimeValidator.addValidation(direccion, new ValidationRule(Proveedor::DireccionValida, direccionError));
@@ -81,6 +80,9 @@ public class EditarProveedorModal extends javax.swing.JDialog {
         editBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Editar proveedor");
+        setModal(true);
+        setResizable(false);
 
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -225,7 +227,8 @@ public class EditarProveedorModal extends javax.swing.JDialog {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(700, 578));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
@@ -244,9 +247,10 @@ public class EditarProveedorModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(false);
-            JOptionPane.showMessageDialog(null, "Proveedor editado correctamente");
+            MessageHandler.showSuccessMessage("Agregado correctamente");
+
         } catch (SQLException | ValidationModelException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }//GEN-LAST:event_editBtnActionPerformed
 

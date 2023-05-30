@@ -63,6 +63,7 @@ public class HomeFrame extends javax.swing.JFrame {
         panelIzquierdo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ventasBtn.setText("VENTAS");
+        ventasBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ventasBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ventasBtnActionPerformed(evt);
@@ -71,6 +72,7 @@ public class HomeFrame extends javax.swing.JFrame {
         panelIzquierdo.add(ventasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 520, 220, 30));
 
         cobrarBtn.setText("COBRAR");
+        cobrarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cobrarBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cobrarBtnActionPerformed(evt);
@@ -79,6 +81,7 @@ public class HomeFrame extends javax.swing.JFrame {
         panelIzquierdo.add(cobrarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 214, 30));
 
         logoutBtn.setText("Cerrar sesión");
+        logoutBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutBtnActionPerformed(evt);
@@ -87,6 +90,7 @@ public class HomeFrame extends javax.swing.JFrame {
         panelIzquierdo.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 590, -1, 24));
 
         inventarioBtn.setText("INVENTARIO");
+        inventarioBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         inventarioBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inventarioBtnActionPerformed(evt);
@@ -95,6 +99,7 @@ public class HomeFrame extends javax.swing.JFrame {
         panelIzquierdo.add(inventarioBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, 230, 30));
 
         proveedoresBtn.setText("PROVEEDORES");
+        proveedoresBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         proveedoresBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 proveedoresBtnActionPerformed(evt);

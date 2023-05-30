@@ -12,7 +12,7 @@ import repositories.ProductoCriteria;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import services.InventarioService;
-import views.ErrorHandler;
+import views.MessageHandler;
 import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
@@ -83,7 +83,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
                     loadEntries(showDeleted.isSelected());
                     JOptionPane.showMessageDialog(null, "Eliminado correctamente");
                 } catch (SQLException ex) {
-                    ErrorHandler.showErrorMessage(ex.getMessage());
+                    MessageHandler.showErrorMessage(ex.getMessage());
                 }
 
             }
@@ -94,7 +94,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 try {
                     new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), productoRepository, proveedorRepository).setVisible(true);
                 } catch (SQLException | ValidationModelException ex) {
-                    ErrorHandler.showErrorMessage(ex.getMessage());
+                    MessageHandler.showErrorMessage(ex.getMessage());
                 }
             }
         };
@@ -119,13 +119,13 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 try {
                     row[3] = inventarioRepository.getProductStock(producto.getId());
                     row[4] = proveedorRepository.findById(producto.getIdProveedor()).getNombre();
-                } catch (ValidationModelException | SQLException ex) {
-                    ErrorHandler.showErrorMessage(ex.getMessage());
+                } catch (Exception ex) {
+                    MessageHandler.showErrorMessage(ex.getMessage());
                 }
                 model.addRow(row);
             });
-        } catch (ValidationModelException | SQLException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+        } catch (Exception ex) {
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }
 
@@ -153,6 +153,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setMinimumSize(new java.awt.Dimension(1300, 720));
+        jPanel1.setLayout(new java.awt.CardLayout());
 
         table.setAutoCreateRowSorter(true);
         table.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -191,23 +192,9 @@ public final class InventarioFrame extends javax.swing.JFrame {
             table.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 585, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 135, Short.MAX_VALUE))
-        );
+        jPanel1.add(jScrollPane1, "card2");
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 130, 1300, 590));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 1280, 560));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);

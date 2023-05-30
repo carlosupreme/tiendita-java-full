@@ -2,10 +2,10 @@ package views.inventario;
 
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import models.Producto;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
+import views.MessageHandler;
 
 /**
  *
@@ -17,7 +17,7 @@ public class VerProductoModal extends javax.swing.JDialog {
     public VerProductoModal(java.awt.Frame parent, Producto producto, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
-        setTitle("Información de " + producto.getNombre());
+        setTitle("Información de producto");
 
         id.setText(String.valueOf(producto.getId()));
         nombre.setText(producto.getNombre());
@@ -25,15 +25,12 @@ public class VerProductoModal extends javax.swing.JDialog {
         precio.setText(String.valueOf(producto.getPrecioPublico()));
         costo.setText(String.valueOf(producto.getCosto()));
         categoria.setText(producto.getCategoria());
-        activo.setText(productoRepository.isActive(producto.getId()) ? "Si" : "No");
 
         try {
+            activo.setText(productoRepository.isActive(producto.getId()) ? "Si" : "No");
             proveedor.setText(proveedorRepository.findById(producto.getIdProveedor()).getNombre());
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(parent, "ERROR DB");
-            System.err.println(ex.getMessage());
-        } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(parent, ex.getMessage());
+        } catch (SQLException | ValidationModelException ex) {
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }
 

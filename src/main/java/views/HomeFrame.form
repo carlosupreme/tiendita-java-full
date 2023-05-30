@@ -44,6 +44,9 @@
         <Component class="javax.swing.JButton" name="ventasBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="VENTAS"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ventasBtnActionPerformed"/>
@@ -57,6 +60,9 @@
         <Component class="javax.swing.JButton" name="cobrarBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="COBRAR"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cobrarBtnActionPerformed"/>
@@ -70,6 +76,9 @@
         <Component class="javax.swing.JButton" name="logoutBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Cerrar sesi&#xf3;n"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="logoutBtnActionPerformed"/>
@@ -83,6 +92,9 @@
         <Component class="javax.swing.JButton" name="inventarioBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="INVENTARIO"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inventarioBtnActionPerformed"/>
@@ -96,6 +108,9 @@
         <Component class="javax.swing.JButton" name="proveedoresBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="PROVEEDORES"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="proveedoresBtnActionPerformed"/>

@@ -5,8 +5,8 @@ import javax.swing.DefaultComboBoxModel;
 import models.Inventario;
 import models.Producto;
 import repositories.InventarioRepository;
-import repositories.ProductoCriteria;
 import repositories.ProductoRepository;
+import repositories.ProveedorCriteria;
 import repositories.ProveedorRepository;
 import views.inventario.ProveedorItem;
 
@@ -37,14 +37,14 @@ public class InventarioService {
     }
 
     public void fillProveedoresCombobox(DefaultComboBoxModel<ProveedorItem> model) throws SQLException {
-        proveedorRepository.findAll(false).forEach(proveedor -> {
+        proveedorRepository.findAll(false, new ProveedorCriteria()).forEach(proveedor -> {
             ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
             model.insertElementAt(item, 0);
         });
     }
 
     public void fillProveedoresCombobox(DefaultComboBoxModel<ProveedorItem> model, long selectedId) throws SQLException {
-        proveedorRepository.findAll(false).forEach(proveedor -> {
+        proveedorRepository.findAll(false, new ProveedorCriteria()).forEach(proveedor -> {
             ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
             model.insertElementAt(item, 0);
 
@@ -52,15 +52,6 @@ public class InventarioService {
                 model.setSelectedItem(item);
             }
         });
-    }
-
-    public void query() throws SQLException {
-        ProductoCriteria p = new ProductoCriteria();
-        p.nombre = "Carlos";
-        p.categoria = "hola";
-
-        productoRepository.findByCriteria(true, p);
-
     }
 
 }
