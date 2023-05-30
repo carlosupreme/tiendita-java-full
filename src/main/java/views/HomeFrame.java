@@ -126,7 +126,9 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
         // TODO add your handling code here:
-        new InventarioFrame().setVisible(true);
+        InventarioFrame f = new InventarioFrame();
+        f.setVisible(true);
+        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
@@ -210,6 +212,7 @@ public class HomeFrame extends javax.swing.JFrame {
 
                     VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
                     detalleVenta.setVisible(true);
+                    detalleVenta.setTitle("Detallles de la venta [" + id + "]");
 
                 }
             };
@@ -228,6 +231,8 @@ public class HomeFrame extends javax.swing.JFrame {
             JScrollPane scroll = new JScrollPane(tabla);
             panel.add(scroll, BorderLayout.CENTER);
             f.add(panel);
+            
+            f.setTitle("Información de todas las venta");
 
             f.setVisible(true);
 

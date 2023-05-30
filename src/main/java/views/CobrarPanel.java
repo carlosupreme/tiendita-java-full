@@ -313,7 +313,7 @@ public class CobrarPanel extends JPanel {
                 long stock = productoEncontrado.getStock();
 
                 if (stock == 0) {
-                    JOptionPane.showMessageDialog(null, "No hay más productos disponibles en inventarop",
+                    JOptionPane.showMessageDialog(null, "No hay más cantidad de dicho productos disponible en el inventario",
                             "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
