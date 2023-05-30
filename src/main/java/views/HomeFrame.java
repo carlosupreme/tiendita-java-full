@@ -39,6 +39,7 @@ public class HomeFrame extends javax.swing.JFrame {
         initComponents();
         setSize(630, 700);
         setLocationRelativeTo(null);
+        setTitle("Página de inicio");
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
