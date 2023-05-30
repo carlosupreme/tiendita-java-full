@@ -11,7 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProveedorRepository;
-import views.ErrorHandler;
+import views.MessageHandler;
 import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
@@ -60,7 +60,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                         loadEntries(false);
                         JOptionPane.showMessageDialog(ProveedorFrame.this, "Eliminado correctamente");
                     } catch (SQLException ex) {
-                        ErrorHandler.showErrorMessage(ex.getMessage());
+                        MessageHandler.showErrorMessage(ex.getMessage());
                     }
                 }
             }
@@ -71,7 +71,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 try {
                     new VerProveedorModal(ProveedorFrame.this, proveedorRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException | ValidationModelException ex) {
-                    ErrorHandler.showErrorMessage(ex.getMessage());
+                    MessageHandler.showErrorMessage(ex.getMessage());
                 }
             }
         };
@@ -186,7 +186,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 model.addRow(row);
             });
         } catch (SQLException | ValidationModelException ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }
 

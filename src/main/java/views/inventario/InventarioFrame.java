@@ -10,7 +10,7 @@ import javax.swing.table.DefaultTableModel;
 import repositories.InventarioRepository;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
-import views.ErrorHandler;
+import views.MessageHandler;
 import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
@@ -68,7 +68,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
                     loadEntries(showDeleted.isSelected());
                     JOptionPane.showMessageDialog(null, "Eliminado correctamente");
                 } catch (SQLException ex) {
-                    ErrorHandler.showErrorMessage(ex.getMessage());
+                    MessageHandler.showErrorMessage(ex.getMessage());
                 }
 
             }
@@ -79,7 +79,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 try {
                     new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), proveedorRepository).setVisible(true);
                 } catch (SQLException | ValidationModelException ex) {
-                    ErrorHandler.showErrorMessage(ex.getMessage());
+                    MessageHandler.showErrorMessage(ex.getMessage());
                 }
             }
         };
@@ -110,12 +110,12 @@ public final class InventarioFrame extends javax.swing.JFrame {
                     row[3] = inventarioRepository.getProductStock(producto.getId());
                     row[4] = proveedorRepository.findById(producto.getIdProveedor()).getNombre();
                 } catch (Exception ex) {
-                    ErrorHandler.showErrorMessage(ex.getMessage());
+                    MessageHandler.showErrorMessage(ex.getMessage());
                 }
                 model.addRow(row);
             });
         } catch (Exception ex) {
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }
 

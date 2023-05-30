@@ -6,10 +6,9 @@ package views.proveedor;
 
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import models.Proveedor;
 import repositories.ProveedorRepository;
-import views.ErrorHandler;
+import views.MessageHandler;
 import views.RealTimeValidator;
 import views.ValidationRule;
 
@@ -236,10 +235,10 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(false);
-            JOptionPane.showMessageDialog(null, "Proveedor agregado correctamente", "Exito", JOptionPane.PLAIN_MESSAGE);
+            MessageHandler.showSuccessMessage("Proveedor añadido correctamente");
         } catch (SQLException | ValidationModelException ex) {
 
-            ErrorHandler.showErrorMessage(ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
 
         }
     }//GEN-LAST:event_agregarBtnActionPerformed
