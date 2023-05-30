@@ -146,7 +146,9 @@ public final class InventarioFrame extends javax.swing.JFrame {
         filterByLbl = new javax.swing.JLabel();
         quitarFiltrosBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Inventario");
+        setIconImage(null);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

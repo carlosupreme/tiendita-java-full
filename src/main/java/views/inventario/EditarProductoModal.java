@@ -158,7 +158,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
         editBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Editar prodcuto");
+        setTitle("Editar producto");
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setFont(new java.awt.Font("Liberation Sans", 0, 14)); // NOI18N

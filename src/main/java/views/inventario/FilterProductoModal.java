@@ -75,6 +75,10 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         tituloLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Filtrar productos");
+        setIconImage(null);
+        setModal(true);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -198,14 +202,14 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         });
         jPanel4.add(filtrarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 410, 700, 80));
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 80));
 
         tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
         tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tituloLbl.setText("Filtros para producto");
         getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
 
-        setSize(new java.awt.Dimension(716, 495));
+        setSize(new java.awt.Dimension(716, 522));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
