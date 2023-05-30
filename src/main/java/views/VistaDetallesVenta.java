@@ -5,11 +5,10 @@
 package views;
 
 import db.SelectStatementMapper;
+import exceptions.ValidationModelException;
 import java.awt.BorderLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
 import java.sql.SQLException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -22,24 +21,27 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models.DetallesVenta;
+import repositories.ProductoRepository;
+import repositories.ProveedorRepository;
+import views.inventario.VerProductoModal;
 
 /**
  *
  * @author Raul
  */
 public class VistaDetallesVenta extends JDialog {
-    
+
     private int idVenta;
 
     public VistaDetallesVenta(int idVenta) {
-        
+
         SelectStatementMapper<DetallesVenta> ventaMap
                 = new SelectStatementMapper<>("detalles_venta");
-        
+
         ventaMap.setSql("SELECT detalles_venta.* FROM ventas INNER JOIN "
                 + "detalles_venta ON ventas.id = detalles_venta.id_venta "
                 + "WHERE detalles_venta.id_venta = " + idVenta);
-        
+
         try {
             String[][] datos = ventaMap.selectAllAsArray(DetallesVenta.class, new String[]{});
 
@@ -57,19 +59,27 @@ public class VistaDetallesVenta extends JDialog {
                     JTable table = (JTable) e.getSource();
                     int modelRow = Integer.parseInt(e.getActionCommand());
                     Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 1);
-                    JOptionPane.showMessageDialog(null, "Detalles del producto con id = "
-                            + valor.toString());
+                    String idTexto = valor.toString();
+
+                    long id = Long.valueOf(idTexto);
+                    ProductoRepository pr = new ProductoRepository();
+                    try {
+                        new VerProductoModal(null, pr.findById(id), new ProveedorRepository()).setVisible(true);
+                    } catch (SQLException | ValidationModelException ex) {
+                        ErrorHandler.showErrorMessage(ex.getMessage());
+                    }
+
                 }
             };
 
             new ButtonColumn(tabla, detallesProductoBtn, 1,
                     new ImageIcon(getClass().getResource("/info_icon.png")));
-            
+
             tabla.setRowHeight(30);
-            
+
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setSize(800, 500);
-            
+
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane(tabla);
@@ -82,9 +92,7 @@ public class VistaDetallesVenta extends JDialog {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-        
+
     }
-    
-    
-    
+
 }

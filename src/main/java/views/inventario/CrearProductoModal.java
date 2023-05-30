@@ -12,18 +12,22 @@ import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import services.InventarioService;
 import views.ErrorHandler;
+import views.RealTimeValidator;
+import views.ValidationRule;
 
 @SuppressWarnings("serial")
 public class CrearProductoModal extends javax.swing.JDialog {
 
     private final InventarioFrame parent;
     private final InventarioService inventarioService;
+    private final boolean showDeleted;
 
-    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
+    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository, boolean showDeleted) {
         super(parent, true);
         initComponents();
         this.parent = (InventarioFrame) parent;
         this.inventarioService = new InventarioService(productoRepository, proveedorRepository, new InventarioRepository());
+        this.showDeleted = showDeleted;
         getProveedoresIds();
         addRealTimeValidation();
     }
@@ -77,7 +81,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         codigoBarrasError = new javax.swing.JLabel();
         codigoBarras = new javax.swing.JTextField();
-        tituloLbl = new javax.swing.JLabel();
         nombrePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nombreError = new javax.swing.JLabel();
@@ -85,6 +88,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jPanel4 = new javax.swing.JPanel();
         cancelarBtn = new javax.swing.JButton();
         agregarBtn = new javax.swing.JButton();
+        tituloLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar producto");
@@ -218,11 +222,6 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
         getContentPane().add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
 
-        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Agregar producto");
-        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
-
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setFont(new java.awt.Font("Nimbus Sans", 0, 15)); // NOI18N
@@ -268,6 +267,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
         jPanel4.add(agregarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 700, 80));
+
+        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLbl.setText("Agregar producto");
+        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
 
         pack();
         setLocationRelativeTo(null);
@@ -352,7 +356,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
             inventarioService.agregarProducto(producto, Long.parseLong(cantidad.getText()));
 
             dispose();
-            parent.loadEntries(false);
+            parent.loadEntries(showDeleted);
             JOptionPane.showMessageDialog(null, "Producto agregado correctamente");
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {

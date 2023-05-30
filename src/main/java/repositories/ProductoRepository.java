@@ -37,7 +37,7 @@ public class ProductoRepository {
 
         ResultSet generatedKeys = st.getGeneratedKeys();
         if (generatedKeys.next()) {
-            producto.setId(generatedKeys.getInt(1));
+            producto.setId(generatedKeys.getLong(1));
         } else {
             throw new SQLException("No se obtuvo el ID");
         }
@@ -49,6 +49,34 @@ public class ProductoRepository {
 
         if (!showDeleted) {
             query += " WHERE activo = 1";
+        }
+
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            Producto producto = new Producto();
+            mapResultSet(rs, producto);
+
+            all.add(producto);
+        }
+
+        return all;
+    }
+
+    public List<Producto> findByCriteria(boolean showDeleted, ProductoCriteria criteria) throws SQLException, ValidationModelException {
+        ArrayList<Producto> all = new ArrayList<>();
+        String query = "SELECT * FROM productos";
+
+        //en proceso xd
+        if (!showDeleted) {
+            query += " WHERE activo = 1";
+            query += " AND (";
+            query += "nombre like '%" + criteria.nombre + "%'";
+            query += " OR categoria like '%" + criteria.categoria + "%'";
+            query += ")";
+        } else {
+            query += " WHERE nombre like '%" + criteria.nombre + "%'";
         }
 
         Statement st = connection.createStatement();
@@ -95,7 +123,7 @@ public class ProductoRepository {
 
     private void mapResultSet(ResultSet rs, Producto producto) throws SQLException {
         producto.setId(rs.getLong("id"));
-        producto.setIdProveedor(rs.getInt("id_proveedor"));
+        producto.setIdProveedor(rs.getLong("id_proveedor"));
         producto.setNombre(rs.getString("nombre"));
         producto.setCodigoBarras(rs.getString("codigo_barras"));
         producto.setPrecioPublico(rs.getDouble("precio_publico"));
