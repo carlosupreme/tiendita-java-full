@@ -11,17 +11,21 @@ import views.LoginFrame;
  */
 public class AdministradorTiendita {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
-        try {
-            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            if ("Nimbus".equals(info.getName())) {
+                UIManager.setLookAndFeel(info.getClassName());
+                break;
             }
-        } catch (Exception e) {
         }
+
+        UIManager.put("OptionPane.yesButtonText", "Sí");
+        UIManager.put("OptionPane.noButtonText", "No");
+        UIManager.put("OptionPane.okButtonText", "Aceptar");
+        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
+        UIManager.put("OptionPane.titleText", "Mensaje");
+        UIManager.put("OptionPane.messageDialogTitle", "Mensaje");
 
         java.awt.EventQueue.invokeLater(() -> {
 
