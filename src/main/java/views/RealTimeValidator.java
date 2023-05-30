@@ -1,4 +1,4 @@
-package views.inventario;
+package views;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;

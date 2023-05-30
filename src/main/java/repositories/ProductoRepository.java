@@ -64,6 +64,34 @@ public class ProductoRepository {
         return all;
     }
 
+    public List<Producto> findByCriteria(boolean showDeleted, ProductoCriteria criteria) throws SQLException, ValidationModelException {
+        ArrayList<Producto> all = new ArrayList<>();
+        String query = "SELECT * FROM productos";
+
+        //en proceso xd
+        if (!showDeleted) {
+            query += " WHERE activo = 1";
+            query += " AND (";
+            query += "nombre like '%" + criteria.nombre + "%'";
+            query += " OR categoria like '%" + criteria.categoria + "%'";
+            query += ")";
+        } else {
+            query += " WHERE nombre like '%" + criteria.nombre + "%'";
+        }
+
+        Statement st = connection.createStatement();
+        ResultSet rs = st.executeQuery(query);
+
+        while (rs.next()) {
+            Producto producto = new Producto();
+            mapResultSet(rs, producto);
+
+            all.add(producto);
+        }
+
+        return all;
+    }
+
     public Producto findById(long id) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement("SELECT * FROM productos WHERE id = ?");
         st.setLong(1, id);

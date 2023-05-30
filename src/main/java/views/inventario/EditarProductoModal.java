@@ -12,6 +12,8 @@ import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import services.InventarioService;
 import views.ErrorHandler;
+import views.RealTimeValidator;
+import views.ValidationRule;
 
 @SuppressWarnings("serial")
 public class EditarProductoModal extends javax.swing.JDialog {
@@ -19,14 +21,16 @@ public class EditarProductoModal extends javax.swing.JDialog {
     private final InventarioService inventarioService;
     private final long productoId;
     private final InventarioFrame parent;
+    private final boolean showDeleted;
 
-    public EditarProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository, long id) {
+    public EditarProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository, long id, boolean showDeleted) {
         super(parent, true);
         initComponents();
         this.parent = (InventarioFrame) parent;
         InventarioRepository inventarioRepository = new InventarioRepository();
         this.inventarioService = new InventarioService(productoRepository, proveedorRepository, inventarioRepository);
-        productoId = id;
+        this.productoId = id;
+        this.showDeleted = showDeleted;
         addRealTimeValidation();
 
         try {
@@ -369,7 +373,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
             inventarioService.actualizarProducto(producto, Long.parseLong(cantidad.getText()));
 
             dispose();
-            parent.loadEntries(false);
+            parent.loadEntries(showDeleted);
             JOptionPane.showMessageDialog(null, "Producto actualizado correctamente");
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {

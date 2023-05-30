@@ -12,18 +12,22 @@ import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import services.InventarioService;
 import views.ErrorHandler;
+import views.RealTimeValidator;
+import views.ValidationRule;
 
 @SuppressWarnings("serial")
 public class CrearProductoModal extends javax.swing.JDialog {
 
     private final InventarioFrame parent;
     private final InventarioService inventarioService;
+    private final boolean showDeleted;
 
-    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
+    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository, boolean showDeleted) {
         super(parent, true);
         initComponents();
         this.parent = (InventarioFrame) parent;
         this.inventarioService = new InventarioService(productoRepository, proveedorRepository, new InventarioRepository());
+        this.showDeleted = showDeleted;
         getProveedoresIds();
         addRealTimeValidation();
     }
@@ -352,7 +356,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
             inventarioService.agregarProducto(producto, Long.parseLong(cantidad.getText()));
 
             dispose();
-            parent.loadEntries(false);
+            parent.loadEntries(showDeleted);
             JOptionPane.showMessageDialog(null, "Producto agregado correctamente");
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {

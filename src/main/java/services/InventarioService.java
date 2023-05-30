@@ -5,6 +5,7 @@ import javax.swing.DefaultComboBoxModel;
 import models.Inventario;
 import models.Producto;
 import repositories.InventarioRepository;
+import repositories.ProductoCriteria;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import views.inventario.ProveedorItem;
@@ -51,6 +52,15 @@ public class InventarioService {
                 model.setSelectedItem(item);
             }
         });
+    }
+
+    public void query() throws SQLException {
+        ProductoCriteria p = new ProductoCriteria();
+        p.nombre = "Carlos";
+        p.categoria = "hola";
+
+        productoRepository.findByCriteria(true, p);
+
     }
 
 }
