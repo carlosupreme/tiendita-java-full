@@ -1,4 +1,4 @@
-package views.inventario;
+package views;
 
 import exceptions.ValidationModelException;
 import java.awt.Color;

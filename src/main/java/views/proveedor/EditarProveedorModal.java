@@ -10,8 +10,8 @@ import javax.swing.JOptionPane;
 import models.Proveedor;
 import repositories.ProveedorRepository;
 import views.ErrorHandler;
-import views.inventario.RealTimeValidator;
-import views.inventario.ValidationRule;
+import views.RealTimeValidator;
+import views.ValidationRule;
 
 /**
  *

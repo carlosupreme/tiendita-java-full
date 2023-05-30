@@ -1,5 +1,7 @@
 package views.inventario;
 
+import views.ValidationRule;
+import views.RealTimeValidator;
 import exceptions.ValidationModelException;
 import java.lang.reflect.Field;
 import java.sql.SQLException;

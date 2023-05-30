@@ -1,4 +1,4 @@
-package views.inventario;
+package views;
 
 public class ValidationResult {
 
