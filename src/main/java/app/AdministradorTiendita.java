@@ -1,6 +1,6 @@
 package app;
 
-import views.inventario.InventarioFrame;
+import views.LoginFrame;
 
 /**
  *
@@ -12,7 +12,7 @@ public class AdministradorTiendita {
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
-            new InventarioFrame().setVisible(true);
+            new LoginFrame().setVisible(true);
         });
     }
 }
