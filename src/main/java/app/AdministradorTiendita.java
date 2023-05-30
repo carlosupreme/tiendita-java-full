@@ -28,7 +28,6 @@ public class AdministradorTiendita {
         UIManager.put("OptionPane.messageDialogTitle", "Mensaje");
 
         java.awt.EventQueue.invokeLater(() -> {
-
             new LoginFrame().setVisible(true);
         });
     }

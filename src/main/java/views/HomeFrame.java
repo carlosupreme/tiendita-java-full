@@ -233,7 +233,7 @@ public class HomeFrame extends javax.swing.JFrame {
             panel.add(scroll, BorderLayout.CENTER);
             f.add(panel);
             
-            f.setTitle("Información de todas las venta");
+            f.setTitle("Información de todas las ventas");
 
             f.setVisible(true);
 

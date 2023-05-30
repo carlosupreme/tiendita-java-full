@@ -62,72 +62,75 @@ public class VerProductoModal extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setModalityType(java.awt.Dialog.ModalityType.APPLICATION_MODAL);
         setPreferredSize(new java.awt.Dimension(990, 380));
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        nombre.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        nombre.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         getContentPane().add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 100, 280, 26));
 
-        jLabel4.setFont(new java.awt.Font("Liberation Mono", 1, 15)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel4.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 51, 204));
         jLabel4.setText("ID");
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 56, 26));
 
-        jLabel5.setFont(new java.awt.Font("Liberation Mono", 1, 15)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel5.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 51, 204));
         jLabel5.setText("Precio");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 78, 31));
 
-        jLabel6.setFont(new java.awt.Font("Liberation Mono", 1, 15)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel6.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 51, 204));
         jLabel6.setText("Proveedor");
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 91, 26));
 
-        jLabel7.setFont(new java.awt.Font("Liberation Mono", 1, 15)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel7.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 51, 204));
         jLabel7.setText("Nombre");
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 81, 26));
 
-        id.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        id.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         getContentPane().add(id, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 270, 26));
 
-        precio.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        precio.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         getContentPane().add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 280, 26));
 
-        proveedor.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        proveedor.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         getContentPane().add(proveedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 220, 270, 26));
 
-        categoria.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        getContentPane().add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 160, 320, 26));
+        categoria.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        getContentPane().add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 160, 320, 26));
 
-        jLabel3.setFont(new java.awt.Font("Liberation Mono", 1, 15)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel3.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 51, 204));
         jLabel3.setText("Categoria");
         getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 160, 150, 26));
 
-        codigoBarras.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        getContentPane().add(codigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 100, 320, 26));
+        codigoBarras.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        getContentPane().add(codigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 100, 320, 26));
 
-        jLabel8.setFont(new java.awt.Font("Liberation Mono", 1, 15)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel8.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 51, 204));
         jLabel8.setText("Codigo de barras");
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 150, 26));
+        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 100, 170, 26));
 
-        costo.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
-        getContentPane().add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 220, 320, 30));
+        costo.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        getContentPane().add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 320, 30));
 
-        jLabel11.setFont(new java.awt.Font("Liberation Mono", 1, 15)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 102, 204));
+        jLabel11.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 51, 204));
         jLabel11.setText("Costo");
         getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 150, 31));
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 102, 255));
+        jLabel1.setForeground(new java.awt.Color(0, 153, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("PRODUCTO");
+        jLabel1.setText("Detalles del producto");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
 
-        pack();
+        setSize(new java.awt.Dimension(1078, 446));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
