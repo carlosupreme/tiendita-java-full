@@ -111,8 +111,8 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel2.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 272, 420, 30));
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("___________________________________________________________");
-        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 430, 32));
+        jLabel4.setText("____________________________________________________");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 280, 520, 32));
 
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8_user_20px_1.png"))); // NOI18N
@@ -164,7 +164,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 registerBtnMouseClicked(evt);
             }
         });
-        jPanel2.add(registerBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, 85, 31));
+        jPanel2.add(registerBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 480, 120, 31));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -179,7 +179,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel2.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 420, 30));
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("___________________________________________________________");
+        jLabel9.setText("____________________________________________________");
         jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 430, 32));
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 860, 600));

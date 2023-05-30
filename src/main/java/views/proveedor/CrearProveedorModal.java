@@ -20,6 +20,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
     private final ProveedorRepository proveedorRepository;
     private final ProveedorFrame parent;
+    private final boolean showDeleted;
 
     /**
      * Creates new form CrearProveedorModal
@@ -27,12 +28,12 @@ public class CrearProveedorModal extends javax.swing.JDialog {
      * @param parent
      * @param proveedorRepository
      */
-    public CrearProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository) {
+    public CrearProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository, boolean showDeleted) {
         super(parent, true);
         initComponents();
         this.parent = (ProveedorFrame) parent;
         this.proveedorRepository = proveedorRepository;
-
+        this.showDeleted = showDeleted;
         RealTimeValidator.addValidation(nombre, new ValidationRule(Proveedor::NombreValido, nombreError));
         RealTimeValidator.addValidation(direccion, new ValidationRule(Proveedor::DireccionValida, direccionError));
         RealTimeValidator.addValidation(telefono, new ValidationRule(Proveedor::TelefonoValido, telefonoError));
@@ -237,7 +238,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
             proveedorRepository.save(proveedor);
 
             dispose();
-            parent.loadEntries(false);
+            parent.loadEntries(showDeleted);
             MessageHandler.showSuccessMessage("Proveedor añadido correctamente");
         } catch (SQLException | ValidationModelException ex) {
 

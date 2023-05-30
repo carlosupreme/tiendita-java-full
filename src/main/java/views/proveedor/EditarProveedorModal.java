@@ -21,16 +21,18 @@ public class EditarProveedorModal extends javax.swing.JDialog {
     private final ProveedorRepository proveedorRepository;
     private final long proveedorId;
     private final ProveedorFrame parent;
+    private final boolean showDeleted;
 
     /**
      * Creates new form EditarProveedorModal
      */
-    public EditarProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository, long id) {
+    public EditarProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository, long id, boolean showDeleted) {
         super(parent, true);
         initComponents();
         this.proveedorRepository = proveedorRepository;
         proveedorId = id;
         this.parent = (ProveedorFrame) parent;
+        this.showDeleted = showDeleted;
 
         try {
             Proveedor proveedor = proveedorRepository.findById(id);
@@ -246,7 +248,7 @@ public class EditarProveedorModal extends javax.swing.JDialog {
             proveedorRepository.update(proveedorId, proveedor);
 
             dispose();
-            parent.loadEntries(false);
+            parent.loadEntries(showDeleted);
             MessageHandler.showSuccessMessage("Agregado correctamente");
 
         } catch (SQLException | ValidationModelException ex) {

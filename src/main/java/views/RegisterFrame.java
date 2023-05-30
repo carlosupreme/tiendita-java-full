@@ -2,7 +2,6 @@ package views;
 
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import models.Usuario;
 import repositories.UsuarioRepository;
@@ -90,8 +89,8 @@ public class RegisterFrame extends javax.swing.JFrame {
         jPanel2.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 200, 30));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("_______________________________________");
-        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 200, 30));
+        jLabel5.setText("________________________");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 130, 230, 30));
 
         nombre.setBackground(new java.awt.Color(255, 102, 102));
         nombre.setFont(nombre.getFont().deriveFont(nombre.getFont().getSize()+2f));
@@ -106,7 +105,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         jPanel2.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 200, 30));
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("_______________________________________");
+        jLabel12.setText("________________________");
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 200, 30));
 
         password.setBackground(new java.awt.Color(255, 102, 102));
@@ -122,7 +121,7 @@ public class RegisterFrame extends javax.swing.JFrame {
         jPanel2.add(password, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 200, 30));
 
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("_______________________________________");
+        jLabel13.setText("_________________________");
         jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 200, 30));
 
         registerBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -152,13 +151,13 @@ public class RegisterFrame extends javax.swing.JFrame {
                 jLabel8MouseClicked(evt);
             }
         });
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 430, 110, 30));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 430, 180, 30));
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel9.setText("Username");
-        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 70, 30));
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 90, 190, 30));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
@@ -208,19 +207,15 @@ public class RegisterFrame extends javax.swing.JFrame {
             usuario.setNombre(nombre.getText());
             usuario.setPassword(password.getText());
             usuario.setUsername(username.getText());
-            
 
             usuarioRepository.save(usuario);
 
-            JOptionPane.showMessageDialog(rootPane, "Registrado correctamente");
+            JOptionPane.showMessageDialog(null, "Registrado correctamente");
             dispose();
             new LoginFrame().setVisible(true);
 
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(rootPane, e.getMessage());
-            System.err.println(e.getMessage());
-        } catch (ValidationModelException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        } catch (SQLException | ValidationModelException e) {
+            MessageHandler.showErrorMessage(e.getMessage());
         }
     }//GEN-LAST:event_registerBtnActionPerformed
 
