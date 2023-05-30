@@ -1,6 +1,6 @@
 package app;
 
-import views.proveedor.ProveedorFrame;
+import views.inventario.InventarioFrame;
 
 /**
  *
@@ -12,11 +12,7 @@ public class AdministradorTiendita {
 
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
-<<<<<<< HEAD
-            new ProveedorFrame().setVisible(true);
-=======
-                new InventarioFrame().setVisible(true);
->>>>>>> inventario
+            new InventarioFrame().setVisible(true);
         });
     }
 }

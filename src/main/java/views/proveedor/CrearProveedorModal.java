@@ -71,6 +71,9 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         tituloLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Crear proveedor");
+        setModal(true);
+        setResizable(false);
 
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
