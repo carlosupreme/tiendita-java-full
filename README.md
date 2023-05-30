@@ -23,7 +23,7 @@ cd administrador-tiendita
 
 3. Copiar archivo **.env-example** ubicado en *src/main/resources/* a **.env**
 ```
-cp src/main/resources/env-example src/main/resources/.env
+cp src/main/resources/.env-example src/main/resources/.env
 ```
 4. Poner credenciales de la base de datos en el archivo .env
 ```
