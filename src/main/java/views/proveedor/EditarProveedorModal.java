@@ -81,6 +81,8 @@ public class EditarProveedorModal extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar proveedor");
+        setModal(true);
+        setResizable(false);
 
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

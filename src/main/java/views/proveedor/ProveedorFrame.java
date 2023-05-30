@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import repositories.ProveedorCriteria;
 import repositories.ProveedorRepository;
 import views.MessageHandler;
 import views.tabla.TableActionCellEditor;
@@ -24,6 +25,8 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
     private final ProveedorRepository proveedorRepository;
     private final DefaultTableModel model;
+    private final FilterProveedorModal filterProveedorModal;
+    private ProveedorCriteria criteria;
 
     public ProveedorFrame() {
         initComponents();
@@ -33,6 +36,9 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         setTitle("Proveedores");
 
         this.proveedorRepository = new ProveedorRepository();
+        this.criteria = new ProveedorCriteria();
+        this.filterProveedorModal = new FilterProveedorModal(ProveedorFrame.this, criteria);
+
         model = (DefaultTableModel) table.getModel();
         loadEntries(false);
 
@@ -58,7 +64,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                     try {
                         proveedorRepository.delete(id);
                         loadEntries(false);
-                        JOptionPane.showMessageDialog(ProveedorFrame.this, "Eliminado correctamente");
+                        MessageHandler.showSuccessMessage("Eliminado correctamente");
                     } catch (SQLException ex) {
                         MessageHandler.showErrorMessage(ex.getMessage());
                     }
@@ -83,8 +89,17 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
         showDeleted.addItemListener((ItemEvent e) -> {
             loadEntries(e.getStateChange() == ItemEvent.SELECTED);
-        });
 
+        });
+        quitarFiltrosBtn.setVisible(false);
+
+    }
+
+    public void setCriteria(ProveedorCriteria pc) {
+        this.criteria = pc;
+        loadEntries(showDeleted.isSelected());
+        filterByLbl.setText("Filtro aplicados");
+        quitarFiltrosBtn.setVisible(true);
     }
 
     /**
@@ -95,12 +110,17 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
-        showDeleted = new javax.swing.JCheckBox();
-        crearBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
+        quitarFiltrosBtn = new javax.swing.JButton();
+        filterByLbl = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        filterBtn = new javax.swing.JButton();
+        crearBtn = new javax.swing.JButton();
+        showDeleted = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -109,26 +129,6 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setText("PROVEEDORES ");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, 53));
-
-        showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        showDeleted.setText("Mostrar eliminados");
-        showDeleted.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                showDeletedActionPerformed(evt);
-            }
-        });
-        getContentPane().add(showDeleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(1110, 40, -1, 30));
-
-        crearBtn.setBackground(new java.awt.Color(129, 140, 248));
-        crearBtn.setFont(new java.awt.Font("Noto Sans Myanmar", 1, 14)); // NOI18N
-        crearBtn.setForeground(new java.awt.Color(255, 255, 255));
-        crearBtn.setText("Crear");
-        crearBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crearBtnActionPerformed(evt);
-            }
-        });
-        getContentPane().add(crearBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 30, -1, -1));
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -159,6 +159,63 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 1218, 581));
 
+        quitarFiltrosBtn.setBackground(new java.awt.Color(251, 113, 133));
+        quitarFiltrosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        quitarFiltrosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        quitarFiltrosBtn.setText("Quitar filtros");
+        quitarFiltrosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        quitarFiltrosBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitarFiltrosBtnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(quitarFiltrosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 60, -1, -1));
+
+        filterByLbl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        filterByLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        filterByLbl.setText(" ");
+        getContentPane().add(filterByLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 60, 10, -1));
+
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        filterBtn.setBackground(new java.awt.Color(56, 189, 248));
+        filterBtn.setFont(new java.awt.Font("Nimbus Sans", 1, 14)); // NOI18N
+        filterBtn.setForeground(new java.awt.Color(255, 255, 255));
+        filterBtn.setText("Filtrar");
+        filterBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        filterBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.ipadx = 18;
+        gridBagConstraints.ipady = 11;
+        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
+        jPanel2.add(filterBtn, gridBagConstraints);
+
+        crearBtn.setBackground(new java.awt.Color(129, 140, 248));
+        crearBtn.setFont(new java.awt.Font("Noto Sans Myanmar", 1, 14)); // NOI18N
+        crearBtn.setForeground(new java.awt.Color(255, 255, 255));
+        crearBtn.setText("Crear");
+        crearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        jPanel2.add(crearBtn, gridBagConstraints);
+
+        showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        showDeleted.setText("Mostrar eliminados");
+        jPanel2.add(showDeleted, new java.awt.GridBagConstraints());
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 30, 530, 50));
+
         setSize(new java.awt.Dimension(1300, 748));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -168,14 +225,22 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
     }//GEN-LAST:event_crearBtnActionPerformed
 
-    private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_showDeletedActionPerformed
+    private void quitarFiltrosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarFiltrosBtnActionPerformed
+        this.criteria = new ProveedorCriteria();
+        filterProveedorModal.setCriteria(criteria);
+        loadEntries(showDeleted.isSelected());
+        quitarFiltrosBtn.setVisible(false);
+        filterByLbl.setText("");
+    }//GEN-LAST:event_quitarFiltrosBtnActionPerformed
+
+    private void filterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBtnActionPerformed
+        filterProveedorModal.setVisible(true);
+    }//GEN-LAST:event_filterBtnActionPerformed
 
     public void loadEntries(boolean showDelete) {
         model.setRowCount(0);
         try {
-            proveedorRepository.findAll(showDelete).forEach(proveedor -> {
+            proveedorRepository.findAll(showDelete, criteria).forEach(proveedor -> {
                 Object[] row = new Object[6];
                 row[0] = proveedor.getId();
                 row[1] = proveedor.getNombre();
@@ -192,8 +257,12 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crearBtn;
+    private javax.swing.JButton filterBtn;
+    private javax.swing.JLabel filterByLbl;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton quitarFiltrosBtn;
     private javax.swing.JCheckBox showDeleted;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
