@@ -21,6 +21,18 @@ public class ProductoRepository {
         INSERT_QUERY = "INSERT INTO productos (nombre, codigo_barras, precio_publico, costo, id_proveedor, categoria) values (?, ?, ?, ?, ?, ?)";
     }
 
+    public boolean isActive(long id) throws SQLException {
+        PreparedStatement st = connection.prepareStatement("SELECT activo FROM productos WHERE id = ?");
+        st.setLong(1, id);
+        ResultSet rs = st.executeQuery();
+
+        if (!rs.next()) {
+            return false;
+        }
+
+        return rs.getBoolean("activo");
+    }
+
     public void save(Producto producto) throws SQLException, ValidationModelException {
         PreparedStatement st = connection.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);
 

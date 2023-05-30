@@ -247,6 +247,7 @@ public class CobrarPanel extends JPanel {
                 crearFilaProductos(pnlColumnas, getComponentesTitutlo());
 
                 total = 0;
+                lblTotal.setText("Total: $" + String.format("%.2f", total));
 
                 pnlProductos.add(pnlColumnas);
                 pnlColumnas.setMaximumSize(new Dimension(
@@ -383,7 +384,7 @@ public class CobrarPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Error al buscar el producto en la base de datos");
         }
 
-        txtCodigoBarras.setText("");
+        txtCodigoBarras.selectAll();
         txtCodigoBarras.requestFocus();
     }
 

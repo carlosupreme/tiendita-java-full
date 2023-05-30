@@ -92,7 +92,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
             public void onShow(int row) {
                 long id = (long) model.getValueAt(row, 0);
                 try {
-                    new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), proveedorRepository).setVisible(true);
+                    new VerProductoModal(InventarioFrame.this, productoRepository.findById(id), productoRepository, proveedorRepository).setVisible(true);
                 } catch (SQLException | ValidationModelException ex) {
                     ErrorHandler.showErrorMessage(ex.getMessage());
                 }
@@ -236,6 +236,7 @@ public final class InventarioFrame extends javax.swing.JFrame {
 
         showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         showDeleted.setText("Mostrar eliminados");
+        showDeleted.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jPanel2.add(showDeleted, new java.awt.GridBagConstraints());
 
         filterBtn.setBackground(new java.awt.Color(56, 189, 248));

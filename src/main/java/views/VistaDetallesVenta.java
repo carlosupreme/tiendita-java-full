@@ -34,7 +34,6 @@ public class VistaDetallesVenta extends JDialog {
     private int idVenta;
 
     public VistaDetallesVenta(int idVenta) {
-
         SelectStatementMapper<DetallesVenta> ventaMap
                 = new SelectStatementMapper<>("detalles_venta");
 
@@ -64,7 +63,7 @@ public class VistaDetallesVenta extends JDialog {
                     long id = Long.valueOf(idTexto);
                     ProductoRepository pr = new ProductoRepository();
                     try {
-                        new VerProductoModal(null, pr.findById(id), new ProveedorRepository()).setVisible(true);
+                        new VerProductoModal(null, pr.findById(id), pr, new ProveedorRepository()).setVisible(true);
                     } catch (SQLException | ValidationModelException ex) {
                         ErrorHandler.showErrorMessage(ex.getMessage());
                     }

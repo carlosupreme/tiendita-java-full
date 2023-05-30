@@ -130,7 +130,7 @@ public class HomeFrame extends javax.swing.JFrame {
         InventarioFrame f = new InventarioFrame();
         f.setVisible(true);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
@@ -145,13 +145,13 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void cobrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cobrarBtnActionPerformed
-        // TODO add your handling code here:
-
         JFrame f = new JFrame();
-        f.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 500);
+        f.setSize(1300, 720);
         f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         f.setTitle("Realizar una venta");
-        
+        f.setLocationRelativeTo(null);
+        f.setResizable(false);
+
         f.add(new CobrarPanel());
 
         f.setVisible(true);
@@ -160,8 +160,8 @@ public class HomeFrame extends javax.swing.JFrame {
     private void ventasBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ventasBtnActionPerformed
 
         SelectStatementMapper<Venta> ventaMap
-        = new SelectStatementMapper<>("ventas");
-        
+                = new SelectStatementMapper<>("ventas");
+
         ventaMap.buscandoUsuario = true;
 
         try {
@@ -198,10 +198,8 @@ public class HomeFrame extends javax.swing.JFrame {
                     }
                 }
             };*/
-
             //new ButtonColumn(tabla, usuarioIDAction, 3,
-                //new ImageIcon(getClass().getResource("/info_icon.png")));
-
+            //new ImageIcon(getClass().getResource("/info_icon.png")));
             Action detallesVentaAction;
             detallesVentaAction = new AbstractAction() {
                 @Override
@@ -211,7 +209,7 @@ public class HomeFrame extends javax.swing.JFrame {
                     Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
                     int id = Integer.parseInt(valor.toString());
 
-                    VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
+                    VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id );
                     detalleVenta.setVisible(true);
                     detalleVenta.setTitle("Detallles de la venta [" + id + "]");
 
@@ -219,27 +217,29 @@ public class HomeFrame extends javax.swing.JFrame {
             };
 
             new ButtonColumn(tabla, detallesVentaAction, 5,
-                new ImageIcon(getClass().getResource("/info_icon.png")));
+                    new ImageIcon(getClass().getResource("/info_icon.png")));
 
             tabla.setRowHeight(30);
 
             JFrame f = new JFrame();
-            f.setSize(800, 500);
+            f.setSize(1300, 720);
             f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            f.setResizable(false);
+            f.setLocationRelativeTo(null);
 
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane(tabla);
             panel.add(scroll, BorderLayout.CENTER);
             f.add(panel);
-            
+
             f.setTitle("Información de todas las ventas");
 
             f.setVisible(true);
 
         } catch (IllegalAccessException | IllegalArgumentException
-            | InstantiationException | NoSuchMethodException
-            | InvocationTargetException | SQLException ex) {
+                | InstantiationException | NoSuchMethodException
+                | InvocationTargetException | SQLException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
     }//GEN-LAST:event_ventasBtnActionPerformed

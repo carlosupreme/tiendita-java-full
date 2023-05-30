@@ -11,13 +11,15 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -191,7 +193,9 @@ public class SelectStatementMapper<T> {
             if (valor instanceof Instant) {
                 Instant fechaSQL = (Instant) valor;
                 ZonedDateTime zdt = fechaSQL.atZone(ZoneId.of("UTC-6"));
-                valores[i] = zdt.toString();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy  HH:mm:ss");
+                String fechaTexto = formatter.format(Date.from(zdt.toInstant()));
+                valores[i] = fechaTexto;
             } else {
                 valores[i] = valor.toString();
             }

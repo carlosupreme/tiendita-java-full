@@ -4,6 +4,7 @@ import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import models.Producto;
+import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 
 /**
@@ -13,7 +14,7 @@ import repositories.ProveedorRepository;
 @SuppressWarnings("serial")
 public class VerProductoModal extends javax.swing.JDialog {
 
-    public VerProductoModal(java.awt.Frame parent, Producto producto, ProveedorRepository proveedorRepository) {
+    public VerProductoModal(java.awt.Frame parent, Producto producto, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
         setTitle("Información de " + producto.getNombre());
@@ -24,6 +25,7 @@ public class VerProductoModal extends javax.swing.JDialog {
         precio.setText(String.valueOf(producto.getPrecioPublico()));
         costo.setText(String.valueOf(producto.getCosto()));
         categoria.setText(producto.getCategoria());
+        activo.setText(productoRepository.isActive(producto.getId()) ? "Si" : "No");
 
         try {
             proveedor.setText(proveedorRepository.findById(producto.getIdProveedor()).getNombre());
@@ -59,6 +61,8 @@ public class VerProductoModal extends javax.swing.JDialog {
         costo = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        activo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -77,7 +81,7 @@ public class VerProductoModal extends javax.swing.JDialog {
 
         jLabel5.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 51, 204));
-        jLabel5.setText("Precio");
+        jLabel5.setText("Precio $");
         getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 78, 31));
 
         jLabel6.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
@@ -120,8 +124,8 @@ public class VerProductoModal extends javax.swing.JDialog {
 
         jLabel11.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(0, 51, 204));
-        jLabel11.setText("Costo");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 150, 31));
+        jLabel11.setText("Está activo");
+        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 150, 31));
 
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 204));
@@ -129,17 +133,27 @@ public class VerProductoModal extends javax.swing.JDialog {
         jLabel1.setText("Detalles del producto");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 50));
 
+        jLabel12.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel12.setText("Costo               $");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 150, 31));
+
+        activo.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        getContentPane().add(activo, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 280, 320, 30));
+
         setSize(new java.awt.Dimension(1078, 446));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel activo;
     private javax.swing.JLabel categoria;
     private javax.swing.JLabel codigoBarras;
     private javax.swing.JLabel costo;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
