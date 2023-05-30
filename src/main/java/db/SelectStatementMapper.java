@@ -28,6 +28,7 @@ public class SelectStatementMapper<T> {
     private final Connection conexion = ConexionDB.getInstance().getConnection();
     private String nombreTabla;
     private String sql;
+    public boolean buscandoUsuario = false;
     private HashMap<String, String> mapeoAtributos = new HashMap<>();
 
     public HashMap<String, String> getMapeoAtributos() {
@@ -51,8 +52,9 @@ public class SelectStatementMapper<T> {
         this.nombreTabla = nombreTabla;
         sql = String.format("SELECT * FROM %s", nombreTabla);
     }
-    
-    public SelectStatementMapper() {}
+
+    public SelectStatementMapper() {
+    }
 
     public T findById(Class<T> clazz, String id) throws SQLException,
             IllegalArgumentException, IllegalAccessException, NoSuchMethodException,
@@ -62,8 +64,9 @@ public class SelectStatementMapper<T> {
         PreparedStatement statement = conexion.prepareStatement(sql);
         statement.setString(1, id);
         try (statement; ResultSet resultSet = statement.executeQuery()) {
-            if (resultSet.next()) 
+            if (resultSet.next()) {
                 objeto = crearObjDesdeResultSet(resultSet, clazz);
+            }
         }
         return objeto;
     }
@@ -73,9 +76,8 @@ public class SelectStatementMapper<T> {
             NoSuchMethodException, InstantiationException, InstantiationException,
             InvocationTargetException {
         List<T> objetos = new ArrayList<>();
-        
-        try (PreparedStatement statement = conexion.prepareStatement(sql); 
-                ResultSet resultSet = statement.executeQuery()) {
+
+        try (PreparedStatement statement = conexion.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 T objeto = crearObjDesdeResultSet(resultSet, clazz);
                 objetos.add(objeto);
@@ -106,7 +108,7 @@ public class SelectStatementMapper<T> {
             NoSuchMethodException, InstantiationException, InvocationTargetException {
         Class<?> currentClass = clazz;
         T objeto = clazz.getDeclaredConstructor().newInstance();
-        
+
         do {
             llenarCamposDeClase(resultSet, currentClass, objeto);
         } while ((currentClass = currentClass.getSuperclass()) != null);
@@ -121,8 +123,7 @@ public class SelectStatementMapper<T> {
             InvocationTargetException {
 
         ArrayList<String[]> valoresRegistros = new ArrayList<>();
-        try (PreparedStatement statement = conexion.prepareStatement(sql); 
-                ResultSet resultSet = statement.executeQuery()) {
+        try (PreparedStatement statement = conexion.prepareStatement(sql); ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 String[] valoresAtributos;
 
@@ -146,13 +147,38 @@ public class SelectStatementMapper<T> {
         for (Field field : fields) {
 
             String nombreAttr = field.getName();
-            
             field.setAccessible(true);
-            
+
+            if (buscandoUsuario && nombreAttr.equals("usuarioId")) {
+
+                String sql2 = "SELECT username FROM usuarios WHERE id = ?";
+
+                // Crear un objeto PreparedStatement para evitar ataques de inyección SQL
+                PreparedStatement stmt = conexion.prepareStatement(sql2);
+
+                long id = resultSet.getLong(PreparedStatementMapper.sqlName(nombreAttr));
+
+                stmt.setLong(1, id); // Establecer el ID del usuario en el parámetro de la sentencia
+
+                // Ejecutar la consulta
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    String username = rs.getString("username");
+                    valores[i] = username;
+                    i++;
+                } else {
+                    System.out.println("Usuario no encontrado.");
+                }
+
+                continue;
+
+            }
+
             Object valor;
-            
-            if(field.getType().toString().equals("class java.time.Instant")) {
-                OffsetDateTime odt = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr), 
+
+            if (field.getType().toString().equals("class java.time.Instant")) {
+                OffsetDateTime odt = resultSet.getObject(PreparedStatementMapper.sqlName(nombreAttr),
                         OffsetDateTime.class);
                 valor = odt.toInstant();
             } else {
@@ -162,8 +188,7 @@ public class SelectStatementMapper<T> {
             /*if (mapeoAtributos.containsKey(nombreAttr)) {
                 valores[i] = mapeoAtributos.get(nombreAttr);
             }*/
-            
-            if(valor instanceof Instant) {
+            if (valor instanceof Instant) {
                 Instant fechaSQL = (Instant) valor;
                 ZonedDateTime zdt = fechaSQL.atZone(ZoneId.of("UTC-6"));
                 valores[i] = zdt.toString();
@@ -172,8 +197,8 @@ public class SelectStatementMapper<T> {
             }
             i++;
         }
-        
-        for(String str : adicionales) {
+
+        for (String str : adicionales) {
             valores[i] = str;
             i++;
         }

@@ -14,6 +14,15 @@ public class Usuario {
     private String username;
     private String nombre;
     private String password;
+    
+    public Usuario() {}
+
+    public Usuario(int id, String username, String nombre, String password) {
+        this.id = id;
+        this.username = username;
+        this.nombre = nombre;
+        this.password = password;
+    }
 
     public int getId() {
         return id;
@@ -31,8 +40,14 @@ public class Usuario {
     }
 
     public void setUsername(String username) throws ValidationModelException {
-        if (username == null || !username.matches("^[a-zA-Z0-9_]{4,}$")) {
-            throw new ValidationModelException("El username deber ser sin caracteres especiales minimo 4 caracteres");
+        if(username == null || username.trim().equals("")) {
+            throw new ValidationModelException("El username no pueda quedar vacío");
+        } else if(username.trim().length() < 4) {
+            throw new ValidationModelException("El username deber tener minimo 4 caracteres");
+        }
+        if (!username.matches("^[a-zA-Z0-9_]{4,}$")) {
+            throw new ValidationModelException("El username solo puede tener letras sin acentos, "
+                    + "números y guiones bajos");
         }
 
         this.username = username;
@@ -43,8 +58,11 @@ public class Usuario {
     }
 
     public void setNombre(String nombre) throws ValidationModelException {
-        if (nombre == null || !nombre.matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$")) {
-            throw new ValidationModelException("el nombre no debe contener caracteres especiales  ");
+        if (nombre == null || nombre.trim().equals("")) {
+            throw new ValidationModelException("El nombre no puede quedar vacío");
+        } else if(!nombre.trim().matches("^(?!\\s*$)(?!.*[^a-zñáéíóúA-ZÑÁÉÍÓÚ0-9 \\s]).{2,}$")) {
+            throw new ValidationModelException("El nombre solo puede tener letras, "
+                    + "números y espacios en blanco");
         }
         this.nombre = nombre;
     }
@@ -54,8 +72,14 @@ public class Usuario {
     }
 
     public void setPassword(String password) throws ValidationModelException {
-        if (password == null || password.isEmpty() || password.length() < 8 || !password.matches(".*\\d.*") || !password.matches(".*[a-zA-Z].*")) {
-            throw new ValidationModelException("La contraseña debe ser de al menos 8 caracteres");
+        if (password == null || password.trim().isEmpty()) {
+            throw new ValidationModelException("La contraseña no puede quedar vacía");
+        } else if(password.length() < 8) {
+            throw new ValidationModelException("La contraseña debe tener al menos 8 caracteres");
+        } else if(!password.matches(".*[a-zA-Z].*")) {
+            throw new ValidationModelException("La contraseña debe tener al menos una letra mayúscula y minúscula");
+        } else if(!password.matches(".*\\d.*")) {
+            throw new ValidationModelException("La contraseña debe tener al menos un número");
         }
         this.password = password;
     }

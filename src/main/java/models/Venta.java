@@ -15,12 +15,12 @@ public class Venta {
     private long id;
     private double total;
     private Instant fecha;
-    private int usuarioId;
+    private long usuarioId;
     private String formaPago;
     
     public Venta() {}
 
-    public Venta(double total, Instant fecha, int usuarioId, String formaPago) {
+    public Venta(double total, Instant fecha, long usuarioId, String formaPago) {
         this.total = total;
         this.fecha = fecha;
         this.usuarioId = usuarioId;
@@ -51,7 +51,7 @@ public class Venta {
         this.total = total;
     }
 
-    public int getUsuarioId() {
+    public long getUsuarioId() {
         return usuarioId;
     }
 

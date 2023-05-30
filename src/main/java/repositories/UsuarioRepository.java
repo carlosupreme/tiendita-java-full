@@ -8,14 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-import models.Rol;
 import models.Usuario;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class UsuarioRepository implements Repository<Usuario> {
 
     private final Connection connection;
-    private final String INSERT_SQL = "INSERT INTO usuarios (username, nombre, password, rol) VALUES (?, ?, ?, ?)";
+    private final String INSERT_SQL = "INSERT INTO usuarios (username, nombre, password) VALUES (?, ?, ?)";
 
     public UsuarioRepository() {
         this.connection = ConexionDB.getInstance().getConnection();
@@ -94,7 +93,6 @@ public class UsuarioRepository implements Repository<Usuario> {
         usuario.setId(rs.getInt("id"));
         usuario.setUsername(rs.getString("username"));
         usuario.setPassword(rs.getString("password"));
-        
         usuario.setNombre(rs.getString("nombre"));
     }
 

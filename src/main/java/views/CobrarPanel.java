@@ -102,11 +102,14 @@ public class CobrarPanel extends JPanel {
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST; // Alineado a la izquierda
         constraints.insets = new Insets(0, 15, 0, 0);  // Margen de 15px a la izquierda
+        constraints.weightx = 1.0;  // No se ajusta horizontalmente
 
-        constraints.weightx = 1.0 / (componentes.size() - 1);
+        //constraints.weightx = 1.0 / (componentes.size() - 1);
         for (int i = 1; i < componentes.size(); i++) {
+
             constraints.gridx = i;  // Columna i
             layout.setConstraints(componentes.get(i), constraints);
+
             pnlFila.add(componentes.get(i));
         }
 
@@ -122,8 +125,8 @@ public class CobrarPanel extends JPanel {
     private ArrayList<JComponent> getComponentesTitutlo() {
 
         ArrayList<JComponent> lista = new ArrayList<>();
-        
-        JTextField labelNombre = new JTextField("Nombre", 50);
+
+        JTextField labelNombre = new JTextField("Nombre", 35);
         labelNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         labelNombre.setEditable(false);
         lista.add(labelNombre);
@@ -174,9 +177,10 @@ public class CobrarPanel extends JPanel {
         panelAbajo.add(cb);
 
         cobrarBtn.addActionListener((ActionEvent e) -> {
-            
-            if(mapProductos.isEmpty()) {
+
+            if (mapProductos.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No hay productos para cobrar", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                return;
             }
 
             InstruccionDML dml = () -> {
@@ -227,21 +231,21 @@ public class CobrarPanel extends JPanel {
                                     + "producto con id = " + pn.producto.getId());
                         }
 
-                    } catch (SQLException | IllegalAccessException ex) {        
+                    } catch (SQLException | IllegalAccessException ex) {
                         throw new SQLException(ex.getMessage());
                     }
                 }
             };
             try {
                 TransactionManager.ejecutarTransaccion(dml);
-                
-                JOptionPane.showMessageDialog(null, "Venta exitosa");
+
+                JOptionPane.showMessageDialog(null, "Se ha realizado la venta de forma exitosa", "Mensaje", 1);
                 mapProductos = new HashMap<>();
                 pnlProductos.removeAll();
 
                 JPanel pnlColumnas = new JPanel();
                 crearFilaProductos(pnlColumnas, getComponentesTitutlo());
-                
+
                 total = 0;
 
                 pnlProductos.add(pnlColumnas);
@@ -250,12 +254,11 @@ public class CobrarPanel extends JPanel {
 
                 CobrarPanel.this.revalidate();
                 CobrarPanel.this.repaint();
-                
+
             } catch (SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Fallo al ejecutar la transacción");
             }
 
-            
         });
 
         add(panelAbajo, BorderLayout.SOUTH);
@@ -309,61 +312,68 @@ public class CobrarPanel extends JPanel {
                 double precio = productoEncontrado.getPrecioPublico();
                 long stock = productoEncontrado.getStock();
 
-                // Si ya existe un panel para este producto, actualiza la cantidad
-                if (mapProductos.containsKey(id)) {
+                if (stock == 0) {
+                    JOptionPane.showMessageDialog(null, "No hay más productos disponibles en inventarop",
+                            "Mensaje", JOptionPane.INFORMATION_MESSAGE);
 
-                    PanelProducto pnlProducto = mapProductos.get(id);
-
-                    JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
-                    int cantidad = Double.valueOf(spnCantidad.getValue().toString()).intValue();
-
-                    if (cantidad < stock) {
-                        spnCantidad.setValue(cantidad + 1);
-
-                        pnlProducto.setCantidadStock(cantidad + 1);
-                    } else {
-                        JOptionPane.showMessageDialog(
-                                this, "No hay suficiente stock para agregar otro producto");
-                    }
                 } else {
 
-                    // Crea un nuevo panel para el producto
-                    PanelProducto pnlProducto = new PanelProducto();
-                    pnlProducto.setProducto(productoEncontrado);
-                    pnlProducto.setCantidadStock(1);
+                    // Si ya existe un panel para este producto, actualiza la cantidad
+                    if (mapProductos.containsKey(id)) {
 
-                    ArrayList<JComponent> componentes = new ArrayList<>();
-                    
-                    JTextField textNombre = new JTextField(nombre, 35);
-                    textNombre.setPreferredSize(new Dimension(50, 30));
-                    textNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-                    textNombre.setEditable(false);
-                    componentes.add(textNombre);
-                    componentes.add(new JLabel(codigoBarrasEncontrado));
-                    componentes.add(new JLabel("$" + String.format("%.2f", precio)));
+                        PanelProducto pnlProducto = mapProductos.get(id);
 
-                    JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
-                    spnCantidad.addChangeListener((ChangeEvent e) -> {
-                        JSpinner spnCantidad1 = (JSpinner) e.getSource();
-                        Double cantidad = Double.valueOf(spnCantidad1.getValue().toString());
-                        pnlProducto.setCantidadStock(cantidad.intValue());
-                        actualizarSubtotal(pnlProducto, precio, stock);
-                    });
-                    componentes.add(spnCantidad);
-                    
-                    componentes.add(new JLabel("$" + String.format("%.2f", precio)));
-                    
-                    JButton btnEliminar = new JButton("Eliminar");
-                    btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto));
-                    componentes.add(btnEliminar);
+                        JSpinner spnCantidad = (JSpinner) pnlProducto.getComponent(3);
+                        int cantidad = Double.valueOf(spnCantidad.getValue().toString()).intValue();
 
-                    crearFilaProductos(pnlProducto, componentes);
-                    pnlProductos.add(pnlProducto);
-                    pnlProducto.setMaximumSize(new Dimension(
-                            Integer.MAX_VALUE, pnlProducto.getMinimumSize().height));
+                        if (cantidad < stock) {
+                            spnCantidad.setValue(cantidad + 1);
 
-                    mapProductos.put(id, pnlProducto);
-                    sumarAlTotal(precio);
+                            pnlProducto.setCantidadStock(cantidad + 1);
+                        } else {
+                            JOptionPane.showMessageDialog(
+                                    this, "No hay suficiente stock para agregar otro producto para cobrar");
+                        }
+                    } else {
+
+                        // Crea un nuevo panel para el producto
+                        PanelProducto pnlProducto = new PanelProducto();
+                        pnlProducto.setProducto(productoEncontrado);
+                        pnlProducto.setCantidadStock(1);
+
+                        ArrayList<JComponent> componentes = new ArrayList<>();
+
+                        JTextField textNombre = new JTextField(nombre, 35);
+                        textNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+                        textNombre.setEditable(false);
+                        componentes.add(textNombre);
+                        componentes.add(new JLabel(codigoBarrasEncontrado));
+                        componentes.add(new JLabel("$" + String.format("%.2f", precio)));
+
+                        JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
+                        spnCantidad.addChangeListener((ChangeEvent e) -> {
+                            JSpinner spnCantidad1 = (JSpinner) e.getSource();
+                            Double cantidad = Double.valueOf(spnCantidad1.getValue().toString());
+                            pnlProducto.setCantidadStock(cantidad.intValue());
+                            actualizarSubtotal(pnlProducto, precio, stock);
+                        });
+                        componentes.add(spnCantidad);
+
+                        componentes.add(new JLabel("$" + String.format("%.2f", precio)));
+
+                        JButton btnEliminar = new JButton("Eliminar");
+                        btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto));
+                        componentes.add(btnEliminar);
+
+                        crearFilaProductos(pnlProducto, componentes);
+                        pnlProductos.add(pnlProducto);
+                        pnlProducto.setMaximumSize(new Dimension(
+                                Integer.MAX_VALUE, pnlProducto.getMinimumSize().height));
+
+                        mapProductos.put(id, pnlProducto);
+                        sumarAlTotal(precio);
+                    }
+
                 }
             } else {
                 JOptionPane.showMessageDialog(this,
@@ -415,7 +425,7 @@ public class CobrarPanel extends JPanel {
                 .map(Map.Entry::getKey)
                 .orElse(Long.valueOf(-1));
         mapProductos.remove(id);
-        
+
         JLabel lblCantidad = (JLabel) pnlProducto.getComponent(4);
         double subtotal = Double.parseDouble(lblCantidad.getText().substring(1));
         sumarAlTotal(-subtotal);

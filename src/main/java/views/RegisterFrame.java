@@ -4,7 +4,6 @@ import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
-import models.Rol;
 import models.Usuario;
 import repositories.UsuarioRepository;
 
@@ -16,11 +15,6 @@ public class RegisterFrame extends javax.swing.JFrame {
     public RegisterFrame() {
         initComponents();
         this.usuarioRepository = new UsuarioRepository();
-
-        @SuppressWarnings("unchecked")
-        DefaultComboBoxModel<String> model = (DefaultComboBoxModel) rolSelect.getModel();
-        model.insertElementAt(Rol.cajero.toString(), 0);
-        model.insertElementAt(Rol.administrador.toString(), 0);
     }
 
     /**
@@ -37,14 +31,12 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         password = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        rolSelect = new javax.swing.JComboBox<>();
         registerBtn = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -84,12 +76,6 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Registrarse");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 60));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel2.setText("Rol");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 190, 150, 30));
 
         username.setBackground(new java.awt.Color(255, 102, 102));
         username.setFont(username.getFont().deriveFont(username.getFont().getSize()+2f));
@@ -138,11 +124,6 @@ public class RegisterFrame extends javax.swing.JFrame {
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("_______________________________________");
         jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 130, 200, 30));
-
-        rolSelect.setForeground(new java.awt.Color(255, 102, 102));
-        rolSelect.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        rolSelect.setOpaque(true);
-        jPanel2.add(rolSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 230, 200, 30));
 
         registerBtn.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         registerBtn.setForeground(new java.awt.Color(255, 102, 102));
@@ -249,7 +230,6 @@ public class RegisterFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -261,7 +241,6 @@ public class RegisterFrame extends javax.swing.JFrame {
     private javax.swing.JTextField nombre;
     private javax.swing.JTextField password;
     private javax.swing.JButton registerBtn;
-    private javax.swing.JComboBox<String> rolSelect;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
