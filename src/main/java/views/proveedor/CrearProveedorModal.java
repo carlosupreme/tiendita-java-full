@@ -216,7 +216,8 @@ public class CrearProveedorModal extends javax.swing.JDialog {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(700, 598));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
@@ -235,7 +236,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(false);
-            JOptionPane.showMessageDialog(null, "Proveedor agregado correctamente");
+            JOptionPane.showMessageDialog(null, "Proveedor agregado correctamente", "Exito", JOptionPane.PLAIN_MESSAGE);
         } catch (SQLException | ValidationModelException ex) {
 
             ErrorHandler.showErrorMessage(ex.getMessage());

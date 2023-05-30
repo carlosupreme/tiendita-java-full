@@ -225,7 +225,8 @@ public class EditarProveedorModal extends javax.swing.JDialog {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(700, 578));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed

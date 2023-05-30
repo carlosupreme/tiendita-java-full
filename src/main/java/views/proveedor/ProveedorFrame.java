@@ -165,6 +165,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
         new CrearProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
+
     }//GEN-LAST:event_crearBtnActionPerformed
 
     private void showDeletedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDeletedActionPerformed

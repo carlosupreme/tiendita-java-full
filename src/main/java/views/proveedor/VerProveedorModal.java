@@ -47,26 +47,37 @@ public class VerProveedorModal extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("DETALLES DEL PROVEEDOR ");
 
+        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(129, 140, 248));
         jLabel2.setText("Nombre");
 
+        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(129, 140, 248));
         jLabel3.setText("Dirección");
 
+        jLabel4.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(129, 140, 248));
         jLabel4.setText("Correo Electrónico");
 
+        jLabel5.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(129, 140, 248));
         jLabel5.setText("Número telefónico ");
 
+        jLabel6.setFont(new java.awt.Font("Al Nile", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(129, 140, 248));
         jLabel6.setText("Id");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(52, 52, 52)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
@@ -76,11 +87,11 @@ public class VerProveedorModal extends javax.swing.JDialog {
                 .addGap(79, 79, 79)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(nombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(direccion, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(id, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))
-                .addContainerGap(372, Short.MAX_VALUE))
+                    .addComponent(id, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                    .addComponent(direccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(telefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,10 +119,11 @@ public class VerProveedorModal extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(telefono, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(179, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
-        pack();
+        setSize(new java.awt.Dimension(463, 403));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
