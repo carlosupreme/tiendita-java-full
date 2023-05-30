@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import models.Venta;
 import views.inventario.InventarioFrame;
+import views.proveedor.ProveedorFrame;
 
 /**
  *
@@ -120,12 +121,8 @@ public class HomeFrame extends javax.swing.JFrame {
         getContentPane().add(panelIzquierdo, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void inventarioBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtn1ActionPerformed
-        new InventarioFrame().setVisible(true);
-    }//GEN-LAST:event_inventarioBtn1ActionPerformed
-
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
-        new InventarioFrame().setVisible(true);
+        new ProveedorFrame(authController).setVisible(true);
     }//GEN-LAST:event_proveedoresBtnActionPerformed
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
