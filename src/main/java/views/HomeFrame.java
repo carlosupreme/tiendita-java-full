@@ -131,16 +131,16 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_proveedoresBtnActionPerformed
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed
-        // TODO add your handling code here:
-        InventarioFrame f = new InventarioFrame();
-        f.setVisible(true);
-        f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        new InventarioFrame().setVisible(true);
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
 
-        int option = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que desea cerrar la sesión?");
+        int option = JOptionPane.showConfirmDialog(null,
+                "¿Estás seguro de que desea cerrar la sesión?",
+                "Salir",
+                JOptionPane.YES_NO_OPTION
+        );
 
         if (option == JOptionPane.YES_OPTION) {
             dispose();
@@ -214,7 +214,7 @@ public class HomeFrame extends javax.swing.JFrame {
                     Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
                     int id = Integer.parseInt(valor.toString());
 
-                    VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id );
+                    VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
                     detalleVenta.setVisible(true);
                     detalleVenta.setTitle("Detallles de la venta [" + id + "]");
 

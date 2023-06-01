@@ -1,6 +1,7 @@
 package views;
 
 import controllers.AutenticacionController;
+import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
@@ -221,10 +222,17 @@ public class LoginFrame extends javax.swing.JFrame {
             authController.login(username.getText(), String.valueOf(password.getPassword()));
             dispose();
             new HomeFrame(authController).setVisible(true);
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
-        } catch (RuntimeException ex) {
-            JOptionPane.showMessageDialog(rootPane, ex.getMessage());
+        } catch (SQLException | ValidationModelException e) {
+            MessageHandler.showErrorMessage(e.getMessage());
+
+            if (e.getMessage().contains("usuario")) {
+                username.requestFocus();
+                username.selectAll();
+            } else {
+                password.requestFocus();
+                password.selectAll();
+            }
+
         }
     }//GEN-LAST:event_loginBtnMouseClicked
 

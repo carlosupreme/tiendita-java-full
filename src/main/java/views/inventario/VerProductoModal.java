@@ -3,6 +3,7 @@ package views.inventario;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import models.Producto;
+import repositories.InventarioRepository;
 import repositories.ProductoRepository;
 import repositories.ProveedorRepository;
 import views.MessageHandler;
@@ -18,6 +19,7 @@ public class VerProductoModal extends javax.swing.JDialog {
         super(parent, true);
         initComponents();
         setTitle("Información de producto");
+        InventarioRepository in = new InventarioRepository();
 
         id.setText(String.valueOf(producto.getId()));
         nombre.setText(producto.getNombre());
@@ -29,6 +31,7 @@ public class VerProductoModal extends javax.swing.JDialog {
         try {
             activo.setText(productoRepository.isActive(producto.getId()) ? "Si" : "No");
             proveedor.setText(proveedorRepository.findById(producto.getIdProveedor()).getNombre());
+            stock.setText(String.valueOf(in.getProductStock(producto.getId())));
         } catch (SQLException | ValidationModelException ex) {
             MessageHandler.showErrorMessage(ex.getMessage());
         }
@@ -56,9 +59,11 @@ public class VerProductoModal extends javax.swing.JDialog {
         codigoBarras = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         costo = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
+        stock = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         activo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -79,7 +84,7 @@ public class VerProductoModal extends javax.swing.JDialog {
         jLabel5.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 51, 204));
         jLabel5.setText("Precio $");
-        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 78, 31));
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 100, 31));
 
         jLabel6.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 51, 204));
@@ -119,11 +124,6 @@ public class VerProductoModal extends javax.swing.JDialog {
         costo.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         getContentPane().add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 220, 320, 30));
 
-        jLabel11.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 51, 204));
-        jLabel11.setText("Está activo");
-        getContentPane().add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 150, 31));
-
         jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 153, 204));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -133,7 +133,20 @@ public class VerProductoModal extends javax.swing.JDialog {
         jLabel12.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 51, 204));
         jLabel12.setText("Costo               $");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 150, 31));
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 220, 220, 31));
+
+        stock.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
+        getContentPane().add(stock, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 340, 320, 30));
+
+        jLabel13.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel13.setText("Está activo");
+        getContentPane().add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 280, 150, 31));
+
+        jLabel14.setFont(new java.awt.Font("Liberation Mono", 1, 17)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 51, 204));
+        jLabel14.setText("Cantidad");
+        getContentPane().add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 340, 150, 31));
 
         activo.setFont(new java.awt.Font("Segoe UI", 1, 17)); // NOI18N
         getContentPane().add(activo, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 280, 320, 30));
@@ -149,8 +162,9 @@ public class VerProductoModal extends javax.swing.JDialog {
     private javax.swing.JLabel costo;
     private javax.swing.JLabel id;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -160,5 +174,6 @@ public class VerProductoModal extends javax.swing.JDialog {
     private javax.swing.JLabel nombre;
     private javax.swing.JLabel precio;
     private javax.swing.JLabel proveedor;
+    private javax.swing.JLabel stock;
     // End of variables declaration//GEN-END:variables
 }
