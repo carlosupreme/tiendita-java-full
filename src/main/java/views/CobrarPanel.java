@@ -33,7 +33,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -67,8 +66,7 @@ public class CobrarPanel extends JPanel {
         } catch (IllegalArgumentException | IllegalAccessException
                 | NoSuchMethodException | InstantiationException | InvocationTargetException ex) {
             producto = null;
-            //ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
 
         return producto;
@@ -179,7 +177,7 @@ public class CobrarPanel extends JPanel {
         cobrarBtn.addActionListener((ActionEvent e) -> {
 
             if (mapProductos.isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No hay productos para cobrar", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                MessageHandler.showErrorMessage("No hay productos para cobrar");
                 return;
             }
 
@@ -239,7 +237,7 @@ public class CobrarPanel extends JPanel {
             try {
                 TransactionManager.ejecutarTransaccion(dml);
 
-                JOptionPane.showMessageDialog(null, "Se ha realizado la venta de forma exitosa", "Mensaje", 1);
+                MessageHandler.showSuccessMessage("Se ha realizado la venta de forma exitosa", null);
                 mapProductos = new HashMap<>();
                 pnlProductos.removeAll();
 
@@ -257,7 +255,7 @@ public class CobrarPanel extends JPanel {
                 CobrarPanel.this.repaint();
 
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Fallo al ejecutar la transacción");
+                MessageHandler.showErrorMessage("Fallo al ejecutar la transacción");
             }
 
         });
@@ -314,8 +312,7 @@ public class CobrarPanel extends JPanel {
                 long stock = productoEncontrado.getStock();
 
                 if (stock == 0) {
-                    JOptionPane.showMessageDialog(null, "No hay más cantidad de dicho productos disponible en el inventario",
-                            "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                    MessageHandler.showSuccessMessage("No hay más cantidad de dicho productos disponible en el inventario", "Inventario vacío");
 
                 } else {
 
@@ -332,8 +329,7 @@ public class CobrarPanel extends JPanel {
 
                             pnlProducto.setCantidadStock(cantidad + 1);
                         } else {
-                            JOptionPane.showMessageDialog(
-                                    this, "No hay suficiente stock para agregar otro producto para cobrar");
+                            MessageHandler.showSuccessMessage("No hay suficiente stock para agregar otro producto para cobrar", "Inventario vacío");
                         }
                     } else {
 
@@ -377,11 +373,10 @@ public class CobrarPanel extends JPanel {
 
                 }
             } else {
-                JOptionPane.showMessageDialog(this,
-                        "No se encontró ningún producto con ese código de barras");
+                MessageHandler.showErrorMessage("No se encontró ningún producto con ese código de barras");
             }
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(this, "Error al buscar el producto en la base de datos");
+            MessageHandler.showErrorMessage("Error al buscar el producto en la base de datos");
         }
 
         txtCodigoBarras.selectAll();
@@ -396,7 +391,7 @@ public class CobrarPanel extends JPanel {
         if (cantidad == stock) {
             Runnable myThread = () -> {
                 Thread.currentThread().setName("myThread");
-                JOptionPane.showMessageDialog(null, "Se ha alcanzado el límite del stock");
+                MessageHandler.showSuccessMessage("Se ha alcanzado el límite del stock", "Límite alcanzado");
             };
             Thread run = new Thread(myThread);
             run.start();

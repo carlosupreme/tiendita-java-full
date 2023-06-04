@@ -18,15 +18,27 @@ public class MessageHandler {
         System.err.println(message);
     }
 
-    public static void showSuccessMessage(String message) {
-//        ImageIcon icon = new ImageIcon(MessageHandler.class.getResource("/cheque.png"));
+    public static void showSuccessMessage(String message, String title) {
         JOptionPane.showMessageDialog(null,
                 message,
-                "Agregado correctamente",
+                title != null ? title : "Éxito",
                 JOptionPane.INFORMATION_MESSAGE,
                 null
         );
-        System.err.println(message);
+
+    }
+
+    public static boolean showConfirmMessage(String message, String title) {
+        int option = JOptionPane.showConfirmDialog(
+                null,
+                message,
+                title,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE,
+                null
+        );
+
+        return option == JOptionPane.YES_OPTION;
     }
 
 }

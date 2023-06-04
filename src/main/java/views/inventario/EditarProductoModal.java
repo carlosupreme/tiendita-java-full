@@ -370,7 +370,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(showDeleted);
-            MessageHandler.showSuccessMessage("Producto actualizado correctamente");
+            MessageHandler.showSuccessMessage("Producto actualizado correctamente", null);
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {
                 MessageHandler.showErrorMessage("El código de barras ya fue registrado, ingresa uno diferente");

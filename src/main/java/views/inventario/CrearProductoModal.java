@@ -353,7 +353,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(showDeleted);
-            MessageHandler.showSuccessMessage("Producto agregado correctamente");
+            MessageHandler.showSuccessMessage("Producto agregado correctamente", null);
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {
                 MessageHandler.showErrorMessage("El código de barras ya fue registrado, ingresa uno diferente");

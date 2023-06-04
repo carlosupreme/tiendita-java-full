@@ -15,7 +15,6 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -89,7 +88,7 @@ public class VistaDetallesVenta extends JDialog {
                 | InstantiationException | NoSuchMethodException
                 | InvocationTargetException | SQLException ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
 
     }

@@ -239,7 +239,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(showDeleted);
-            MessageHandler.showSuccessMessage("Proveedor añadido correctamente");
+            MessageHandler.showSuccessMessage("Proveedor agregado correctamente", null);
         } catch (SQLException | ValidationModelException ex) {
 
             MessageHandler.showErrorMessage(ex.getMessage());

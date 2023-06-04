@@ -3,7 +3,6 @@ package views.inventario;
 import exceptions.ValidationModelException;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -67,21 +66,16 @@ public final class InventarioFrame extends javax.swing.JFrame {
                 }
 
                 long id = (long) model.getValueAt(row, 0);
-                int option = JOptionPane.showConfirmDialog(null,
-                        "¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?",
-                        "Eliminar permanentemente",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.WARNING_MESSAGE
-                );
+                boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que desea eliminar el producto con ID '" + id + "' ?", "Eliminar permanentemente");
 
-                if (option != JOptionPane.YES_OPTION) {
+                if (!confirmed) {
                     return;
                 }
 
                 try {
                     productoRepository.delete(id);
                     loadEntries(showDeleted.isSelected());
-                    JOptionPane.showMessageDialog(null, "Eliminado correctamente");
+                    MessageHandler.showSuccessMessage("Eliminado correctamente", null);
                 } catch (SQLException ex) {
                     MessageHandler.showErrorMessage(ex.getMessage());
                 }

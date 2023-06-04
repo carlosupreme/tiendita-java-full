@@ -249,7 +249,7 @@ public class EditarProveedorModal extends javax.swing.JDialog {
 
             dispose();
             parent.loadEntries(showDeleted);
-            MessageHandler.showSuccessMessage("Agregado correctamente");
+            MessageHandler.showSuccessMessage("Agregado correctamente", null);
 
         } catch (SQLException | ValidationModelException ex) {
             MessageHandler.showErrorMessage(ex.getMessage());

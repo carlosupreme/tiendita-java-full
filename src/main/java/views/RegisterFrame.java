@@ -3,7 +3,6 @@ package views;
 import exceptions.ValidationModelException;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import models.Usuario;
 import repositories.UsuarioRepository;
@@ -204,8 +203,8 @@ public class RegisterFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nombreActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        int opt = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que deseas salir?", "Salir", JOptionPane.YES_NO_OPTION);
-        if (opt == JOptionPane.YES_OPTION) {
+        boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir");
+        if (confirmed) {
             System.exit(0);
         }
     }//GEN-LAST:event_jLabel6MouseClicked
@@ -242,7 +241,7 @@ public class RegisterFrame extends javax.swing.JFrame {
 
             usuarioRepository.save(usuario);
 
-            JOptionPane.showMessageDialog(null, "Registrado correctamente");
+            MessageHandler.showSuccessMessage("Registrado correctamente", null);
             dispose();
             new LoginFrame().setVisible(true);
 

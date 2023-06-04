@@ -3,7 +3,6 @@ package views;
 import controllers.AutenticacionController;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -190,8 +189,8 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {
-        int opt = JOptionPane.showConfirmDialog(rootPane, "¿Estás seguro de que deseas salir?", "Salir", JOptionPane.YES_NO_OPTION);
-        if (opt == JOptionPane.YES_OPTION) {
+        boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir");
+        if (confirmed) {
             System.exit(0);
         }
     }

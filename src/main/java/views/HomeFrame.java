@@ -16,7 +16,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -136,13 +135,9 @@ public class HomeFrame extends javax.swing.JFrame {
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
 
-        int option = JOptionPane.showConfirmDialog(null,
-                "¿Estás seguro de que desea cerrar la sesión?",
-                "Salir",
-                JOptionPane.YES_NO_OPTION
-        );
+        boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que desea cerrar la sesión?", "Salir");
 
-        if (option == JOptionPane.YES_OPTION) {
+        if (confirmed) {
             dispose();
             authController.logout();
             new LoginFrame().setVisible(true);
@@ -245,7 +240,7 @@ public class HomeFrame extends javax.swing.JFrame {
         } catch (IllegalAccessException | IllegalArgumentException
                 | InstantiationException | NoSuchMethodException
                 | InvocationTargetException | SQLException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
+            MessageHandler.showErrorMessage(ex.getMessage());
         }
     }//GEN-LAST:event_ventasBtnActionPerformed
 
