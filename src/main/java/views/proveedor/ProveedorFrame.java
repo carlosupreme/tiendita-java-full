@@ -8,6 +8,8 @@ import exceptions.ValidationModelException;
 import java.awt.event.ItemEvent;
 import java.sql.SQLException;
 import javax.swing.JFrame;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import repositories.ProveedorCriteria;
 import repositories.ProveedorRepository;
@@ -82,6 +84,9 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
         table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRender());
         table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor(actionEvent));
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+        table.setDefaultRenderer(Object.class, centerRenderer);
 
         showDeleted.addItemListener((ItemEvent e) -> {
             loadEntries(e.getStateChange() == ItemEvent.SELECTED);
@@ -144,6 +149,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
             }
         });
         table.setRowHeight(50);
+        table.setShowGrid(true);
         jScrollPane2.setViewportView(table);
         if (table.getColumnModel().getColumnCount() > 0) {
             table.getColumnModel().getColumn(0).setResizable(false);
@@ -187,6 +193,9 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         crearBtn.setForeground(new java.awt.Color(255, 255, 255));
         crearBtn.setText("Agregar proveedor");
         crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        crearBtn.setMaximumSize(new java.awt.Dimension(158, 23));
+        crearBtn.setMinimumSize(new java.awt.Dimension(158, 23));
+        crearBtn.setPreferredSize(new java.awt.Dimension(158, 23));
         crearBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 crearBtnActionPerformed(evt);
