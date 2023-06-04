@@ -1,6 +1,7 @@
 package app;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.util.SystemInfo;
 import java.awt.Insets;
 import javax.swing.UIManager;
 import views.LoginFrame;
@@ -14,6 +15,12 @@ import views.LoginFrame;
 public class AdministradorTiendita {
 
     public static void main(String[] args) throws Exception {
+
+        if (SystemInfo.isMacOS) {
+            System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("apple.awt.application.name", "Tiendita");
+            System.setProperty("apple.awt.application.appearance", "NSAppearanceNameAqua");
+        }
 
         FlatLightLaf.setup();
 
