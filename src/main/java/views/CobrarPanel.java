@@ -12,12 +12,15 @@ import db.SelectStatementMapper;
 import db.TransactionManager;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -29,6 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -90,7 +94,7 @@ public class CobrarPanel extends JPanel {
         constraints.weightx = 0.0;  // No se ajusta horizontalmente
         constraints.fill = GridBagConstraints.HORIZONTAL;  // No se estira
         constraints.anchor = GridBagConstraints.WEST;  // Alineado a la izquierda
-        constraints.insets = new Insets(0, 0, 0, 0);  // Sin margen
+        constraints.insets = new Insets(4, 0, 4, 0);
 
         // Inserción de primera columna
         layout.setConstraints(componentes.get(0), constraints);
@@ -99,7 +103,7 @@ public class CobrarPanel extends JPanel {
         // Restricciones para las demás columnas
         constraints.fill = GridBagConstraints.HORIZONTAL;  // Se estira horizontalmente
         constraints.anchor = GridBagConstraints.WEST; // Alineado a la izquierda
-        constraints.insets = new Insets(0, 15, 0, 0);  // Margen de 15px a la izquierda
+        constraints.insets = new Insets(4, 0, 4, 0);
         constraints.weightx = 1.0;  // No se ajusta horizontalmente
 
         //constraints.weightx = 1.0 / (componentes.size() - 1);
@@ -124,15 +128,44 @@ public class CobrarPanel extends JPanel {
 
         ArrayList<JComponent> lista = new ArrayList<>();
 
-        JTextField labelNombre = new JTextField("Nombre", 35);
+        JTextField labelNombre = new JTextField("Nombre");
         labelNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         labelNombre.setEditable(false);
+        labelNombre.setPreferredSize(new Dimension(400, labelNombre.getPreferredSize().height));
         lista.add(labelNombre);
-        lista.add(new JLabel("Código de barras"));
-        lista.add(new JLabel("Precio"));
-        lista.add(new JLabel("Cantidad"));
-        lista.add(new JLabel("Subtotal"));
-        lista.add(new JLabel("Acción"));
+
+        JTextField labelCodigoBarras = new JTextField("Código de barras");
+        labelCodigoBarras.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        labelCodigoBarras.setEditable(false);
+        labelCodigoBarras.setPreferredSize(new Dimension(100, labelCodigoBarras.getPreferredSize().height));
+        lista.add(labelCodigoBarras);
+        //lista.add(new JLabel("Código de barras"));
+
+        JTextField labelPrecio = new JTextField("Precio");
+        labelPrecio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        labelPrecio.setEditable(false);
+        labelPrecio.setPreferredSize(new Dimension(50, labelPrecio.getPreferredSize().height));
+        lista.add(labelPrecio);
+        //lista.add(new JLabel("Precio"));
+
+        JTextField labelCantidad = new JTextField("Cantidad");
+        labelCantidad.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        labelCantidad.setEditable(false);
+        labelCantidad.setPreferredSize(new Dimension(100, labelCantidad.getPreferredSize().height));
+        lista.add(labelCantidad);
+        //lista.add(new JLabel("Cantidad"));
+
+        JTextField labelSubtotal = new JTextField("Subtotal");
+        labelSubtotal.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createEmptyBorder(0, 30, 0, 0),
+                BorderFactory.createEmptyBorder())
+        );
+        labelSubtotal.setEditable(false);
+        labelSubtotal.setPreferredSize(new Dimension(150, labelSubtotal.getPreferredSize().height));
+        lista.add(labelSubtotal);
+        //lista.add(new JLabel("Subtotal"));
+
+        lista.add(new JLabel("Eliminar"));
 
         return lista;
 
@@ -148,6 +181,7 @@ public class CobrarPanel extends JPanel {
         JPanel pnlBusqueda = new JPanel(new FlowLayout(FlowLayout.LEFT));
         txtCodigoBarras = new JTextField(20);
         JButton btnAgregar = new JButton("Agregar");
+        btnAgregar.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnAgregar.addActionListener(e -> agregarProducto());
         pnlBusqueda.add(new JLabel("Código de barras:"));
         pnlBusqueda.add(txtCodigoBarras);
@@ -166,11 +200,13 @@ public class CobrarPanel extends JPanel {
         JPanel panelAbajo = new JPanel();
         panelAbajo.add(lblTotal);
         cobrarBtn = new JButton("Cobrar");
+        cobrarBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panelAbajo.add(cobrarBtn);
 
         String country[] = {"Efectivo", "Tarjeta de crédito", "Tarjeta de débito"};
         JComboBox cb = new JComboBox(country);
+        cb.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         panelAbajo.add(cb);
 
@@ -298,7 +334,7 @@ public class CobrarPanel extends JPanel {
     }
 
     private void agregarProducto() {
-        String codigoBarras = txtCodigoBarras.getText();
+        String codigoBarras = txtCodigoBarras.getText().trim();
 
         // Consulta SQL para obtener el producto
         try {
@@ -335,32 +371,75 @@ public class CobrarPanel extends JPanel {
 
                         // Crea un nuevo panel para el producto
                         PanelProducto pnlProducto = new PanelProducto();
+                        pnlProducto.setBackground(Color.WHITE);
                         pnlProducto.setProducto(productoEncontrado);
                         pnlProducto.setCantidadStock(1);
 
                         ArrayList<JComponent> componentes = new ArrayList<>();
 
-                        JTextField textNombre = new JTextField(nombre, 35);
-                        textNombre.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+                        JTextField textNombre = new JTextField(nombre);
+                        textNombre.setBackground(Color.WHITE);
+                        textNombre.setBorder(BorderFactory.createEmptyBorder());
                         textNombre.setEditable(false);
+                        textNombre.setPreferredSize(new Dimension(400, textNombre.getPreferredSize().height));
                         componentes.add(textNombre);
-                        componentes.add(new JLabel(codigoBarrasEncontrado));
-                        componentes.add(new JLabel("$" + String.format("%.2f", precio)));
+
+                        JTextField textCodigoBarras = new JTextField(codigoBarrasEncontrado);
+                        textCodigoBarras.setBackground(Color.WHITE);
+                        textCodigoBarras.setBorder(BorderFactory.createEmptyBorder());
+                        textCodigoBarras.setEditable(false);
+                        textCodigoBarras.setPreferredSize(new Dimension(100, textCodigoBarras.getPreferredSize().height));
+                        //componentes.add(new JLabel(codigoBarrasEncontrado));
+                        componentes.add(textCodigoBarras);
+
+                        JTextField textPrecio = new JTextField("$" + String.format("%.2f", precio));
+                        textPrecio.setBackground(Color.WHITE);
+                        textPrecio.setBorder(BorderFactory.createEmptyBorder());
+                        textPrecio.setEditable(false);
+                        textPrecio.setPreferredSize(new Dimension(50, textPrecio.getPreferredSize().height));
+                        //componentes.add(new JLabel("$" + String.format("%.2f", precio)));
+                        componentes.add(textPrecio);
 
                         JSpinner spnCantidad = new JSpinner(new SpinnerNumberModel(1, 1, stock, 1));
+                        spnCantidad.setPreferredSize(new Dimension(100, spnCantidad.getPreferredSize().height));
+
                         spnCantidad.addChangeListener((ChangeEvent e) -> {
                             JSpinner spnCantidad1 = (JSpinner) e.getSource();
                             Double cantidad = Double.valueOf(spnCantidad1.getValue().toString());
                             pnlProducto.setCantidadStock(cantidad.intValue());
                             actualizarSubtotal(pnlProducto, precio, stock);
                         });
+
                         componentes.add(spnCantidad);
 
-                        componentes.add(new JLabel("$" + String.format("%.2f", precio)));
+                        JTextField textSubtotal = new JTextField("$" + String.format("%.2f", precio));
+                        textSubtotal.setBackground(Color.WHITE);
+                        textSubtotal.setBorder(BorderFactory.createCompoundBorder(
+                                BorderFactory.createEmptyBorder(0, 30, 0, 0),
+                                BorderFactory.createEmptyBorder())
+                        );
+                        textSubtotal.setEditable(false);
+                        textSubtotal.setPreferredSize(new Dimension(150, textSubtotal.getPreferredSize().height));
+                        //componentes.add(new JLabel("$" + String.format("%.2f", precio)));
+                        componentes.add(textSubtotal);
 
-                        JButton btnEliminar = new JButton("Eliminar");
-                        btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto));
-                        componentes.add(btnEliminar);
+//                        JButton btnEliminar = new JButton("Eliminar");
+//                        btnEliminar.setBackground(Color.decode("#FE3F5A"));
+//                        btnEliminar.setForeground(Color.WHITE);
+//                        btnEliminar.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//                        btnEliminar.addActionListener(e -> eliminarProducto(pnlProducto));
+//                        componentes.add(btnEliminar);
+                        JLabel deleteBtn = new JLabel();
+                        deleteBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                        deleteBtn.setIcon(new ImageIcon(getClass().getResource("/trash-bin.png")));
+                        deleteBtn.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                eliminarProducto(pnlProducto);
+                            }
+                        });
+
+                        componentes.add(deleteBtn);
 
                         crearFilaProductos(pnlProducto, componentes);
                         pnlProductos.add(pnlProducto);
@@ -397,7 +476,8 @@ public class CobrarPanel extends JPanel {
             run.start();
         }
 
-        JLabel lblSubtotal = (JLabel) pnlProducto.getComponent(4);
+        JTextField lblSubtotal = (JTextField) pnlProducto.getComponent(4);
+        //JLabel lblSubtotal = (JLabel) pnlProducto.getComponent(4);
 
         double subtotalPrevio = Double.parseDouble(lblSubtotal.getText().substring(1));
         total -= subtotalPrevio;
@@ -422,7 +502,7 @@ public class CobrarPanel extends JPanel {
                 .orElse(Long.valueOf(-1));
         mapProductos.remove(id);
 
-        JLabel lblCantidad = (JLabel) pnlProducto.getComponent(4);
+        JTextField lblCantidad = (JTextField) pnlProducto.getComponent(4);
         double subtotal = Double.parseDouble(lblCantidad.getText().substring(1));
         sumarAlTotal(-subtotal);
     }

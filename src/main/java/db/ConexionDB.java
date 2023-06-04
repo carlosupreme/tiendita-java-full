@@ -2,6 +2,7 @@ package db;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.*;
+import views.MessageHandler;
 
 public class ConexionDB {
 
@@ -21,10 +22,8 @@ public class ConexionDB {
             conn = DriverManager.getConnection(url, username, password);
 
             System.out.println("Conexión establecida.");
-        } catch (SQLException e) {
-            System.out.println("Error al conectarse a la base de datos: " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Error al cargar el driver de MySQL: " + e.getMessage());
+        } catch (SQLException | ClassNotFoundException e) {
+            MessageHandler.showErrorMessage("El servidor de MySQL no está funcionando");
         }
     }
 

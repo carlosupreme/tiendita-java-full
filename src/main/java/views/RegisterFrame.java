@@ -1,5 +1,6 @@
 package views;
 
+import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.lang.reflect.Field;
 import java.sql.SQLException;
@@ -84,11 +85,6 @@ public class RegisterFrame extends javax.swing.JFrame {
         username.setForeground(new java.awt.Color(255, 255, 255));
         username.setBorder(null);
         username.setCaretColor(new java.awt.Color(255, 255, 255));
-        username.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                usernameActionPerformed(evt);
-            }
-        });
         jPanel2.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 200, 30));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
@@ -100,11 +96,6 @@ public class RegisterFrame extends javax.swing.JFrame {
         nombre.setForeground(new java.awt.Color(255, 255, 255));
         nombre.setBorder(null);
         nombre.setCaretColor(new java.awt.Color(255, 255, 255));
-        nombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nombreActionPerformed(evt);
-            }
-        });
         jPanel2.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 200, 30));
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
@@ -194,17 +185,10 @@ public class RegisterFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_usernameActionPerformed
-
-    private void nombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nombreActionPerformed
-
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
         boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir");
         if (confirmed) {
+            ConexionDB.getInstance().closeConnection();
             System.exit(0);
         }
     }//GEN-LAST:event_jLabel6MouseClicked
@@ -245,9 +229,19 @@ public class RegisterFrame extends javax.swing.JFrame {
             dispose();
             new LoginFrame().setVisible(true);
 
-        } catch (SQLException | ValidationModelException e) {
-            MessageHandler.showErrorMessage(e.getMessage());
-            focusInput(e.getMessage());
+        } catch (ValidationModelException ex) {
+            MessageHandler.showErrorMessage(ex.getMessage());
+            focusInput(ex.getMessage());
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("Duplicate entry '" + username.getText() + "' for key 'usuarios.username'")) {
+                MessageHandler.showErrorMessage("El nombre de usuario ya ha sido registrado");
+                username.requestFocus();
+                username.selectAll();
+            } else {
+                MessageHandler.showErrorMessage(ex.getMessage());
+            }
+        } catch (NullPointerException ex) {
+            MessageHandler.showErrorMessage("El servidor de MySQL no está funcionando");
         }
     }//GEN-LAST:event_registerBtnActionPerformed
 

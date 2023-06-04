@@ -36,7 +36,7 @@ public class HomeFrame extends javax.swing.JFrame {
     public HomeFrame(AutenticacionController authController) {
         this.authController = authController;
         initComponents();
-        setSize(630, 700);
+        setSize(1300, 700);
         setLocationRelativeTo(null);
         setTitle("Página de inicio");
     }
@@ -56,9 +56,11 @@ public class HomeFrame extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setSize((int)(Toolkit.getDefaultToolkit().getScreenSize().getWidth()-100), (int)(Toolkit.getDefaultToolkit().getScreenSize().getHeight()-100));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        panelIzquierdo.setBackground(new java.awt.Color(204, 255, 255));
+        panelIzquierdo.setBackground(new java.awt.Color(254, 254, 254));
         panelIzquierdo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ventasBtn.setText("VENTAS");
@@ -68,7 +70,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 ventasBtnActionPerformed(evt);
             }
         });
-        panelIzquierdo.add(ventasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 520, 220, 30));
+        panelIzquierdo.add(ventasBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 520, 220, 30));
 
         cobrarBtn.setText("COBRAR");
         cobrarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -77,8 +79,11 @@ public class HomeFrame extends javax.swing.JFrame {
                 cobrarBtnActionPerformed(evt);
             }
         });
-        panelIzquierdo.add(cobrarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 520, 214, 30));
+        panelIzquierdo.add(cobrarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 520, 214, 30));
 
+        logoutBtn.setBackground(java.awt.Color.decode("#FE3F5A"));
+        logoutBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        logoutBtn.setForeground(new java.awt.Color(255, 255, 255));
         logoutBtn.setText("Cerrar sesión");
         logoutBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +91,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 logoutBtnActionPerformed(evt);
             }
         });
-        panelIzquierdo.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 590, -1, 24));
+        panelIzquierdo.add(logoutBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1140, 30, -1, 30));
 
         inventarioBtn.setText("INVENTARIO");
         inventarioBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -95,7 +100,7 @@ public class HomeFrame extends javax.swing.JFrame {
                 inventarioBtnActionPerformed(evt);
             }
         });
-        panelIzquierdo.add(inventarioBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 260, 230, 30));
+        panelIzquierdo.add(inventarioBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 260, 230, 30));
 
         proveedoresBtn.setText("PROVEEDORES");
         proveedoresBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -104,25 +109,25 @@ public class HomeFrame extends javax.swing.JFrame {
                 proveedoresBtnActionPerformed(evt);
             }
         });
-        panelIzquierdo.add(proveedoresBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 260, 200, 30));
+        panelIzquierdo.add(proveedoresBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 260, 200, 30));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/inventario_icono (1).png"))); // NOI18N
-        panelIzquierdo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 90, -1, -1));
+        panelIzquierdo.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 90, -1, -1));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ventas_icono (1).png"))); // NOI18N
-        panelIzquierdo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 310, 150, 180));
+        panelIzquierdo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 310, 150, 180));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/productos_icono (1).png"))); // NOI18N
-        panelIzquierdo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 320, -1, -1));
+        panelIzquierdo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 320, -1, -1));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/proveedores_icono (1).png"))); // NOI18N
-        panelIzquierdo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, -1));
+        panelIzquierdo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel5.setText("Bienvenido, " + Sesion.instance().getUsuario().getNombre());
         panelIzquierdo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
-        getContentPane().add(panelIzquierdo, java.awt.BorderLayout.CENTER);
+        getContentPane().add(panelIzquierdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 700));
     }// </editor-fold>//GEN-END:initComponents
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
@@ -134,7 +139,6 @@ public class HomeFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_inventarioBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-
         boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que desea cerrar la sesión?", "Salir");
 
         if (confirmed) {

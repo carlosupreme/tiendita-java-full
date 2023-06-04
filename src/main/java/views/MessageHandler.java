@@ -11,7 +11,7 @@ public class MessageHandler {
     public static void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(null,
                 message,
-                "Datos erróneos",
+                "Error",
                 JOptionPane.ERROR_MESSAGE,
                 null
         );

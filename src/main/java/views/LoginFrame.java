@@ -1,6 +1,7 @@
 package views;
 
 import controllers.AutenticacionController;
+import db.ConexionDB;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
 
@@ -13,9 +14,9 @@ import java.sql.SQLException;
  */
 @SuppressWarnings("serial")
 public class LoginFrame extends javax.swing.JFrame {
-
+    
     private final AutenticacionController authController;
-
+    
     public LoginFrame() {
         this.authController = new AutenticacionController();
         initComponents();
@@ -147,9 +148,9 @@ public class LoginFrame extends javax.swing.JFrame {
         loginBtn.setForeground(new java.awt.Color(25, 118, 211));
         loginBtn.setText("Iniciar sesión");
         loginBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        loginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                loginBtnMouseClicked(evt);
+        loginBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginBtnActionPerformed(evt);
             }
         });
         jPanel2.add(loginBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(86, 369, 480, 41));
@@ -191,6 +192,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {
         boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir");
         if (confirmed) {
+            ConexionDB.getInstance().closeConnection();
             System.exit(0);
         }
     }
@@ -216,24 +218,25 @@ public class LoginFrame extends javax.swing.JFrame {
         disable.setEnabled(true);
     }//GEN-LAST:event_showMouseClicked
 
-    private void loginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginBtnMouseClicked
+    private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         try {
             authController.login(username.getText(), String.valueOf(password.getPassword()));
             dispose();
             new HomeFrame(authController).setVisible(true);
-        } catch (SQLException | ValidationModelException e) {
-            MessageHandler.showErrorMessage(e.getMessage());
-
-            if (e.getMessage().contains("usuario")) {
+        } catch (ValidationModelException ex) {
+            MessageHandler.showErrorMessage(ex.getMessage());
+            
+            if (ex.getMessage().contains("usuario")) {
                 username.requestFocus();
                 username.selectAll();
             } else {
                 password.requestFocus();
                 password.selectAll();
             }
-
+        } catch (SQLException | NullPointerException ex) {
+            MessageHandler.showErrorMessage("El servidor de MySQL no está funcionando");
         }
-    }//GEN-LAST:event_loginBtnMouseClicked
+    }//GEN-LAST:event_loginBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel disable;

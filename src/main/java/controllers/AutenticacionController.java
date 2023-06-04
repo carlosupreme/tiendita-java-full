@@ -1,21 +1,13 @@
 package controllers;
 
 import app.Sesion;
-import db.ConexionDB;
 import exceptions.ValidationModelException;
-import java.sql.Connection;
 import java.sql.SQLException;
 import models.Usuario;
 import org.mindrot.jbcrypt.BCrypt;
 import repositories.UsuarioRepository;
 
 public class AutenticacionController {
-
-    private final Connection connection;
-
-    public AutenticacionController() {
-        this.connection = ConexionDB.getInstance().getConnection();
-    }
 
     public boolean login(String username, String password) throws SQLException, ValidationModelException {
         UsuarioRepository usuarioRepository = new UsuarioRepository();

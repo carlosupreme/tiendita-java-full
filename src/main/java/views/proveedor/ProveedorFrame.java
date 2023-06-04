@@ -206,14 +206,12 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 30, 530, 50));
 
-        java.awt.FlowLayout flowLayout1 = new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5);
-        flowLayout1.setAlignOnBaseline(true);
-        jPanel1.setLayout(flowLayout1);
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         filterByLbl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         filterByLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        filterByLbl.setText("Filtros aplicados");
-        jPanel1.add(filterByLbl);
+        filterByLbl.setText("     ");
+        jPanel1.add(filterByLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 140, -1));
 
         quitarFiltrosBtn.setBackground(new java.awt.Color(251, 113, 133));
         quitarFiltrosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -225,7 +223,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 quitarFiltrosBtnActionPerformed(evt);
             }
         });
-        jPanel1.add(quitarFiltrosBtn);
+        jPanel1.add(quitarFiltrosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 340, 40));
 

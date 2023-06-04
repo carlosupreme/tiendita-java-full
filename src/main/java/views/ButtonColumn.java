@@ -27,14 +27,14 @@ public class ButtonColumn extends AbstractCellEditor
     private JButton editButton;
     private Object editorValue;
     private boolean isButtonColumnEditor;
-    
+
     public ButtonColumn(JTable table, Action action, int columnIndex, Icon iconoBtn) {
         this.tabla = table;
         this.action = action;
 
-        renderButton = new JButton(iconoBtn);        
+        renderButton = new JButton(iconoBtn);
         editButton = new JButton(iconoBtn);
-        
+
         editButton.setFocusPainted(false);
         editButton.addActionListener(this);
         originalBorder = editButton.getBorder();
@@ -45,11 +45,11 @@ public class ButtonColumn extends AbstractCellEditor
         columnModel.getColumn(columnIndex).setCellEditor(this);
         table.addMouseListener(this);
     }
-    
+
     public Border getFocusBorder() {
         return focusBorder;
     }
-    
+
     public void setFocusBorder(Border focusBorder) {
         this.focusBorder = focusBorder;
         editButton.setBorder(focusBorder);
@@ -58,7 +58,7 @@ public class ButtonColumn extends AbstractCellEditor
     public int getMnemonic() {
         return mnemonic;
     }
-    
+
     public void setMnemonic(int mnemonic) {
         this.mnemonic = mnemonic;
         renderButton.setMnemonic(mnemonic);
@@ -87,13 +87,12 @@ public class ButtonColumn extends AbstractCellEditor
     public Object getCellEditorValue() {
         return editorValue;
     }
-    
+
     Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 
-    
     public Component getTableCellRendererComponent(
             JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        
+
         if (isSelected) {
             renderButton.setForeground(table.getSelectionForeground());
             renderButton.setBackground(table.getSelectionBackground());
@@ -122,7 +121,7 @@ public class ButtonColumn extends AbstractCellEditor
 
         return renderButton;
     }
-    
+
     public void actionPerformed(ActionEvent e) {
         int row = tabla.convertRowIndexToModel(tabla.getEditingRow());
         fireEditingStopped();
@@ -134,7 +133,7 @@ public class ButtonColumn extends AbstractCellEditor
                 "" + row);
         action.actionPerformed(event);
     }
-    
+
     public void mousePressed(MouseEvent e) {
         if (tabla.isEditing()
                 && tabla.getCellEditor() == this) {

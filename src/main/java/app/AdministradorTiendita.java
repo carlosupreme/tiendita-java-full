@@ -1,5 +1,7 @@
 package app;
 
+import com.formdev.flatlaf.FlatLightLaf;
+import java.awt.Insets;
 import javax.swing.UIManager;
 import views.LoginFrame;
 
@@ -13,19 +15,14 @@ public class AdministradorTiendita {
 
     public static void main(String[] args) throws Exception {
 
-        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-            if ("Nimbus".equals(info.getName())) {
-                UIManager.setLookAndFeel(info.getClassName());
-                break;
-            }
-        }
+        FlatLightLaf.setup();
 
-        UIManager.put("OptionPane.yesButtonText", "Sí");
-        UIManager.put("OptionPane.noButtonText", "No");
-        UIManager.put("OptionPane.okButtonText", "Aceptar");
-        UIManager.put("OptionPane.cancelButtonText", "Cancelar");
-        UIManager.put("OptionPane.titleText", "Mensaje");
-        UIManager.put("OptionPane.messageDialogTitle", "Mensaje");
+        UIManager.put("ScrollBar.thumbArc", 999);
+        UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
+        UIManager.put("Button.arc", 999);
+        UIManager.put("Component.arc", 999);
+        UIManager.put("ProgressBar.arc", 999);
+        UIManager.put("TextComponent.arc", 999);
 
         java.awt.EventQueue.invokeLater(() -> {
             new LoginFrame().setVisible(true);
