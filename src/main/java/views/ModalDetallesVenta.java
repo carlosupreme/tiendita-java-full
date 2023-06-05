@@ -45,6 +45,7 @@ public class ModalDetallesVenta extends javax.swing.JDialog {
 
         totalLbl.setText("$ " + total);
         ProductoRepository productoRepository = new ProductoRepository();
+        jScrollPane1.setBorder(BorderFactory.createEmptyBorder());
 
         try {
 

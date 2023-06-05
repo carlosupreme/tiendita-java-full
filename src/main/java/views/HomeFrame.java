@@ -14,6 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -260,12 +261,13 @@ public class HomeFrame extends javax.swing.JFrame {
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane();
+            scroll.setBorder(BorderFactory.createEmptyBorder());
+            
             scroll.setViewportView(tabla);
             panel.add(scroll, BorderLayout.CENTER);
             f.add(panel);
 
             f.setTitle("Información de todas las ventas");
-
             f.setVisible(true);
 
         } catch (IllegalAccessException | IllegalArgumentException
