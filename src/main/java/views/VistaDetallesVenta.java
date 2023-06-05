@@ -18,6 +18,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import models.DetallesVenta;
 import repositories.ProductoRepository;
@@ -45,10 +47,27 @@ public class VistaDetallesVenta extends JDialog {
 
             String[] columnasTabla = {"ID de venta", "ID del producto", "Cantidad", "Precio Unitario"};
 
-            DefaultTableModel modelo = new DefaultTableModel(datos, columnasTabla);
+            DefaultTableModel modelo = new DefaultTableModel(datos, columnasTabla) {
+                boolean[] canEdit = new boolean[]{
+                    false, true, false, false
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            };
             modelo.setDataVector(datos, columnasTabla);
 
             JTable tabla = new JTable(modelo);
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            tabla.setDefaultRenderer(Object.class, centerRenderer);
+            tabla.setShowGrid(true);
+            tabla.getTableHeader().setResizingAllowed(false);
+            tabla.getTableHeader().setReorderingAllowed(false);
+            tabla.setFont(new java.awt.Font("Segoe UI", 0, 14));
+            tabla.setRowHeight(30);
 
             Action detallesProductoBtn;
             detallesProductoBtn = new AbstractAction() {
@@ -70,13 +89,11 @@ public class VistaDetallesVenta extends JDialog {
                 }
             };
 
-            new ButtonColumn(tabla, detallesProductoBtn, 1,
-                    new ImageIcon(getClass().getResource("/info_icon.png")));
-
-            tabla.setRowHeight(30);
+            new ButtonColumn(tabla, detallesProductoBtn, 1, new ImageIcon(getClass().getResource("/info_icon.png")));
 
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setSize(800, 500);
+            setResizable(false);
 
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
@@ -87,7 +104,6 @@ public class VistaDetallesVenta extends JDialog {
         } catch (IllegalAccessException | IllegalArgumentException
                 | InstantiationException | NoSuchMethodException
                 | InvocationTargetException | SQLException ex) {
-            ex.printStackTrace();
             MessageHandler.showErrorMessage(ex.getMessage());
         }
 

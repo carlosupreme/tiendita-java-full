@@ -19,6 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import models.Venta;
 import views.inventario.InventarioFrame;
@@ -168,15 +170,34 @@ public class HomeFrame extends javax.swing.JFrame {
 
         ventaMap.buscandoUsuario = true;
 
+        JFrame f = new JFrame();
+
         try {
-            String[][] datos = ventaMap.selectAllAsArray(Venta.class, new String[]{"Detalles"});
+            String[][] datos = ventaMap.selectAllAsArray(Venta.class, new String[]{""});
 
-            String[] columnasTabla = {"ID de Venta", "Total", "Fecha", "Nombre de usuario", "Forma pago", ""};
+            String[] columnasTabla = {"ID", "Total $", "Fecha", "Nombre de usuario", "Forma de pago", "Detalles"};
 
-            DefaultTableModel modelo = new DefaultTableModel(datos, columnasTabla);
+            DefaultTableModel modelo = new DefaultTableModel(datos, columnasTabla) {
+                boolean[] canEdit = new boolean[]{
+                    false, false, false, false, false, true
+                };
+
+                @Override
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit[columnIndex];
+                }
+            };
             modelo.setDataVector(datos, columnasTabla);
 
             JTable tabla = new JTable(modelo);
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+            tabla.setDefaultRenderer(Object.class, centerRenderer);
+            tabla.setShowGrid(true);
+            tabla.getTableHeader().setResizingAllowed(false);
+            tabla.getTableHeader().setReorderingAllowed(false);
+            tabla.setFont(new java.awt.Font("Segoe UI", 0, 14));
+            tabla.setRowHeight(30);
 
             /*Action usuarioIDAction;
             usuarioIDAction = new AbstractAction() {
@@ -210,22 +231,27 @@ public class HomeFrame extends javax.swing.JFrame {
                 public void actionPerformed(ActionEvent e) {
                     JTable table = (JTable) e.getSource();
                     int modelRow = Integer.parseInt(e.getActionCommand());
-                    Object valor = ((DefaultTableModel) table.getModel()).getValueAt(modelRow, 0);
+                    Object valor = table.getModel().getValueAt(modelRow, 0);
                     int id = Integer.parseInt(valor.toString());
+                    String total = (String) table.getModel().getValueAt(modelRow, 1);
+                    String fecha = (String) table.getModel().getValueAt(modelRow, 2);
 
-                    VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
-                    detalleVenta.setVisible(true);
-                    detalleVenta.setTitle("Detallles de la venta [" + id + "]");
+                    ModalDetallesVenta modalVentas = new ModalDetallesVenta(id, total, fecha);
+                    modalVentas.setTitle("Detallles de la venta [" + id + "]");
+                    modalVentas.setLocationRelativeTo(f);
+                    modalVentas.setVisible(true);
 
+//                    VistaDetallesVenta detalleVenta = new VistaDetallesVenta(id);
+//                    detalleVenta.setTitle("Detallles de la venta [" + id + "]");
+//                    detalleVenta.setLocationRelativeTo(f);
+//                    detalleVenta.setModal(true);
+//                    detalleVenta.setVisible(true);
                 }
             };
 
-            new ButtonColumn(tabla, detallesVentaAction, 5,
-                    new ImageIcon(getClass().getResource("/info_icon.png")));
+            ButtonColumn buttonColumn = new ButtonColumn(tabla, detallesVentaAction, 5,
+                    new ImageIcon(getClass().getResource("/eye.png")));
 
-            tabla.setRowHeight(30);
-
-            JFrame f = new JFrame();
             f.setSize(1300, 720);
             f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             f.setResizable(false);
@@ -233,7 +259,8 @@ public class HomeFrame extends javax.swing.JFrame {
 
             JPanel panel = new JPanel();
             panel.setLayout(new BorderLayout());
-            JScrollPane scroll = new JScrollPane(tabla);
+            JScrollPane scroll = new JScrollPane();
+            scroll.setViewportView(tabla);
             panel.add(scroll, BorderLayout.CENTER);
             f.add(panel);
 

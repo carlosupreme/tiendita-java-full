@@ -9,7 +9,7 @@ package models;
  * @author Raul
  */
 public class DetallesVenta {
-    
+
     private long idVenta;
     private long idProducto;
     private int cantidad;
@@ -55,6 +55,13 @@ public class DetallesVenta {
 
     public void setPrecioUnitario(double precioUnitario) {
         this.precioUnitario = precioUnitario;
-    }    
-    
+    }
+
+    public String toString() {
+        return "Venta: { producto-id: " + idProducto
+                + ", cantidad: " + cantidad
+                + ", precio_unitario: " + precioUnitario
+                + "}";
+    }
+
 }

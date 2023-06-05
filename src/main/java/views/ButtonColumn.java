@@ -28,6 +28,8 @@ public class ButtonColumn extends AbstractCellEditor
     private Object editorValue;
     private boolean isButtonColumnEditor;
 
+    Color hoverBackgroundColor = new Color(255, 0, 0); // Por ejemplo, rojo
+
     public ButtonColumn(JTable table, Action action, int columnIndex, Icon iconoBtn) {
         this.tabla = table;
         this.action = action;
@@ -39,6 +41,8 @@ public class ButtonColumn extends AbstractCellEditor
         editButton.addActionListener(this);
         originalBorder = editButton.getBorder();
         setFocusBorder(new LineBorder(Color.BLUE));
+        editButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        renderButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(columnIndex).setCellRenderer(this);
@@ -154,8 +158,11 @@ public class ButtonColumn extends AbstractCellEditor
     }
 
     public void mouseEntered(MouseEvent e) {
+        editButton.setBackground(new Color(204, 204, 204));
+
     }
 
     public void mouseExited(MouseEvent e) {
+        editButton.setBackground(editButton.getBackground());
     }
 }
