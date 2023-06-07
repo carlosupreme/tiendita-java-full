@@ -19,14 +19,12 @@ public class CrearProductoModal extends javax.swing.JDialog {
 
     private final InventarioFrame parent;
     private final InventarioService inventarioService;
-    private final boolean showDeleted;
 
-    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository, boolean showDeleted) {
+    public CrearProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository) {
         super(parent, true);
         initComponents();
         this.parent = (InventarioFrame) parent;
         this.inventarioService = new InventarioService(productoRepository, proveedorRepository, new InventarioRepository());
-        this.showDeleted = showDeleted;
         getProveedoresIds();
         addRealTimeValidation();
     }
@@ -54,6 +52,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel6 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         proveedorlbl1 = new javax.swing.JLabel();
         cantidadError = new javax.swing.JLabel();
@@ -91,18 +90,26 @@ public class CrearProductoModal extends javax.swing.JDialog {
         setTitle("Agregar producto");
         setBackground(new java.awt.Color(255, 255, 255));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
-        setFont(new java.awt.Font("Liberation Sans", 0, 14)); // NOI18N
+        setFont(getFont().deriveFont(getFont().getSize()+2f));
         setModal(true);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel5.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        proveedorlbl1.setFont(proveedorlbl1.getFont());
         proveedorlbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         proveedorlbl1.setText("Cantidad");
         proveedorlbl1.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel5.add(proveedorlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        cantidadError.setBackground(new java.awt.Color(254, 254, 254));
         cantidadError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         cantidadError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         cantidadError.setOpaque(true);
@@ -115,8 +122,11 @@ public class CrearProductoModal extends javax.swing.JDialog {
         cantidad.setOpaque(true);
         jPanel5.add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 70));
+        jPanel6.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 70));
 
+        jPanel3.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel3.setFont(jPanel3.getFont());
+        jPanel3.setInheritsPopupMenu(true);
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         proveedorSelect.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
@@ -124,15 +134,19 @@ public class CrearProductoModal extends javax.swing.JDialog {
         proveedorSelect.setOpaque(true);
         jPanel3.add(proveedorSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 400, 40));
 
+        proveedorlbl.setFont(proveedorlbl.getFont());
         proveedorlbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         proveedorlbl.setText("Proveedor");
         proveedorlbl.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel3.add(proveedorlbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 60));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 700, 60));
+        jPanel6.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 700, 60));
 
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel2.setFont(jPanel2.getFont());
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel10.setFont(jLabel10.getFont());
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Costo ");
         jLabel10.setPreferredSize(new java.awt.Dimension(250, 16));
@@ -145,6 +159,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
         costo.setOpaque(true);
         jPanel2.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 200, 40));
 
+        costoError.setBackground(new java.awt.Color(254, 254, 254));
         costoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         costoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         costoError.setOpaque(true);
@@ -165,25 +180,31 @@ public class CrearProductoModal extends javax.swing.JDialog {
         precio.setOpaque(true);
         jPanel2.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 260, 40));
 
+        precioError.setBackground(new java.awt.Color(254, 254, 254));
         precioError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         precioError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         precioError.setOpaque(true);
         jPanel2.add(precioError, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 260, 20));
 
+        jLabel12.setFont(jLabel12.getFont());
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Precio");
         jLabel12.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 80, 40));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 700, 60));
+        jPanel6.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 700, 60));
 
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel1.setFont(jPanel1.getFont());
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setFont(jLabel9.getFont());
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Categoria");
         jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        categoriaError.setBackground(new java.awt.Color(254, 254, 254));
         categoriaError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         categoriaError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         categoriaError.setOpaque(true);
@@ -196,15 +217,19 @@ public class CrearProductoModal extends javax.swing.JDialog {
         categoria.setOpaque(true);
         jPanel1.add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 700, 60));
+        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 700, 60));
 
+        jPanel.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel.setFont(jPanel.getFont());
         jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel8.setFont(jLabel8.getFont());
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Código de barras");
         jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        codigoBarrasError.setBackground(new java.awt.Color(254, 254, 254));
         codigoBarrasError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         codigoBarrasError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         codigoBarrasError.setOpaque(true);
@@ -217,16 +242,19 @@ public class CrearProductoModal extends javax.swing.JDialog {
         codigoBarras.setOpaque(true);
         jPanel.add(codigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
+        jPanel6.add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
 
+        nombrePanel.setBackground(new java.awt.Color(254, 254, 254));
+        nombrePanel.setFont(nombrePanel.getFont());
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Nimbus Sans", 0, 15)); // NOI18N
+        jLabel2.setFont(jLabel2.getFont());
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Nombre");
         jLabel2.setPreferredSize(new java.awt.Dimension(250, 16));
         nombrePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        nombreError.setBackground(new java.awt.Color(254, 254, 254));
         nombreError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         nombreError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         nombreError.setOpaque(true);
@@ -239,11 +267,14 @@ public class CrearProductoModal extends javax.swing.JDialog {
         nombre.setOpaque(true);
         nombrePanel.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 700, 60));
+        jPanel6.add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 700, 60));
 
+        jPanel4.setBackground(new java.awt.Color(254, 254, 254));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        cancelarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        cancelarBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        cancelarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cancelarBtn.setForeground(new java.awt.Color(255, 255, 255));
         cancelarBtn.setText("Cancelar");
         cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -253,7 +284,9 @@ public class CrearProductoModal extends javax.swing.JDialog {
         });
         jPanel4.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
 
-        agregarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        agregarBtn.setBackground(new java.awt.Color(129, 140, 248));
+        agregarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        agregarBtn.setForeground(new java.awt.Color(255, 255, 255));
         agregarBtn.setText("Agregar");
         agregarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         agregarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -263,12 +296,14 @@ public class CrearProductoModal extends javax.swing.JDialog {
         });
         jPanel4.add(agregarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
 
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 700, 80));
+        jPanel6.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 700, 80));
 
-        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        tituloLbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tituloLbl.setText("Agregar producto");
-        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
+        jPanel6.add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
+
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 580));
 
         pack();
         setLocationRelativeTo(null);
@@ -352,7 +387,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
             inventarioService.agregarProducto(producto, Long.parseLong(cantidad.getText()));
 
             dispose();
-            parent.loadEntries(showDeleted);
+            parent.loadEntries();
             MessageHandler.showSuccessMessage("Producto agregado correctamente", null);
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {
@@ -395,6 +430,7 @@ public class CrearProductoModal extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField nombre;
     private javax.swing.JLabel nombreError;
     private javax.swing.JPanel nombrePanel;

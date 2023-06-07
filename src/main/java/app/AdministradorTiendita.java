@@ -26,10 +26,9 @@ public class AdministradorTiendita {
 
         UIManager.put("ScrollBar.thumbArc", 999);
         UIManager.put("ScrollBar.thumbInsets", new Insets(2, 2, 2, 2));
-        UIManager.put("Button.arc", 800);
-        UIManager.put("Component.arc", 800);
-        UIManager.put("ProgressBar.arc", 999);
-        UIManager.put("TextComponent.arc", 800);
+        UIManager.put("Button.arc", 30);
+        UIManager.put("Component.arc", 30);
+        UIManager.put("TextComponent.arc", 30);
         UIManager.put("OptionPane.yesButtonText", "Sí");
         UIManager.put("OptionPane.okButtonText", "Aceptar");
         UIManager.put("OptionPane.cancelButtonText", "Cancelar");

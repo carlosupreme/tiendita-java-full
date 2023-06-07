@@ -173,12 +173,14 @@ public class CobrarPanel extends JPanel {
 
     public CobrarPanel() {
 
+        setBackground(Color.decode("#FEFEFE"));
         setLayout(new BorderLayout());
 
         setBorder(BorderFactory.createEmptyBorder(10, 30, 30, 30));
 
         // Panel de búsqueda de productos
         JPanel pnlBusqueda = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        pnlBusqueda.setBackground(Color.decode("#FEFEFE"));
         txtCodigoBarras = new JTextField(20);
         JButton btnAgregar = new JButton("Agregar");
         btnAgregar.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -190,6 +192,7 @@ public class CobrarPanel extends JPanel {
 
         // Panel de productos agregados
         pnlProductos = new JPanel();
+        pnlProductos.setBackground(Color.decode("#FFFFFF"));
         pnlProductos.setLayout(new BoxLayout(pnlProductos, BoxLayout.Y_AXIS));
 
         add(new JScrollPane(pnlProductos), BorderLayout.CENTER);
@@ -198,6 +201,7 @@ public class CobrarPanel extends JPanel {
         lblTotal = new JLabel("Total: $0.00");
 
         JPanel panelAbajo = new JPanel();
+        panelAbajo.setBackground(Color.decode("#FEFEFE"));
         panelAbajo.add(lblTotal);
         cobrarBtn = new JButton("Cobrar");
         cobrarBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));

@@ -37,14 +37,14 @@ public class InventarioService {
     }
 
     public void fillProveedoresCombobox(DefaultComboBoxModel<ProveedorItem> model) throws SQLException {
-        proveedorRepository.findAll(false, new ProveedorCriteria()).forEach(proveedor -> {
+        proveedorRepository.findAll(new ProveedorCriteria()).forEach(proveedor -> {
             ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
             model.insertElementAt(item, 0);
         });
     }
 
     public void fillProveedoresCombobox(DefaultComboBoxModel<ProveedorItem> model, long selectedId) throws SQLException {
-        proveedorRepository.findAll(false, new ProveedorCriteria()).forEach(proveedor -> {
+        proveedorRepository.findAll(new ProveedorCriteria()).forEach(proveedor -> {
             ProveedorItem item = new ProveedorItem(proveedor.getId(), proveedor.getNombre());
             model.insertElementAt(item, 0);
 

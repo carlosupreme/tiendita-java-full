@@ -76,17 +76,11 @@ public class ProductoRepository {
         return all;
     }
 
-    public List<Producto> findByCriteria(boolean showDeleted, ProductoCriteria criteria) throws SQLException, ValidationModelException {
+    public List<Producto> findByCriteria(ProductoCriteria criteria) throws SQLException, ValidationModelException {
         ArrayList<Producto> all = new ArrayList<>();
-        String query = "SELECT * FROM productos";
+        String query = "SELECT * FROM productos WHERE activo = 1";
 
-        if (!showDeleted) {
-            query += " WHERE activo = 1";
-            query += " AND nombre like '%" + criteria.nombre + "%'";
-        } else {
-            query += " WHERE nombre like '%" + criteria.nombre + "%'";
-        }
-
+        query += " AND nombre like '%" + criteria.nombre + "%'";
         query += " AND categoria like '%" + criteria.categoria + "%'";
         query += " AND codigo_barras like '%" + criteria.codigoBarras + "%'";
         query += " AND precio_publico like '%" + criteria.precioPublico + "%'";

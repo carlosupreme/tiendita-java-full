@@ -75,7 +75,7 @@ public class Proveedor {
     public static boolean NombreValido(String nombre) throws ValidationModelException {
         if (nombre.trim().isEmpty()) {
             throw new ValidationModelException("Nombre es un dato obligatorio");
-        }
+        }   
         if (nombre.length() > 255) {
             throw new ValidationModelException("La nombre debe ser menor a 255 caracteres");
         }

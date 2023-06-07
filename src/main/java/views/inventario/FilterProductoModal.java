@@ -50,29 +50,39 @@ public final class FilterProductoModal extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel4 = new javax.swing.JPanel();
+        filtrarBtn = new javax.swing.JButton();
+        cancelarBtn = new javax.swing.JButton();
+        tituloLbl = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        proveedorlbl1 = new javax.swing.JLabel();
+        cantidadError = new javax.swing.JLabel();
+        cantidad = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         proveedorSelect = new javax.swing.JComboBox<>();
         proveedorlbl = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         costo = new javax.swing.JTextField();
+        costoError = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         precio = new javax.swing.JTextField();
+        precioError = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        categoriaError = new javax.swing.JLabel();
         categoria = new javax.swing.JTextField();
         jPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        codigoBarrasError = new javax.swing.JLabel();
         codigoBarras = new javax.swing.JTextField();
         nombrePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        nombreError = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        cancelarBtn = new javax.swing.JButton();
-        filtrarBtn = new javax.swing.JButton();
-        tituloLbl = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Filtrar productos");
@@ -81,6 +91,68 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel4.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        filtrarBtn.setBackground(new java.awt.Color(56, 189, 248));
+        filtrarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        filtrarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        filtrarBtn.setText("Filtrar");
+        filtrarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        filtrarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtrarBtnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(filtrarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
+
+        cancelarBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        cancelarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cancelarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cancelarBtn.setText("Cancelar");
+        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBtnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
+
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 80));
+
+        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLbl.setText("Filtros para producto");
+        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
+
+        jPanel5.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        proveedorlbl1.setFont(proveedorlbl1.getFont());
+        proveedorlbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        proveedorlbl1.setText("Cantidad");
+        proveedorlbl1.setPreferredSize(new java.awt.Dimension(250, 16));
+        jPanel5.add(proveedorlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        cantidadError.setBackground(new java.awt.Color(254, 254, 254));
+        cantidadError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        cantidadError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        cantidadError.setOpaque(true);
+        jPanel5.add(cantidadError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
+
+        cantidad.setToolTipText("");
+        cantidad.setActionCommand("<Not Set>");
+        cantidad.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        cantidad.setMargin(new java.awt.Insets(2, 10, 2, 6));
+        cantidad.setOpaque(true);
+        jPanel5.add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
+
+        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 70));
+
+        jPanel3.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel3.setFont(jPanel3.getFont());
+        jPanel3.setInheritsPopupMenu(true);
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         proveedorSelect.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
@@ -88,6 +160,7 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         proveedorSelect.setOpaque(true);
         jPanel3.add(proveedorSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 400, 40));
 
+        proveedorlbl.setFont(proveedorlbl.getFont());
         proveedorlbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         proveedorlbl.setText("Proveedor");
         proveedorlbl.setPreferredSize(new java.awt.Dimension(250, 16));
@@ -95,8 +168,11 @@ public final class FilterProductoModal extends javax.swing.JDialog {
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 700, 60));
 
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel2.setFont(jPanel2.getFont());
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel10.setFont(jLabel10.getFont());
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Costo ");
         jLabel10.setPreferredSize(new java.awt.Dimension(250, 16));
@@ -108,6 +184,12 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         costo.setMargin(new java.awt.Insets(2, 10, 2, 6));
         costo.setOpaque(true);
         jPanel2.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 200, 40));
+
+        costoError.setBackground(new java.awt.Color(254, 254, 254));
+        costoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        costoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        costoError.setOpaque(true);
+        jPanel2.add(costoError, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 250, 20));
 
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("$");
@@ -124,6 +206,13 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         precio.setOpaque(true);
         jPanel2.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 260, 40));
 
+        precioError.setBackground(new java.awt.Color(254, 254, 254));
+        precioError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        precioError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        precioError.setOpaque(true);
+        jPanel2.add(precioError, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 260, 20));
+
+        jLabel12.setFont(jLabel12.getFont());
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Precio");
         jLabel12.setPreferredSize(new java.awt.Dimension(250, 16));
@@ -131,12 +220,21 @@ public final class FilterProductoModal extends javax.swing.JDialog {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 700, 60));
 
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel1.setFont(jPanel1.getFont());
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setFont(jLabel9.getFont());
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Categoria");
         jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        categoriaError.setBackground(new java.awt.Color(254, 254, 254));
+        categoriaError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        categoriaError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        categoriaError.setOpaque(true);
+        jPanel1.add(categoriaError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         categoria.setToolTipText("");
         categoria.setActionCommand("<Not Set>");
@@ -147,12 +245,21 @@ public final class FilterProductoModal extends javax.swing.JDialog {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 700, 60));
 
+        jPanel.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel.setFont(jPanel.getFont());
         jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel8.setFont(jLabel8.getFont());
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Código de barras");
         jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        codigoBarrasError.setBackground(new java.awt.Color(254, 254, 254));
+        codigoBarrasError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        codigoBarrasError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        codigoBarrasError.setOpaque(true);
+        jPanel.add(codigoBarrasError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         codigoBarras.setToolTipText("");
         codigoBarras.setActionCommand("<Not Set>");
@@ -163,13 +270,21 @@ public final class FilterProductoModal extends javax.swing.JDialog {
 
         getContentPane().add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
 
+        nombrePanel.setBackground(new java.awt.Color(254, 254, 254));
+        nombrePanel.setFont(nombrePanel.getFont());
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Nimbus Sans", 0, 15)); // NOI18N
+        jLabel2.setFont(jLabel2.getFont());
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Nombre");
         jLabel2.setPreferredSize(new java.awt.Dimension(250, 16));
         nombrePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        nombreError.setBackground(new java.awt.Color(254, 254, 254));
+        nombreError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        nombreError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        nombreError.setOpaque(true);
+        nombrePanel.add(nombreError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         nombre.setToolTipText("");
         nombre.setActionCommand("<Not Set>");
@@ -180,42 +295,12 @@ public final class FilterProductoModal extends javax.swing.JDialog {
 
         getContentPane().add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 700, 60));
 
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        cancelarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        cancelarBtn.setText("Cancelar");
-        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarBtnActionPerformed(evt);
-            }
-        });
-        jPanel4.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
-
-        filtrarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        filtrarBtn.setText("Filtrar");
-        filtrarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        filtrarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filtrarBtnActionPerformed(evt);
-            }
-        });
-        jPanel4.add(filtrarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
-
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 80));
-
-        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Filtros para producto");
-        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
+        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 520));
 
         setSize(new java.awt.Dimension(716, 522));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
-        dispose();
-    }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void filtrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filtrarBtnActionPerformed
         pc.nombre = nombre.getText().trim();
@@ -233,11 +318,20 @@ public final class FilterProductoModal extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_filtrarBtnActionPerformed
 
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelarBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelarBtn;
+    private javax.swing.JTextField cantidad;
+    private javax.swing.JLabel cantidadError;
     private javax.swing.JTextField categoria;
+    private javax.swing.JLabel categoriaError;
     private javax.swing.JTextField codigoBarras;
+    private javax.swing.JLabel codigoBarrasError;
     private javax.swing.JTextField costo;
+    private javax.swing.JLabel costoError;
     private javax.swing.JButton filtrarBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -251,11 +345,16 @@ public final class FilterProductoModal extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField nombre;
+    private javax.swing.JLabel nombreError;
     private javax.swing.JPanel nombrePanel;
     private javax.swing.JTextField precio;
+    private javax.swing.JLabel precioError;
     private javax.swing.JComboBox<String> proveedorSelect;
     private javax.swing.JLabel proveedorlbl;
+    private javax.swing.JLabel proveedorlbl1;
     private javax.swing.JLabel tituloLbl;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,9 +5,7 @@
 package views.proveedor;
 
 import exceptions.ValidationModelException;
-import java.awt.event.ItemEvent;
 import java.sql.SQLException;
-import javax.swing.JFrame;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -32,23 +30,20 @@ public final class ProveedorFrame extends javax.swing.JFrame {
 
     public ProveedorFrame() {
         initComponents();
-        setSize(1300, 720);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setTitle("Proveedores");
 
         this.proveedorRepository = new ProveedorRepository();
         this.criteria = new ProveedorCriteria();
         this.filterProveedorModal = new FilterProveedorModal(ProveedorFrame.this, criteria);
 
         model = (DefaultTableModel) table.getModel();
-        loadEntries(showDeleted.isSelected());
+        loadEntries();
 
         TableActionEvent actionEvent = new TableActionEvent() {
             @Override
             public void onEdit(int row) {
                 long id = (long) model.getValueAt(row, 0);
-                new EditarProveedorModal(ProveedorFrame.this, proveedorRepository, id, showDeleted.isSelected()).setVisible(true);
+                new EditarProveedorModal(ProveedorFrame.this, proveedorRepository, id).setVisible(true);
             }
 
             @Override
@@ -63,7 +58,7 @@ public final class ProveedorFrame extends javax.swing.JFrame {
                 if (confirmed) {
                     try {
                         proveedorRepository.delete(id);
-                        loadEntries(showDeleted.isSelected());
+                        loadEntries();
                         MessageHandler.showSuccessMessage("Eliminado correctamente", null);
                     } catch (SQLException ex) {
                         MessageHandler.showErrorMessage(ex.getMessage());
@@ -87,20 +82,14 @@ public final class ProveedorFrame extends javax.swing.JFrame {
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         table.setDefaultRenderer(Object.class, centerRenderer);
-
-        showDeleted.addItemListener((ItemEvent e) -> {
-            loadEntries(e.getStateChange() == ItemEvent.SELECTED);
-
-        });
-        quitarFiltrosBtn.setVisible(false);
+        quitarFiltrosBtn.setEnabled(false);
 
     }
 
     public void setCriteria(ProveedorCriteria pc) {
         this.criteria = pc;
-        loadEntries(showDeleted.isSelected());
-        filterByLbl.setText("Filtro aplicados");
-        quitarFiltrosBtn.setVisible(true);
+        loadEntries();
+        quitarFiltrosBtn.setEnabled(true);
     }
 
     /**
@@ -113,24 +102,89 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jLabel1 = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        table = new javax.swing.JTable();
+        jPanel3 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
+        quitarFiltrosBtn = new javax.swing.JButton();
         filterBtn = new javax.swing.JButton();
         crearBtn = new javax.swing.JButton();
-        showDeleted = new javax.swing.JCheckBox();
-        jPanel1 = new javax.swing.JPanel();
-        filterByLbl = new javax.swing.JLabel();
-        quitarFiltrosBtn = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Proveedores");
+        setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
-        jLabel1.setText("PROVEEDORES ");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 20, -1, 53));
+        jPanel3.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+
+        quitarFiltrosBtn.setBackground(new java.awt.Color(251, 113, 133));
+        quitarFiltrosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        quitarFiltrosBtn.setForeground(new java.awt.Color(255, 255, 255));
+        quitarFiltrosBtn.setText("Quitar filtros");
+        quitarFiltrosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        quitarFiltrosBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quitarFiltrosBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 14;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
+        jPanel2.add(quitarFiltrosBtn, gridBagConstraints);
+
+        filterBtn.setBackground(new java.awt.Color(56, 189, 248));
+        filterBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        filterBtn.setForeground(new java.awt.Color(255, 255, 255));
+        filterBtn.setText("Filtrar");
+        filterBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        filterBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 14;
+        gridBagConstraints.ipady = 10;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
+        jPanel2.add(filterBtn, gridBagConstraints);
+
+        crearBtn.setBackground(new java.awt.Color(129, 140, 248));
+        crearBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        crearBtn.setForeground(new java.awt.Color(255, 255, 255));
+        crearBtn.setText("Agregar");
+        crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        crearBtn.setMaximumSize(new java.awt.Dimension(158, 27));
+        crearBtn.setMinimumSize(new java.awt.Dimension(158, 27));
+        crearBtn.setPreferredSize(new java.awt.Dimension(158, 27));
+        crearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipadx = 14;
+        gridBagConstraints.ipady = 10;
+        jPanel2.add(crearBtn, gridBagConstraints);
+
+        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 0, 550, 60));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 60));
+
+        jPanel4.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel4.setLayout(new java.awt.CardLayout());
 
         table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -164,103 +218,34 @@ public final class ProveedorFrame extends javax.swing.JFrame {
             table.getColumnModel().getColumn(5).setResizable(false);
         }
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 100, 1218, 581));
+        jPanel4.add(jScrollPane2, "card2");
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 60, 1300, 660));
 
-        filterBtn.setBackground(new java.awt.Color(56, 189, 248));
-        filterBtn.setFont(new java.awt.Font("Nimbus Sans", 1, 14)); // NOI18N
-        filterBtn.setForeground(new java.awt.Color(255, 255, 255));
-        filterBtn.setText("Filtrar");
-        filterBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        filterBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filterBtnActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 17;
-        gridBagConstraints.ipady = 11;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.PAGE_END;
-        gridBagConstraints.insets = new java.awt.Insets(3, 3, 3, 3);
-        jPanel2.add(filterBtn, gridBagConstraints);
-
-        crearBtn.setBackground(new java.awt.Color(129, 140, 248));
-        crearBtn.setFont(new java.awt.Font("Noto Sans Myanmar", 1, 14)); // NOI18N
-        crearBtn.setForeground(new java.awt.Color(255, 255, 255));
-        crearBtn.setText("Agregar proveedor");
-        crearBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        crearBtn.setMaximumSize(new java.awt.Dimension(158, 23));
-        crearBtn.setMinimumSize(new java.awt.Dimension(158, 23));
-        crearBtn.setPreferredSize(new java.awt.Dimension(158, 23));
-        crearBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                crearBtnActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.ipadx = 2;
-        gridBagConstraints.ipady = 14;
-        gridBagConstraints.insets = new java.awt.Insets(3, 0, 3, 0);
-        jPanel2.add(crearBtn, gridBagConstraints);
-
-        showDeleted.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        showDeleted.setText("Mostrar eliminados");
-        showDeleted.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jPanel2.add(showDeleted, new java.awt.GridBagConstraints());
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 30, 530, 50));
-
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        filterByLbl.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        filterByLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        filterByLbl.setText("     ");
-        jPanel1.add(filterByLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, 140, -1));
-
-        quitarFiltrosBtn.setBackground(new java.awt.Color(251, 113, 133));
-        quitarFiltrosBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        quitarFiltrosBtn.setForeground(new java.awt.Color(255, 255, 255));
-        quitarFiltrosBtn.setText("Quitar filtros");
-        quitarFiltrosBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        quitarFiltrosBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quitarFiltrosBtnActionPerformed(evt);
-            }
-        });
-        jPanel1.add(quitarFiltrosBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, -1, -1));
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 340, 40));
-
-        setSize(new java.awt.Dimension(1300, 748));
+        setSize(new java.awt.Dimension(1316, 728));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void crearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearBtnActionPerformed
-        new CrearProveedorModal(ProveedorFrame.this, proveedorRepository, showDeleted.isSelected()).setVisible(true);
+        new CrearProveedorModal(ProveedorFrame.this, proveedorRepository).setVisible(true);
 
     }//GEN-LAST:event_crearBtnActionPerformed
 
     private void quitarFiltrosBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitarFiltrosBtnActionPerformed
         this.criteria = new ProveedorCriteria();
         filterProveedorModal.setCriteria(criteria);
-        loadEntries(showDeleted.isSelected());
-        quitarFiltrosBtn.setVisible(false);
-        filterByLbl.setText("");
+        loadEntries();
+        quitarFiltrosBtn.setEnabled(false);
     }//GEN-LAST:event_quitarFiltrosBtnActionPerformed
 
     private void filterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBtnActionPerformed
         filterProveedorModal.setVisible(true);
     }//GEN-LAST:event_filterBtnActionPerformed
 
-    public void loadEntries(boolean showDelete) {
+    public void loadEntries() {
         model.setRowCount(0);
         try {
-            proveedorRepository.findAll(showDelete, criteria).forEach(proveedor -> {
+            proveedorRepository.findAll(criteria).forEach(proveedor -> {
                 Object[] row = new Object[6];
                 row[0] = proveedor.getId();
                 row[1] = proveedor.getNombre();
@@ -278,13 +263,11 @@ public final class ProveedorFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton crearBtn;
     private javax.swing.JButton filterBtn;
-    private javax.swing.JLabel filterByLbl;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton quitarFiltrosBtn;
-    private javax.swing.JCheckBox showDeleted;
     private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }

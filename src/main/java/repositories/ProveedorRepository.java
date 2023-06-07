@@ -44,18 +44,12 @@ public class ProveedorRepository {
         System.out.println(proveedor);
     }
 
-    public List<Proveedor> findAll(boolean showDeleted, ProveedorCriteria criteria) throws SQLException, ValidationModelException {
+    public List<Proveedor> findAll(ProveedorCriteria criteria) throws SQLException, ValidationModelException {
         List<Proveedor> all = new ArrayList<>();
         Statement stmt = connection.createStatement();
-        String query = "SELECT * FROM proveedores";
+        String query = "SELECT * FROM proveedores WHERE activo = 1";
 
-        if (!showDeleted) {
-            query += " WHERE activo = 1";
-            query += " AND nombre like '%" + criteria.nombre + "%'";
-        } else {
-            query += " WHERE nombre like '%" + criteria.nombre + "%'";
-        }
-
+        query += " AND nombre like '%" + criteria.nombre + "%'";
         query += " AND direccion like '%" + criteria.direccion + "%'";
         query += " AND email like '%" + criteria.email + "%'";
         query += " AND telefono like '%" + criteria.telefono + "%'";

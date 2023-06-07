@@ -20,16 +20,14 @@ public class EditarProductoModal extends javax.swing.JDialog {
     private final InventarioService inventarioService;
     private final long productoId;
     private final InventarioFrame parent;
-    private final boolean showDeleted;
 
-    public EditarProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository, long id, boolean showDeleted) {
+    public EditarProductoModal(java.awt.Frame parent, ProductoRepository productoRepository, ProveedorRepository proveedorRepository, long id) {
         super(parent, true);
         initComponents();
         this.parent = (InventarioFrame) parent;
         InventarioRepository inventarioRepository = new InventarioRepository();
         this.inventarioService = new InventarioService(productoRepository, proveedorRepository, inventarioRepository);
         this.productoId = id;
-        this.showDeleted = showDeleted;
         addRealTimeValidation();
 
         try {
@@ -123,6 +121,12 @@ public class EditarProductoModal extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel6 = new javax.swing.JPanel();
+        tituloLbl = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        editBtn = new javax.swing.JButton();
+        agregarBtn = new javax.swing.JButton();
+        cancelarBtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         proveedorlbl1 = new javax.swing.JLabel();
         cantidadError = new javax.swing.JLabel();
@@ -147,14 +151,10 @@ public class EditarProductoModal extends javax.swing.JDialog {
         jLabel8 = new javax.swing.JLabel();
         codigoBarrasError = new javax.swing.JLabel();
         codigoBarras = new javax.swing.JTextField();
-        tituloLbl = new javax.swing.JLabel();
         nombrePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         nombreError = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        cancelarBtn = new javax.swing.JButton();
-        editBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Editar producto");
@@ -165,13 +165,66 @@ public class EditarProductoModal extends javax.swing.JDialog {
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
+        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLbl.setText("Editar producto");
+        jPanel6.add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
+
+        jPanel4.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        editBtn.setBackground(new java.awt.Color(129, 140, 248));
+        editBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Editar");
+        editBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBtnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(editBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
+
+        agregarBtn.setBackground(new java.awt.Color(129, 140, 248));
+        agregarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        agregarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        agregarBtn.setText("Agregar");
+        agregarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        agregarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarBtnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(agregarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
+
+        cancelarBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        cancelarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cancelarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cancelarBtn.setText("Cancelar");
+        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBtnActionPerformed(evt);
+            }
+        });
+        jPanel4.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
+
+        jPanel6.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 700, 80));
+
+        jPanel5.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        proveedorlbl1.setFont(proveedorlbl1.getFont());
         proveedorlbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         proveedorlbl1.setText("Cantidad");
         proveedorlbl1.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel5.add(proveedorlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        cantidadError.setBackground(new java.awt.Color(254, 254, 254));
         cantidadError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         cantidadError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         cantidadError.setOpaque(true);
@@ -184,8 +237,11 @@ public class EditarProductoModal extends javax.swing.JDialog {
         cantidad.setOpaque(true);
         jPanel5.add(cantidad, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 70));
+        jPanel6.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 400, 700, 70));
 
+        jPanel3.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel3.setFont(jPanel3.getFont());
+        jPanel3.setInheritsPopupMenu(true);
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         proveedorSelect.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
@@ -193,15 +249,19 @@ public class EditarProductoModal extends javax.swing.JDialog {
         proveedorSelect.setOpaque(true);
         jPanel3.add(proveedorSelect, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 400, 40));
 
+        proveedorlbl.setFont(proveedorlbl.getFont());
         proveedorlbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         proveedorlbl.setText("Proveedor");
         proveedorlbl.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel3.add(proveedorlbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 270, 60));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 700, 60));
+        jPanel6.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 330, 700, 60));
 
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel2.setFont(jPanel2.getFont());
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel10.setFont(jLabel10.getFont());
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel10.setText("Costo ");
         jLabel10.setPreferredSize(new java.awt.Dimension(250, 16));
@@ -214,6 +274,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
         costo.setOpaque(true);
         jPanel2.add(costo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 0, 200, 40));
 
+        costoError.setBackground(new java.awt.Color(254, 254, 254));
         costoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         costoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         costoError.setOpaque(true);
@@ -234,25 +295,31 @@ public class EditarProductoModal extends javax.swing.JDialog {
         precio.setOpaque(true);
         jPanel2.add(precio, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 0, 260, 40));
 
+        precioError.setBackground(new java.awt.Color(254, 254, 254));
         precioError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         precioError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         precioError.setOpaque(true);
         jPanel2.add(precioError, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 40, 260, 20));
 
+        jLabel12.setFont(jLabel12.getFont());
         jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel12.setText("Precio");
         jLabel12.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel2.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 0, 80, 40));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 700, 60));
+        jPanel6.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 700, 60));
 
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel1.setFont(jPanel1.getFont());
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setFont(jLabel9.getFont());
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Categoria");
         jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        categoriaError.setBackground(new java.awt.Color(254, 254, 254));
         categoriaError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         categoriaError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         categoriaError.setOpaque(true);
@@ -265,15 +332,19 @@ public class EditarProductoModal extends javax.swing.JDialog {
         categoria.setOpaque(true);
         jPanel1.add(categoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 700, 60));
+        jPanel6.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 700, 60));
 
+        jPanel.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel.setFont(jPanel.getFont());
         jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel8.setFont(jLabel8.getFont());
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Código de barras");
         jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        codigoBarrasError.setBackground(new java.awt.Color(254, 254, 254));
         codigoBarrasError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         codigoBarrasError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         codigoBarrasError.setOpaque(true);
@@ -286,21 +357,19 @@ public class EditarProductoModal extends javax.swing.JDialog {
         codigoBarras.setOpaque(true);
         jPanel.add(codigoBarras, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
+        jPanel6.add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 700, 60));
 
-        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Editar producto");
-        getContentPane().add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 40));
-
+        nombrePanel.setBackground(new java.awt.Color(254, 254, 254));
+        nombrePanel.setFont(nombrePanel.getFont());
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Nimbus Sans", 0, 15)); // NOI18N
+        jLabel2.setFont(jLabel2.getFont());
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Nombre");
         jLabel2.setPreferredSize(new java.awt.Dimension(250, 16));
         nombrePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        nombreError.setBackground(new java.awt.Color(254, 254, 254));
         nombreError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         nombreError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         nombreError.setOpaque(true);
@@ -313,39 +382,13 @@ public class EditarProductoModal extends javax.swing.JDialog {
         nombre.setOpaque(true);
         nombrePanel.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        getContentPane().add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 700, 60));
+        jPanel6.add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 700, 60));
 
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 600));
 
-        cancelarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        cancelarBtn.setText("Cancelar");
-        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarBtnActionPerformed(evt);
-            }
-        });
-        jPanel4.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
-
-        editBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        editBtn.setText("Editar");
-        editBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        editBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editBtnActionPerformed(evt);
-            }
-        });
-        jPanel4.add(editBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
-
-        getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 700, 80));
-
-        setSize(new java.awt.Dimension(710, 606));
+        setSize(new java.awt.Dimension(717, 606));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
-        dispose();
-    }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         Producto producto = new Producto();
@@ -369,7 +412,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
             inventarioService.actualizarProducto(producto, Long.parseLong(cantidad.getText()));
 
             dispose();
-            parent.loadEntries(showDeleted);
+            parent.loadEntries();
             MessageHandler.showSuccessMessage("Producto actualizado correctamente", null);
         } catch (SQLException ex) {
             if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {
@@ -388,7 +431,52 @@ public class EditarProductoModal extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_editBtnActionPerformed
 
+    private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
+        Producto producto = new Producto();
+
+        try {
+            producto.setNombre(nombre.getText());
+            producto.setCodigoBarras(codigoBarras.getText());
+            producto.setCategoria(categoria.getText());
+
+            validarCosto(costo.getText());
+            producto.setCosto(Double.parseDouble(costo.getText()));
+
+            validarPrecio(precio.getText());
+            producto.setPrecioPublico(Double.parseDouble(precio.getText()));
+            ProveedorItem proveedorItem = (ProveedorItem) proveedorSelect.getSelectedItem();
+            producto.setIdProveedor(proveedorItem.getId());
+
+            validarCantidad(cantidad.getText());
+
+            inventarioService.agregarProducto(producto, Long.parseLong(cantidad.getText()));
+
+            dispose();
+            parent.loadEntries();
+            MessageHandler.showSuccessMessage("Producto agregado correctamente", null);
+        } catch (SQLException ex) {
+            if (ex.getMessage().equals("Duplicate entry '" + codigoBarras.getText() + "' for key 'productos.codigo_barras'")) {
+                MessageHandler.showErrorMessage("El código de barras ya fue registrado, ingresa uno diferente");
+                codigoBarras.requestFocus();
+                codigoBarras.selectAll();
+            } else {
+                MessageHandler.showErrorMessage(ex.getMessage());
+            }
+        } catch (ValidationModelException ex) {
+            MessageHandler.showErrorMessage(ex.getMessage());
+            focusInput(ex.getMessage().contains("codigo de barras") ? "codigoBarras" : ex.getMessage());
+        } catch (Exception e) {
+            MessageHandler.showErrorMessage("El proveedor es requerido");
+            proveedorSelect.requestFocus();
+        }
+    }//GEN-LAST:event_agregarBtnActionPerformed
+
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelarBtnActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton agregarBtn;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField cantidad;
     private javax.swing.JLabel cantidadError;
@@ -412,6 +500,7 @@ public class EditarProductoModal extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField nombre;
     private javax.swing.JLabel nombreError;
     private javax.swing.JPanel nombrePanel;
