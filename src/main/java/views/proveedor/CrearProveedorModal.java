@@ -44,6 +44,7 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         proveedorlbl1 = new javax.swing.JLabel();
         telefonoError = new javax.swing.JLabel();
@@ -60,23 +61,30 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         nombreError = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        cancelarBtn = new javax.swing.JButton();
-        agregarBtn = new javax.swing.JButton();
         tituloLbl = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        cancelarBtn1 = new javax.swing.JButton();
+        agregarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Agregar proveedor");
         setModal(true);
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel5.setBackground(new java.awt.Color(254, 254, 254));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        proveedorlbl1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         proveedorlbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         proveedorlbl1.setText("Teléfono");
         proveedorlbl1.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel5.add(proveedorlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        telefonoError.setBackground(new java.awt.Color(254, 254, 254));
         telefonoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         telefonoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         telefonoError.setOpaque(true);
@@ -89,13 +97,18 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         telefono.setOpaque(true);
         jPanel5.add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 385, 700, 70));
+
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Email");
         jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        emailError.setBackground(new java.awt.Color(254, 254, 254));
         emailError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         emailError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         emailError.setOpaque(true);
@@ -108,13 +121,19 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         email.setOpaque(true);
         jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 296, 700, -1));
+
+        jPanel.setBackground(new java.awt.Color(254, 254, 254));
         jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel8.setBackground(new java.awt.Color(254, 254, 254));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel8.setText("Dirección ");
         jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        direccionError.setBackground(new java.awt.Color(254, 254, 254));
         direccionError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         direccionError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         direccionError.setOpaque(true);
@@ -127,14 +146,18 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         direccion.setOpaque(true);
         jPanel.add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
+        jPanel2.add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 202, 700, -1));
+
+        nombrePanel.setBackground(new java.awt.Color(254, 254, 254));
         nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Nimbus Sans", 0, 15)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Nombre");
         jLabel2.setPreferredSize(new java.awt.Dimension(250, 16));
         nombrePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        nombreError.setBackground(new java.awt.Color(254, 254, 254));
         nombreError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
         nombreError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
         nombreError.setOpaque(true);
@@ -147,19 +170,31 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         nombre.setOpaque(true);
         nombrePanel.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 106, 700, -1));
 
-        cancelarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        cancelarBtn.setText("Cancelar");
-        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+        tituloLbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLbl.setText("Agregar proveedor");
+        jPanel2.add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 4, 700, 40));
+
+        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cancelarBtn1.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        cancelarBtn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cancelarBtn1.setForeground(new java.awt.Color(255, 255, 255));
+        cancelarBtn1.setText("Cancelar");
+        cancelarBtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelarBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarBtnActionPerformed(evt);
+                cancelarBtn1ActionPerformed(evt);
             }
         });
-        jPanel4.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
+        jPanel6.add(cancelarBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
 
-        agregarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
+        agregarBtn.setBackground(new java.awt.Color(129, 140, 248));
+        agregarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        agregarBtn.setForeground(new java.awt.Color(255, 255, 255));
         agregarBtn.setText("Agregar");
         agregarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         agregarBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -167,59 +202,15 @@ public class CrearProveedorModal extends javax.swing.JDialog {
                 agregarBtnActionPerformed(evt);
             }
         });
-        jPanel4.add(agregarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
+        jPanel6.add(agregarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
 
-        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Agregar proveedor");
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 700, 100));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombrePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(92, Short.MAX_VALUE)
-                .addComponent(nombrePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(129, 129, 129))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(430, 430, 430)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
-        );
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 580));
 
-        setSize(new java.awt.Dimension(700, 598));
+        setSize(new java.awt.Dimension(716, 588));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
-        dispose();
-    }//GEN-LAST:event_cancelarBtnActionPerformed
 
     private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
         Proveedor proveedor = new Proveedor();
@@ -239,9 +230,13 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_agregarBtnActionPerformed
 
+    private void cancelarBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtn1ActionPerformed
+        dispose();
+    }//GEN-LAST:event_cancelarBtn1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarBtn;
-    private javax.swing.JButton cancelarBtn;
+    private javax.swing.JButton cancelarBtn1;
     private javax.swing.JTextField direccion;
     private javax.swing.JLabel direccionError;
     private javax.swing.JTextField email;
@@ -251,8 +246,9 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField nombre;
     private javax.swing.JLabel nombreError;
     private javax.swing.JPanel nombrePanel;

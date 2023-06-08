@@ -42,21 +42,22 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        direccion = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        tituloLbl = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        cancelarBtn = new javax.swing.JButton();
+        filterBtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         proveedorlbl1 = new javax.swing.JLabel();
         telefono = new javax.swing.JTextField();
-        jPanel4 = new javax.swing.JPanel();
-        cancelarBtn = new javax.swing.JButton();
-        FiltrarBtn = new javax.swing.JButton();
-        tituloLbl = new javax.swing.JLabel();
-        nombrePanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        email = new javax.swing.JTextField();
+        jPanel = new javax.swing.JPanel();
+        jLabel8 = new javax.swing.JLabel();
+        direccion = new javax.swing.JTextField();
+        nombrePanel = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -64,36 +65,47 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         setModal(true);
         setResizable(false);
 
-        jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("Dirección ");
-        jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
-        jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+        tituloLbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLbl.setText("Filtrar proveedores");
+        jPanel2.add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 4, 700, 40));
 
-        direccion.setToolTipText("");
-        direccion.setActionCommand("<Not Set>");
-        direccion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        direccion.setMargin(new java.awt.Insets(2, 10, 2, 6));
-        direccion.setOpaque(true);
-        jPanel.add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
+        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        cancelarBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        cancelarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cancelarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cancelarBtn.setText("Cancelar");
+        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBtnActionPerformed(evt);
+            }
+        });
+        jPanel6.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
 
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Email");
-        jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+        filterBtn.setBackground(new java.awt.Color(56, 189, 248));
+        filterBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        filterBtn.setForeground(new java.awt.Color(255, 255, 255));
+        filterBtn.setText("Filtrar");
+        filterBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        filterBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterBtnActionPerformed(evt);
+            }
+        });
+        jPanel6.add(filterBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
 
-        email.setToolTipText("");
-        email.setActionCommand("<Not Set>");
-        email.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        email.setMargin(new java.awt.Insets(2, 10, 2, 6));
-        email.setOpaque(true);
-        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 474, 700, 110));
 
+        jPanel5.setBackground(new java.awt.Color(254, 254, 254));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        proveedorlbl1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         proveedorlbl1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         proveedorlbl1.setText("Teléfono");
         proveedorlbl1.setPreferredSize(new java.awt.Dimension(250, 16));
@@ -106,83 +118,85 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         telefono.setOpaque(true);
         jPanel5.add(telefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 385, 700, 70));
 
-        cancelarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        cancelarBtn.setText("Cancelar");
-        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarBtnActionPerformed(evt);
-            }
-        });
-        jPanel4.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
+        jPanel1.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        FiltrarBtn.setFont(new java.awt.Font("Liberation Sans", 0, 18)); // NOI18N
-        FiltrarBtn.setText("Filtrar");
-        FiltrarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        FiltrarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FiltrarBtnActionPerformed(evt);
-            }
-        });
-        jPanel4.add(FiltrarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("Email");
+        jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
-        tituloLbl.setFont(new java.awt.Font("Liberation Sans", 1, 18)); // NOI18N
-        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Filtrar proveedor");
+        email.setToolTipText("");
+        email.setActionCommand("<Not Set>");
+        email.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        email.setMargin(new java.awt.Insets(2, 10, 2, 6));
+        email.setOpaque(true);
+        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
 
-        nombrePanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 296, 700, -1));
 
-        jLabel3.setFont(new java.awt.Font("Nimbus Sans", 0, 15)); // NOI18N
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Nombre");
-        jLabel3.setPreferredSize(new java.awt.Dimension(250, 16));
-        nombrePanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+        jPanel.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel8.setBackground(new java.awt.Color(254, 254, 254));
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel8.setText("Dirección ");
+        jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
+        jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        direccion.setToolTipText("");
+        direccion.setActionCommand("<Not Set>");
+        direccion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        direccion.setMargin(new java.awt.Insets(2, 10, 2, 6));
+        direccion.setOpaque(true);
+        jPanel.add(direccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
+
+        jPanel2.add(jPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 202, 700, -1));
+
+        nombrePanel.setBackground(new java.awt.Color(254, 254, 254));
+        nombrePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Nombre");
+        jLabel2.setPreferredSize(new java.awt.Dimension(250, 16));
+        nombrePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
         nombre.setToolTipText("");
         nombre.setActionCommand("<Not Set>");
         nombre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         nombre.setMargin(new java.awt.Insets(2, 10, 2, 6));
         nombre.setOpaque(true);
-        nombrePanel1.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
+        nombrePanel.add(nombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 0, 400, 40));
+
+        jPanel2.add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 106, 700, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nombrePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 700, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addGap(0, 700, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(tituloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(nombrePanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+            .addGap(0, 584, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
-        setSize(new java.awt.Dimension(712, 493));
+        setSize(new java.awt.Dimension(716, 588));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -190,7 +204,7 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
-    private void FiltrarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FiltrarBtnActionPerformed
+    private void filterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBtnActionPerformed
         pc.nombre = nombre.getText().trim();
         pc.direccion = direccion.getText().trim();
         pc.email = email.getText().trim();
@@ -198,22 +212,23 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         
         parent.setCriteria(pc);
         dispose();
-    }//GEN-LAST:event_FiltrarBtnActionPerformed
+    }//GEN-LAST:event_filterBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton FiltrarBtn;
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField direccion;
     private javax.swing.JTextField email;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JButton filterBtn;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField nombre;
-    private javax.swing.JPanel nombrePanel1;
+    private javax.swing.JPanel nombrePanel;
     private javax.swing.JLabel proveedorlbl1;
     private javax.swing.JTextField telefono;
     private javax.swing.JLabel tituloLbl;
