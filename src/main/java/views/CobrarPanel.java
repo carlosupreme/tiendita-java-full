@@ -56,7 +56,7 @@ public class CobrarPanel extends JPanel {
     private static final String SELECT_BY_CODIGO_BARRAS_QUERY
             = "SELECT productos.*, inventario.stock FROM productos "
             + "INNER JOIN inventario ON productos.id = inventario.id_producto "
-            + "WHERE productos.codigo_barras = ?";
+            + "WHERE productos.activo = 1 AND productos.codigo_barras = ?";
 
     private static ProductoVenta selectByCodigoBarras(String codigoDeBarras) throws SQLException {
 
