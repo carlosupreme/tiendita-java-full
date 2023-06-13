@@ -9,12 +9,11 @@ CREATE TABLE proveedores (
 
 CREATE TABLE productos (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  proveedor_id INT,
+  id_proveedor INT,
   nombre VARCHAR(255) NOT NULL,
   codigo_barras VARCHAR(13) NOT NULL UNIQUE,
   precio_publico DECIMAL(10,2) NOT NULL,
   costo DECIMAL(10,2) NOT NULL,
-  id_proveedor INT,
   activo TINYINT NOT NULL DEFAULT 1,
   categoria VARCHAR(50) NOT NULL,
   FOREIGN KEY (proveedor_id) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
