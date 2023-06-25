@@ -16,7 +16,7 @@ CREATE TABLE productos (
   costo DECIMAL(10,2) NOT NULL,
   activo TINYINT NOT NULL DEFAULT 1,
   categoria VARCHAR(50) NOT NULL,
-  FOREIGN KEY (proveedor_id) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
+  FOREIGN KEY (id_proveedor) REFERENCES proveedores(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE inventario (
