@@ -1,6 +1,5 @@
 package controllers;
 
-import app.Sesion;
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
 import models.Usuario;
@@ -21,14 +20,11 @@ public class AutenticacionController {
             throw new ValidationModelException("La contraseña es incorrecta");
         }
 
-        Sesion.instance().setUsuario(usuario);
         return true;
 
     }
 
     public void logout() {
-
-        Sesion.instance().setUsuario(null);
 
     }
 

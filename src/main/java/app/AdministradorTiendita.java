@@ -6,12 +6,6 @@ import java.awt.Insets;
 import javax.swing.UIManager;
 import views.LoginFrame;
 
-/**
- *
- * Clase principal de la aplicación
- *
- * @author Raul
- */
 public class AdministradorTiendita {
 
     public static void main(String[] args) throws Exception {

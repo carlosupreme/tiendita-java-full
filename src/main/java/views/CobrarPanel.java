@@ -4,7 +4,6 @@
  */
 package views;
 
-import app.Sesion;
 import db.ConexionDB;
 import db.InstruccionDML;
 import db.PreparedStatementMapper;
@@ -89,7 +88,7 @@ public class CobrarPanel extends JPanel {
         constraints.gridx = 0;  // Columna 1
         constraints.gridy = 0;  // Fila 1
         constraints.gridwidth = 1;  // Ocupa una sola columna
-        constraints.gridheight = 1; // Ocupa una sola fila 
+        constraints.gridheight = 1; // Ocupa una sola fila
         constraints.ipadx = 0; // Sin relleno adicional
         constraints.weightx = 0.0;  // No se ajusta horizontalmente
         constraints.fill = GridBagConstraints.HORIZONTAL;  // No se estira
@@ -228,8 +227,7 @@ public class CobrarPanel extends JPanel {
 
                 Instant fecha = Instant.now().with(ChronoField.NANO_OF_SECOND, 0);
 
-                Venta venta = new Venta(total, fecha,
-                        Sesion.instance().getUsuario().getId(), cb.getSelectedItem().toString());
+                Venta venta = new Venta(total, fecha, 0, cb.getSelectedItem().toString());
 
                 long idVenta;
 

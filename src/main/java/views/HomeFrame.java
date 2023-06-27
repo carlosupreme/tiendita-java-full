@@ -4,8 +4,6 @@
  */
 package views;
 
-import app.Sesion;
-import controllers.AutenticacionController;
 import db.SelectStatementMapper;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
@@ -34,10 +32,7 @@ import views.proveedor.ProveedorFrame;
 @SuppressWarnings("serial")
 public class HomeFrame extends javax.swing.JFrame {
 
-    private final AutenticacionController authController;
-
-    public HomeFrame(AutenticacionController authController) {
-        this.authController = authController;
+    public HomeFrame() {
         initComponents();
         setSize(1300, 700);
         setLocationRelativeTo(null);
@@ -127,7 +122,7 @@ public class HomeFrame extends javax.swing.JFrame {
         panelIzquierdo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 90, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel5.setText("Bienvenido, " + Sesion.instance().getUsuario().getNombre());
+        jLabel5.setText("Bienvenido, ");
         panelIzquierdo.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
         getContentPane().add(panelIzquierdo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1300, 700));
@@ -146,7 +141,6 @@ public class HomeFrame extends javax.swing.JFrame {
 
         if (confirmed) {
             dispose();
-            authController.logout();
             new LoginFrame().setVisible(true);
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
@@ -262,7 +256,7 @@ public class HomeFrame extends javax.swing.JFrame {
             panel.setLayout(new BorderLayout());
             JScrollPane scroll = new JScrollPane();
             scroll.setBorder(BorderFactory.createEmptyBorder());
-            
+
             scroll.setViewportView(tabla);
             panel.add(scroll, BorderLayout.CENTER);
             f.add(panel);
