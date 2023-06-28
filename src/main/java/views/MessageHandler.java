@@ -1,5 +1,6 @@
 package views;
 
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 /**
@@ -7,6 +8,8 @@ import javax.swing.*;
  * @author carlos
  */
 public class MessageHandler {
+
+    private final static int TIME = 2000;
 
     public static void showErrorMessage(String message) {
         JOptionPane.showMessageDialog(null,
@@ -19,13 +22,18 @@ public class MessageHandler {
     }
 
     public static void showSuccessMessage(String message, String title) {
-        JOptionPane.showMessageDialog(null,
-                message,
-                title != null ? title : "Éxito",
-                JOptionPane.INFORMATION_MESSAGE,
-                null
-        );
+        JOptionPane pane = new JOptionPane(message, JOptionPane.INFORMATION_MESSAGE);
+        final JDialog dialog = pane.createDialog(null, title != null ? title : "Éxito");
 
+        Timer timer = new Timer(TIME, (ActionEvent e) -> {
+            dialog.setVisible(false);
+            dialog.dispose();
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+        dialog.setVisible(true);
+        dialog.dispose();
     }
 
     public static boolean showConfirmMessage(String message, String title) {
