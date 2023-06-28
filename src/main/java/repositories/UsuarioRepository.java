@@ -86,7 +86,7 @@ public class UsuarioRepository implements Repository<Usuario> {
         st.setString(1, usuario.getUsername());
         st.setString(2, usuario.getNombre());
         st.setString(3, BCrypt.hashpw(usuario.getPassword(), BCrypt.gensalt()));
-        
+
     }
 
     private void mapResultSet(ResultSet rs, Usuario usuario) throws SQLException {

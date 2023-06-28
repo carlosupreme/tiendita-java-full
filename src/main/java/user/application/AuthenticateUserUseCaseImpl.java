@@ -1,40 +1,38 @@
 package user.application;
 
 import java.util.Optional;
-import user.domain.entities.InvalidPassword;
-import user.domain.entities.InvalidUsername;
 import user.domain.entities.Session;
 import user.domain.entities.User;
 import user.domain.entities.UserRepository;
-import user.domain.entities.Username;
 import user.domain.usecases.AuthenticateUserUseCase;
 
 public class AuthenticateUserUseCaseImpl implements AuthenticateUserUseCase {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public AuthenticateUserUseCaseImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public void authenticate(Username username, String password) {
+    @Override
+    public void authenticate(String username, String password) {
         Optional<User> user = userRepository.search(username);
 
         ensureUserExists(user, username);
-        ensurePasswordCorrect(user.get(), password);
+        ensureValidCretentials(user.get(), password);
 
         Session.getInstance().setUser(user.get());
     }
 
-    private void ensureUserExists(Optional<User> user, Username username) {
+    private void ensureUserExists(Optional<User> user, String username) {
         if (!user.isPresent()) {
-            throw new InvalidUsername(username);
+            throw new UserNotExist(username);
         }
     }
 
-    private void ensurePasswordCorrect(User user, String password) {
+    private void ensureValidCretentials(User user, String password) {
         if (!user.passwordMatches(password)) {
-            throw new InvalidPassword(user.username());
+            throw new InvalidCredentials(user.username());
         }
     }
 }

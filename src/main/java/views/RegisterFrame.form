@@ -111,14 +111,14 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="username">
+        <Component class="javax.swing.JTextField" name="usernameField">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
               <FontInfo relative="true">
-                <Font component="username" property="font" relativeSize="true" size="2"/>
+                <Font component="usernameField" property="font" relativeSize="true" size="2"/>
               </FontInfo>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -150,14 +150,14 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JTextField" name="nombre">
+        <Component class="javax.swing.JTextField" name="fullnameField">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
               <FontInfo relative="true">
-                <Font component="nombre" property="font" relativeSize="true" size="2"/>
+                <Font component="fullnameField" property="font" relativeSize="true" size="2"/>
               </FontInfo>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -298,14 +298,14 @@
             </Constraint>
           </Constraints>
         </Component>
-        <Component class="javax.swing.JPasswordField" name="password">
+        <Component class="javax.swing.JPasswordField" name="passwordField">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="ff" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
               <FontInfo relative="true">
-                <Font component="password" property="font" relativeSize="true" size="2"/>
+                <Font component="passwordField" property="font" relativeSize="true" size="2"/>
               </FontInfo>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">

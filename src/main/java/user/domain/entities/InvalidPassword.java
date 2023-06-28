@@ -1,11 +1,12 @@
 package user.domain.entities;
 
-import shared.domain.valueobject.DomainError;
+import shared.domain.valueobject.InvalidArgument;
 
-public class InvalidPassword extends DomainError {
+@SuppressWarnings("serial")
+public class InvalidPassword extends InvalidArgument {
 
-    public InvalidPassword(Username username) {
-        super(String.format("Las credenciales para <%s> son invalidas", username.value()));
+    public InvalidPassword(String msg) {
+        super(msg);
     }
 
 }

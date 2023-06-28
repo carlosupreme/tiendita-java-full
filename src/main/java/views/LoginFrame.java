@@ -1,25 +1,14 @@
 package views;
 
+import app.App;
 import db.ConexionDB;
-import user.application.AuthenticateUserUseCaseImpl;
-import user.application.RegisterUserUseCaseImpl;
-import user.application.UserService;
-import user.domain.entities.InvalidPassword;
-import user.domain.entities.InvalidUsername;
-import user.domain.entities.UserRepository;
-import user.domain.entities.Username;
-import user.infrastructure.MySQLUserRepository;
+import user.application.InvalidCredentials;
+import user.application.UserNotExist;
 
 @SuppressWarnings("serial")
 public class LoginFrame extends javax.swing.JFrame {
 
-    private final UserService userService;
-
     public LoginFrame() {
-        UserRepository userRepository = new MySQLUserRepository();
-        AuthenticateUserUseCaseImpl authUserUseCase = new AuthenticateUserUseCaseImpl(userRepository);
-        RegisterUserUseCaseImpl registerUserUseCase = new RegisterUserUseCaseImpl(userRepository);
-        this.userService = new UserService(authUserUseCase, registerUserUseCase);
         initComponents();
     }
 
@@ -186,8 +175,7 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {
-        boolean confirmed = MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir");
-        if (confirmed) {
+        if (MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir")) {
             ConexionDB.getInstance().closeConnection();
             System.exit(0);
         }
@@ -216,17 +204,18 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void loginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBtnActionPerformed
         try {
-            Username username = new Username(usernameField.getText());
+            String username = usernameField.getText();
             String password = String.valueOf(passwordField.getPassword());
-            userService.authenticate(username, password);
+            
+            App.userService().authenticate(username, password);
 
             dispose();
             new HomeFrame().setVisible(true);
-        } catch (InvalidUsername e) {
+        } catch (UserNotExist e) {
             MessageHandler.showErrorMessage(e.getMessage());
             usernameField.selectAll();
             usernameField.requestFocus();
-        } catch (InvalidPassword e) {
+        } catch (InvalidCredentials e) {
             MessageHandler.showErrorMessage(e.getMessage());
             passwordField.selectAll();
             passwordField.requestFocus();

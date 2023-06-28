@@ -1,22 +1,21 @@
 package user.application;
 
 import user.domain.entities.User;
-import user.domain.entities.Username;
 import user.domain.usecases.AuthenticateUserUseCase;
-import user.domain.usecases.RegisterUseCase;
+import user.domain.usecases.RegisterUserUseCase;
 
-public class UserService implements AuthenticateUserUseCase, RegisterUseCase {
+public class UserService implements AuthenticateUserUseCase, RegisterUserUseCase {
 
     private final AuthenticateUserUseCase authenticateUserUseCase;
-    private final RegisterUseCase registerUseCase;
+    private final RegisterUserUseCase registerUseCase;
 
-    public UserService(AuthenticateUserUseCase authenticateUserUseCase, RegisterUseCase registerUseCase) {
+    public UserService(AuthenticateUserUseCase authenticateUserUseCase, RegisterUserUseCase registerUseCase) {
         this.authenticateUserUseCase = authenticateUserUseCase;
         this.registerUseCase = registerUseCase;
     }
 
     @Override
-    public void authenticate(Username username, String password) {
+    public void authenticate(String username, String password) {
         authenticateUserUseCase.authenticate(username, password);
     }
 

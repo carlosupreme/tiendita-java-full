@@ -1,11 +1,12 @@
 package user.domain.entities;
 
-import shared.domain.valueobject.DomainError;
+import shared.domain.valueobject.InvalidArgument;
 
-public class InvalidUsername extends DomainError {
+@SuppressWarnings("serial")
+public class InvalidUsername extends InvalidArgument {
 
-    public InvalidUsername(Username username) {
-        super(String.format("El nombre de usuario <%s> no existe", username.value()));
+    public InvalidUsername(String msg) {
+        super(msg);
     }
 
 }

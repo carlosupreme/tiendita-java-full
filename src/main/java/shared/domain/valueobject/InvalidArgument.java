@@ -1,9 +1,9 @@
 package shared.domain.valueobject;
 
 @SuppressWarnings("serial")
-public class DomainError extends RuntimeException {
+public class InvalidArgument extends DomainError {
 
-    public DomainError(String errorMessage) {
+    public InvalidArgument(String errorMessage) {
         super(errorMessage);
     }
 }

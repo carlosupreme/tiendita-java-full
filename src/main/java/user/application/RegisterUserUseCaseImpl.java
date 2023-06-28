@@ -1,11 +1,11 @@
 package user.application;
 
 import user.domain.entities.User;
+import user.domain.entities.UserId;
 import user.domain.entities.UserRepository;
-import user.domain.usecases.RegisterUseCase;
+import user.domain.usecases.RegisterUserUseCase;
 
-
-public class RegisterUserUseCaseImpl implements RegisterUseCase {
+public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     private final UserRepository userRepository;
 
@@ -15,7 +15,8 @@ public class RegisterUserUseCaseImpl implements RegisterUseCase {
 
     @Override
     public void registerUser(User user) {
-        userRepository.save(user);
+        UserId userId = userRepository.save(user);
+        user.setId(userId);
     }
 
 }

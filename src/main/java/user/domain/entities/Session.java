@@ -1,5 +1,7 @@
 package user.domain.entities;
 
+import user.application.AuthenticateError;
+
 public class Session {
 
     private static Session instance;
@@ -19,7 +21,7 @@ public class Session {
 
     public User getUser() {
         if (null == user) {
-            throw new RuntimeException("Debe haber un usuario en la sesión");
+            throw new AuthenticateError();
         }
 
         return user;
