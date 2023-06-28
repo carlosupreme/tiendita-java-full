@@ -1,6 +1,6 @@
 package repositories;
 
-import db.ConexionDB;
+import app.MySQLConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ public class InventarioRepository {
     private Connection connection;
 
     public InventarioRepository() {
-        this.connection = ConexionDB.getInstance().getConnection();
+        this.connection = MySQLConnection.getInstance().getConnection();
     }
 
     public void save(Inventario inventario) throws SQLException {

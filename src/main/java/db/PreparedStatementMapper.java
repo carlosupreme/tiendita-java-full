@@ -1,5 +1,6 @@
 package db;
 
+import app.MySQLConnection;
 import java.lang.reflect.Field;
 import java.sql.*;
 
@@ -31,7 +32,7 @@ public class PreparedStatementMapper<T> {
         return result;
     }
 
-    private final Connection conexion = ConexionDB.getInstance().getConnection();
+    private final Connection conexion = MySQLConnection.getInstance().getConnection();
     private final String nombreTabla;
 
     public PreparedStatementMapper(String tableName) {

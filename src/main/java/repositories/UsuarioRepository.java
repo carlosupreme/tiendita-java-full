@@ -1,6 +1,6 @@
 package repositories;
 
-import db.ConexionDB;
+import app.MySQLConnection;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class UsuarioRepository implements Repository<Usuario> {
     private final String INSERT_SQL = "INSERT INTO usuarios (username, nombre, password) VALUES (?, ?, ?)";
 
     public UsuarioRepository() {
-        this.connection = ConexionDB.getInstance().getConnection();
+        this.connection = MySQLConnection.getInstance().getConnection();
     }
 
     @Override

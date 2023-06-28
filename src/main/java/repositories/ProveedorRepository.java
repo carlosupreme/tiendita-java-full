@@ -1,6 +1,6 @@
 package repositories;
 
-import db.ConexionDB;
+import app.MySQLConnection;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,7 +20,7 @@ public class ProveedorRepository {
     private final Connection connection;
 
     public ProveedorRepository() {
-        this.connection = ConexionDB.getInstance().getConnection();
+        this.connection = MySQLConnection.getInstance().getConnection();
     }
 
     public void save(Proveedor proveedor) throws SQLException, ValidationModelException {

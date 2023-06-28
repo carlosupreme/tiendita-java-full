@@ -4,7 +4,7 @@
  */
 package views;
 
-import db.ConexionDB;
+import app.MySQLConnection;
 import db.InstruccionDML;
 import db.PreparedStatementMapper;
 import db.SelectStatementMapper;
@@ -256,7 +256,7 @@ public class CobrarPanel extends JPanel {
                                 + pn.cantidadStock + " WHERE id_producto = "
                                 + pn.producto.getId();
 
-                        Connection conexion = ConexionDB.getInstance().getConnection();
+                        Connection conexion = MySQLConnection.getInstance().getConnection();
                         Statement statement = conexion.createStatement();
 
                         int filasAfectadas = statement.executeUpdate(sql);

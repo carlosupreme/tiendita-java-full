@@ -4,6 +4,7 @@
  */
 package db;
 
+import app.MySQLConnection;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
@@ -27,7 +28,7 @@ import java.util.List;
  */
 public class SelectStatementMapper<T> {
 
-    private final Connection conexion = ConexionDB.getInstance().getConnection();
+    private final Connection conexion = MySQLConnection.getInstance().getConnection();
     private String nombreTabla;
     private String sql;
     public boolean buscandoUsuario = false;

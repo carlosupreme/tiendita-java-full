@@ -18,7 +18,7 @@ import user.domain.entities.Username;
 
 public class MySQLUserRepository implements UserRepository {
 
-    private final Connection connection = db.ConexionDB.getInstance().getConnection();
+    private final Connection connection = app.MySQLConnection.getInstance().getConnection();
 
     @Override
     public Optional<User> search(String _username) {

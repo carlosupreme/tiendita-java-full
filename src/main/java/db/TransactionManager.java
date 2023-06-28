@@ -4,6 +4,7 @@
  */
 package db;
 
+import app.MySQLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -12,7 +13,7 @@ import java.sql.SQLException;
  * @author Raul
  */
 public class TransactionManager {
-    private static final Connection conexion = ConexionDB.getInstance().getConnection(); 
+    private static final Connection conexion = MySQLConnection.getInstance().getConnection(); 
      
     public static void ejecutarTransaccion(InstruccionDML dml) throws SQLException {
         try {

@@ -1,7 +1,6 @@
 package views;
 
 import app.App;
-import db.ConexionDB;
 import user.application.InvalidCredentials;
 import user.application.UserNotExist;
 
@@ -176,7 +175,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private void exitBtnMouseClicked(java.awt.event.MouseEvent evt) {
         if (MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir")) {
-            ConexionDB.getInstance().closeConnection();
+            app.MySQLConnection.getInstance().closeConnection();
             System.exit(0);
         }
     }
@@ -206,7 +205,7 @@ public class LoginFrame extends javax.swing.JFrame {
         try {
             String username = usernameField.getText();
             String password = String.valueOf(passwordField.getPassword());
-            
+
             App.userService().authenticate(username, password);
 
             dispose();

@@ -1,6 +1,6 @@
 package repositories;
 
-import db.ConexionDB;
+import app.MySQLConnection;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +17,7 @@ public class ProductoRepository {
     private final String INSERT_QUERY;
 
     public ProductoRepository() {
-        connection = ConexionDB.getInstance().getConnection();
+        connection = MySQLConnection.getInstance().getConnection();
         INSERT_QUERY = "INSERT INTO productos (nombre, codigo_barras, precio_publico, costo, id_proveedor, categoria) values (?, ?, ?, ?, ?, ?)";
     }
 
