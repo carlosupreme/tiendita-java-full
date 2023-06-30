@@ -8,9 +8,11 @@ public final class Password extends StringValueObject {
     private static final int MAX_LENGTH = 255;
     private static final int MIN_LENGTH = 8;
     private static final String PASSWORD_REGEX = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,255}$";
+    private static final String HASHED_REGEX = "^\\$2[aby]?\\$[0-9]{2}\\$[./0-9A-Za-z]{53}$";
 
     public Password(String hashedPassword) {
         super(hashedPassword);
+        ensureIsHashed(hashedPassword);
     }
 
     public static Password hash(String plainPassword) {
@@ -21,6 +23,12 @@ public final class Password extends StringValueObject {
 
     public boolean passwordMatches(String plainPassword) {
         return BCrypt.checkpw(plainPassword, value());
+    }
+
+    public static void ensureIsHashed(String hashedPassword) {
+        if (!hashedPassword.matches(HASHED_REGEX)) {
+            throw new InvalidPassword("La contraseña a guardar debe estar hasheada");
+        }
     }
 
     public static void validate(String value) {
