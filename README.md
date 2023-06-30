@@ -9,15 +9,15 @@
 
 1. Clonar el repositorio con SSH
 ```
-git clone git@github.com:raul-itoax/administrador-tiendita.git
+git clone git@github.com:carlosupreme/tiendita-java-full.git
 ```
 o en su lugar con HTTPS
 ```
-git clone https://github.com/raul-itoax/administrador-tiendita.git
+git clone https://github.com/carlosupreme/tiendita-java-full.git
 ```
 2. Moverse al directorio
 ```
-cd administrador-tiendita
+cd tiendita-java-full
 ```
 
 3. Copiar archivo **.env-example** ubicado en *src/main/resources/* a **.env**
@@ -32,7 +32,7 @@ nano src/main/resources/.env
 ```
 mysql -u root -p
 ```
-Dentro de la consola ejecutar:  
+Dentro de la consola ejecutar:
 ```
 source tablas.sql;
 ```
