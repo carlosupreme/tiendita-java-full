@@ -10,10 +10,14 @@ public class SupplierPhone extends StringValueObject {
     }
 
     public static void validate(String value) {
+        if (null == value) {
+            return;
+        }
+
         if (value.length() != 10) {
             throw new InvalidSupplierPhone("El telefono debe ser de 10 dígitos");
         }
-        
+
         if (!value.matches("\\d+")) {
             throw new InvalidSupplierPhone("El teléfono solo debe contener números");
         }

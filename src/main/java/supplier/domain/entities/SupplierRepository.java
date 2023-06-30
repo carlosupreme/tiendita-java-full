@@ -6,7 +6,7 @@ import shared.domain.valueobject.criteria.Criteria;
 
 public interface SupplierRepository {
 
-    public void save(Supplier supplier);
+    public Optional<SupplierId> save(Supplier supplier);
 
     public Optional<Supplier> findById(SupplierId id);
 
