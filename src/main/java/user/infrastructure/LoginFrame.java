@@ -1,8 +1,10 @@
-package views;
+package user.infrastructure;
 
 import app.App;
 import user.application.InvalidCredentials;
 import user.application.UserNotExist;
+import views.HomeFrame;
+import views.MessageHandler;
 
 @SuppressWarnings("serial")
 public class LoginFrame extends javax.swing.JFrame {
@@ -37,7 +39,6 @@ public class LoginFrame extends javax.swing.JFrame {
         setTitle("Tiendita - Iniciar sesión");
         setMinimumSize(new java.awt.Dimension(1000, 600));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(1200, 600));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));

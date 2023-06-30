@@ -4,7 +4,7 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.util.SystemInfo;
 import java.awt.Insets;
 import javax.swing.UIManager;
-import views.LoginFrame;
+import user.infrastructure.LoginFrame;
 
 public class AdministradorTiendita {
 

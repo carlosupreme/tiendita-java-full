@@ -1,5 +1,6 @@
-package views;
+package user.infrastructure;
 
+import user.infrastructure.LoginFrame;
 import app.App;
 import user.application.RegisterError;
 import user.domain.entities.InvalidPassword;
@@ -9,6 +10,7 @@ import user.domain.entities.Password;
 import user.domain.entities.User;
 import user.domain.entities.UserFullname;
 import user.domain.entities.Username;
+import views.MessageHandler;
 
 @SuppressWarnings("serial")
 public class RegisterFrame extends javax.swing.JFrame {

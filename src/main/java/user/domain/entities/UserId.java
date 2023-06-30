@@ -1,18 +1,11 @@
 package user.domain.entities;
 
-import shared.domain.valueobject.LongValueObject;
+import shared.domain.valueobject.IdLongValueObject;
 
-public class UserId extends LongValueObject {
+public class UserId extends IdLongValueObject {
 
     public UserId(Long value) {
         super(value);
-        validate(value);
-    }
-
-    public static void validate(Long value) {
-        if (null == value || value <= 0) {
-            throw new InvalidUserId("Id debe ser mayor a 0");
-        }
     }
 
 }

@@ -4,6 +4,7 @@
  */
 package views;
 
+import user.infrastructure.LoginFrame;
 import db.SelectStatementMapper;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
