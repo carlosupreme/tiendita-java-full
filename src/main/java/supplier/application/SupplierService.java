@@ -28,8 +28,8 @@ public class SupplierService implements CreateSupplierUseCase, DeleteSupplierUse
     }
     
     @Override
-    public void createSupplier(Supplier supplier) {
-        createSupplierUseCase.createSupplier(supplier);
+    public void saveSupplier(Supplier supplier) {
+        createSupplierUseCase.saveSupplier(supplier);
     }
     
     @Override

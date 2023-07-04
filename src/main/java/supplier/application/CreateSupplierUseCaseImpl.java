@@ -16,7 +16,7 @@ public class CreateSupplierUseCaseImpl implements CreateSupplierUseCase {
     }
 
     @Override
-    public void createSupplier(Supplier supplier) {
+    public void saveSupplier(Supplier supplier) {
         Optional<SupplierId> id = supplierRepository.save(supplier);
 
         if (!id.isPresent()) {
