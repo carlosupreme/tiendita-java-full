@@ -1,6 +1,6 @@
 package repositories;
 
-import app.MySQLConnection;
+import shared.infrastructure.MySQLConnection;
 import exceptions.ValidationModelException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

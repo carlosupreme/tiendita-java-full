@@ -4,7 +4,7 @@
  */
 package views;
 
-import app.MySQLConnection;
+import shared.infrastructure.MySQLConnection;
 import db.InstruccionDML;
 import db.PreparedStatementMapper;
 import db.SelectStatementMapper;

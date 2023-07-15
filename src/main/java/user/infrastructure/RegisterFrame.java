@@ -183,7 +183,7 @@ public class RegisterFrame extends javax.swing.JFrame {
 
     private void closeBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_closeBtnMouseClicked
         if (MessageHandler.showConfirmMessage("¿Estás seguro de que deseas salir?", "Salir")) {
-            app.MySQLConnection.getInstance().closeConnection();
+            shared.infrastructure.MySQLConnection.getInstance().closeConnection();
             System.exit(0);
         }
     }//GEN-LAST:event_closeBtnMouseClicked

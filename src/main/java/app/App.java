@@ -1,5 +1,8 @@
 package app;
 
+import shared.infrastructure.MySQLConnection;
+import supplier.domain.entities.SupplierRepository;
+import supplier.infrastructure.MySQLSupplierRepository;
 import user.application.AuthenticateUserUseCaseImpl;
 import user.application.RegisterUserUseCaseImpl;
 import user.application.UserService;
@@ -17,6 +20,8 @@ public class App {
     private static RegisterUserUseCase registerUserUseCase;
     private static Session session;
 
+    private static SupplierRepository supplierRepository;
+
     public static UserService userService() {
         if (null == userService) {
             userService = new UserService(authenticateUserUseCase(), registerUserUseCase());
@@ -27,7 +32,7 @@ public class App {
 
     private static UserRepository userRepository() {
         if (null == userRepository) {
-            userRepository = new MySQLUserRepository();
+            userRepository = new MySQLUserRepository(MySQLConnection.getInstance().getConnection());
         }
 
         return userRepository;
@@ -54,5 +59,13 @@ public class App {
             session = Session.getInstance();
         }
         return session;
+    }
+
+    private static SupplierRepository supplierRepository() {
+        if (null == supplierRepository) {
+            supplierRepository = new MySQLSupplierRepository(MySQLConnection.getInstance().getConnection());
+        }
+
+        return supplierRepository;
     }
 }

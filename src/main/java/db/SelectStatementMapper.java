@@ -4,7 +4,7 @@
  */
 package db;
 
-import app.MySQLConnection;
+import shared.infrastructure.MySQLConnection;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;

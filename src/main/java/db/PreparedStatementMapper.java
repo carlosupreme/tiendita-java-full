@@ -1,6 +1,6 @@
 package db;
 
-import app.MySQLConnection;
+import shared.infrastructure.MySQLConnection;
 import java.lang.reflect.Field;
 import java.sql.*;
 

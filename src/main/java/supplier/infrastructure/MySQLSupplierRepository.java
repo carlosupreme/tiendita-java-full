@@ -1,20 +1,20 @@
 package supplier.infrastructure;
 
-import app.MySQLConnection;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import shared.domain.valueobject.criteria.Criteria;
+import supplier.domain.SupplierNotExist;
+import supplier.domain.entities.*;
+
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
-import shared.domain.valueobject.criteria.Criteria;
-import supplier.domain.entities.Supplier;
-import supplier.domain.entities.SupplierId;
-import supplier.domain.entities.SupplierRepository;
 
 public class MySQLSupplierRepository implements SupplierRepository {
 
-    private final static Connection connection = MySQLConnection.getInstance().getConnection();
+    private final Connection connection;
+
+    public MySQLSupplierRepository(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public Optional<SupplierId> save(Supplier supplier) {
@@ -35,7 +35,7 @@ public class MySQLSupplierRepository implements SupplierRepository {
             if (!generatedKeys.next()) {
                 throw new Exception("No se obtuvo el ID");
             }
-            
+
             return Optional.of(new SupplierId(generatedKeys.getLong(1)));
 
         } catch (Exception e) {
@@ -46,7 +46,28 @@ public class MySQLSupplierRepository implements SupplierRepository {
 
     @Override
     public Optional<Supplier> findById(SupplierId id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        try {
+            PreparedStatement st = connection.prepareStatement("SELECT * FROM proveedores WHERE id = ?");
+            st.setLong(1, id.value());
+
+            ResultSet rs = st.executeQuery();
+
+            if (!rs.next()) {
+                throw new SupplierNotExist(id);
+            }
+
+            SupplierName name = new SupplierName(rs.getString("nombre"));
+            SupplierAddress address = new SupplierAddress(rs.getString("direccion"));
+            SupplierEmail email = new SupplierEmail(rs.getString("email"));
+            SupplierPhone phone = new SupplierPhone(rs.getString("telefono"));
+
+            return Optional.of(new Supplier(name, address, email, phone));
+
+        } catch (SQLException | SupplierNotExist e) {
+            e.printStackTrace();
+            return Optional.empty();
+        }
+
     }
 
     @Override

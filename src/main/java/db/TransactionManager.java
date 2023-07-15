@@ -4,7 +4,7 @@
  */
 package db;
 
-import app.MySQLConnection;
+import shared.infrastructure.MySQLConnection;
 import java.sql.Connection;
 import java.sql.SQLException;
 

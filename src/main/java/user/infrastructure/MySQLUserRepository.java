@@ -1,24 +1,19 @@
 package user.infrastructure;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
-import java.util.Optional;
 import user.application.RegisterError;
 import user.application.UserNotExist;
-import user.domain.entities.Password;
-import user.domain.entities.User;
-import user.domain.entities.UserFullname;
-import user.domain.entities.UserId;
-import user.domain.entities.UserRepository;
-import user.domain.entities.Username;
+import user.domain.entities.*;
+
+import java.sql.*;
+import java.util.Optional;
 
 public class MySQLUserRepository implements UserRepository {
 
-    private final Connection connection = app.MySQLConnection.getInstance().getConnection();
+    private final Connection connection;
+
+    public MySQLUserRepository(Connection connection) {
+        this.connection = connection;
+    }
 
     @Override
     public Optional<User> search(String _username) {
@@ -37,7 +32,7 @@ public class MySQLUserRepository implements UserRepository {
 
             return Optional.of(new User(username, password, fullname));
         } catch (SQLException | UserNotExist ex) {
-            System.err.println(ex.toString());
+            System.err.println(ex);
             return Optional.empty();
         }
     }
@@ -69,7 +64,7 @@ public class MySQLUserRepository implements UserRepository {
             System.err.println(ex.getMessage());
             throw new RegisterError("El nombre de usuario ya existe");
         } catch (Exception ex) {
-            System.err.println(ex.toString());
+            System.err.println(ex);
             throw new RegisterError(ex.getMessage());
         }
     }
