@@ -2,35 +2,49 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package views.proveedor;
+package supplier.infrastructure;
 
-import repositories.ProveedorCriteria;
+import exceptions.ValidationModelException;
+import java.sql.SQLException;
+import models.Proveedor;
+import repositories.ProveedorRepository;
+import views.MessageHandler;
+import views.RealTimeValidator;
+import views.ValidationRule;
 
 /**
  *
  * @author ili
  */
 @SuppressWarnings("serial")
-public final class FilterProveedorModal extends javax.swing.JDialog {
+public class EditarProveedorModal extends javax.swing.JDialog {
 
+    private final ProveedorRepository proveedorRepository;
+    private final long proveedorId;
     private final ProveedorFrame parent;
-    private ProveedorCriteria pc;
 
-    public FilterProveedorModal(java.awt.Frame parent, ProveedorCriteria pc) {
+    public EditarProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository, long id) {
         super(parent, true);
         initComponents();
+        this.proveedorRepository = proveedorRepository;
+        proveedorId = id;
         this.parent = (ProveedorFrame) parent;
-        setCriteria(pc);
 
-    }
+        try {
+            Proveedor proveedor = proveedorRepository.findById(id);
+            nombre.setText(proveedor.getNombre());
+            direccion.setText(proveedor.getDireccion());
+            email.setText(proveedor.getEmail());
+            telefono.setText(String.valueOf(proveedor.getTelefono()));
 
-    public void setCriteria(ProveedorCriteria pc) {
-        this.pc = pc;
+        } catch (SQLException | ValidationModelException ex) {
+            MessageHandler.showErrorMessage(ex.getMessage());
+        }
+        RealTimeValidator.addValidation(nombre, new ValidationRule(Proveedor::NombreValido, nombreError));
+        RealTimeValidator.addValidation(direccion, new ValidationRule(Proveedor::DireccionValida, direccionError));
+        RealTimeValidator.addValidation(telefono, new ValidationRule(Proveedor::TelefonoValido, telefonoError));
+        RealTimeValidator.addValidation(email, new ValidationRule(Proveedor::EmailValido, emailError));
 
-        nombre.setText(pc.nombre);
-        direccion.setText(pc.direccion);
-        email.setText(pc.email);
-        telefono.setText(pc.telefono);
     }
 
     /**
@@ -46,22 +60,26 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         tituloLbl = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         cancelarBtn = new javax.swing.JButton();
-        filterBtn = new javax.swing.JButton();
+        editBtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         proveedorlbl1 = new javax.swing.JLabel();
+        telefonoError = new javax.swing.JLabel();
         telefono = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
+        emailError = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         jPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        direccionError = new javax.swing.JLabel();
         direccion = new javax.swing.JTextField();
         nombrePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        nombreError = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Filtrar proveedor");
+        setTitle("Editar proveedor");
         setModal(true);
         setResizable(false);
 
@@ -70,7 +88,7 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
 
         tituloLbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Filtrar proveedores");
+        tituloLbl.setText("Editar proveedor");
         jPanel2.add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 4, 700, 40));
 
         jPanel6.setBackground(new java.awt.Color(254, 254, 254));
@@ -88,17 +106,17 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         });
         jPanel6.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
 
-        filterBtn.setBackground(new java.awt.Color(56, 189, 248));
-        filterBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        filterBtn.setForeground(new java.awt.Color(255, 255, 255));
-        filterBtn.setText("Filtrar");
-        filterBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        filterBtn.addActionListener(new java.awt.event.ActionListener() {
+        editBtn.setBackground(new java.awt.Color(129, 140, 248));
+        editBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        editBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editBtn.setText("Editar");
+        editBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        editBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                filterBtnActionPerformed(evt);
+                editBtnActionPerformed(evt);
             }
         });
-        jPanel6.add(filterBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
+        jPanel6.add(editBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
 
         jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 474, 700, 110));
 
@@ -110,6 +128,12 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         proveedorlbl1.setText("Teléfono");
         proveedorlbl1.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel5.add(proveedorlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        telefonoError.setBackground(new java.awt.Color(254, 254, 254));
+        telefonoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        telefonoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        telefonoError.setOpaque(true);
+        jPanel5.add(telefonoError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         telefono.setToolTipText("");
         telefono.setActionCommand("<Not Set>");
@@ -128,6 +152,12 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         jLabel9.setText("Email");
         jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        emailError.setBackground(new java.awt.Color(254, 254, 254));
+        emailError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        emailError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        emailError.setOpaque(true);
+        jPanel1.add(emailError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         email.setToolTipText("");
         email.setActionCommand("<Not Set>");
@@ -148,6 +178,12 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
+        direccionError.setBackground(new java.awt.Color(254, 254, 254));
+        direccionError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        direccionError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        direccionError.setOpaque(true);
+        jPanel.add(direccionError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
+
         direccion.setToolTipText("");
         direccion.setActionCommand("<Not Set>");
         direccion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
@@ -165,6 +201,12 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         jLabel2.setText("Nombre");
         jLabel2.setPreferredSize(new java.awt.Dimension(250, 16));
         nombrePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
+
+        nombreError.setBackground(new java.awt.Color(254, 254, 254));
+        nombreError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        nombreError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        nombreError.setOpaque(true);
+        nombrePanel.add(nombreError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         nombre.setToolTipText("");
         nombre.setActionCommand("<Not Set>");
@@ -204,21 +246,31 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
         dispose();
     }//GEN-LAST:event_cancelarBtnActionPerformed
 
-    private void filterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBtnActionPerformed
-        pc.nombre = nombre.getText().trim();
-        pc.direccion = direccion.getText().trim();
-        pc.email = email.getText().trim();
-        pc.telefono = telefono.getText().trim();
-        
-        parent.setCriteria(pc);
-        dispose();
-    }//GEN-LAST:event_filterBtnActionPerformed
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
+        Proveedor proveedor = new Proveedor();
+
+        try {
+            proveedor.setNombre(nombre.getText());
+            proveedor.setDireccion(direccion.getText());
+            proveedor.setEmail(email.getText());
+            proveedor.setTelefono(telefono.getText());
+            proveedorRepository.update(proveedorId, proveedor);
+
+            dispose();
+            parent.loadEntries();
+            MessageHandler.showSuccessMessage("Proveedor editado correctamente", null);
+        } catch (SQLException | ValidationModelException ex) {
+            MessageHandler.showErrorMessage(ex.getMessage());
+        }
+    }//GEN-LAST:event_editBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField direccion;
+    private javax.swing.JLabel direccionError;
+    private javax.swing.JButton editBtn;
     private javax.swing.JTextField email;
-    private javax.swing.JButton filterBtn;
+    private javax.swing.JLabel emailError;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -228,9 +280,11 @@ public final class FilterProveedorModal extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField nombre;
+    private javax.swing.JLabel nombreError;
     private javax.swing.JPanel nombrePanel;
     private javax.swing.JLabel proveedorlbl1;
     private javax.swing.JTextField telefono;
+    private javax.swing.JLabel telefonoError;
     private javax.swing.JLabel tituloLbl;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,7 +6,6 @@ import user.application.UserNotExist;
 import views.HomeFrame;
 import views.MessageHandler;
 
-import java.util.Objects;
 
 public class LoginFrame extends javax.swing.JFrame {
 
@@ -37,28 +36,28 @@ public class LoginFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tiendita - Iniciar sesión");
-        setMinimumSize(new java.awt.Dimension(1300, 700));
+        setMinimumSize(new java.awt.Dimension(1000, 600));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(Objects.requireNonNull(getClass().getResource("/bg-login.png")))); // NOI18N
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bg-login.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 5, Short.MAX_VALUE))
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 535, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 5, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
-                jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 87, Short.MAX_VALUE))
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 633, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 87, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 720));
@@ -87,10 +86,10 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Username");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 550, 35));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 115, 530, 30));
 
         passwordField.setBackground(new java.awt.Color(25, 118, 211));
-        passwordField.setFont(passwordField.getFont().deriveFont(passwordField.getFont().getSize() + 2f));
+        passwordField.setFont(passwordField.getFont().deriveFont(passwordField.getFont().getSize()+2f));
         passwordField.setForeground(new java.awt.Color(255, 255, 255));
         passwordField.setBorder(null);
         passwordField.setCaretColor(new java.awt.Color(255, 255, 255));
@@ -120,7 +119,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel2.add(disable, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 270, 44, 33));
 
         show.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        show.setIcon(new javax.swing.ImageIcon(Objects.requireNonNull(getClass().getResource("/icons8_eye_20px_1.png")))); // NOI18N
+        show.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons8_eye_20px_1.png"))); // NOI18N
         show.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         show.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -158,10 +157,15 @@ public class LoginFrame extends javax.swing.JFrame {
         jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, 164, 31));
 
         usernameField.setBackground(new java.awt.Color(25, 118, 211));
-        usernameField.setFont(usernameField.getFont().deriveFont(usernameField.getFont().getSize() + 2f));
+        usernameField.setFont(usernameField.getFont().deriveFont(usernameField.getFont().getSize()+2f));
         usernameField.setForeground(new java.awt.Color(255, 255, 255));
         usernameField.setBorder(null);
         usernameField.setCaretColor(new java.awt.Color(255, 255, 255));
+        usernameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                usernameFieldActionPerformed(evt);
+            }
+        });
         jPanel2.add(usernameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 150, 420, 30));
 
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -170,7 +174,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 0, 860, 600));
 
-        setSize(new java.awt.Dimension(1300, 700));
+        setSize(new java.awt.Dimension(1200, 600));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -221,6 +225,10 @@ public class LoginFrame extends javax.swing.JFrame {
             passwordField.requestFocus();
         }
     }//GEN-LAST:event_loginBtnActionPerformed
+
+    private void usernameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_usernameFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel disable;

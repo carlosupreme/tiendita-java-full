@@ -2,37 +2,35 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package views.proveedor;
+package supplier.infrastructure;
 
-import exceptions.ValidationModelException;
-import java.sql.SQLException;
-import models.Proveedor;
-import repositories.ProveedorRepository;
-import views.MessageHandler;
-import views.RealTimeValidator;
-import views.ValidationRule;
+import repositories.ProveedorCriteria;
 
 /**
  *
  * @author ili
  */
 @SuppressWarnings("serial")
-public class CrearProveedorModal extends javax.swing.JDialog {
+public final class FilterProveedorModal extends javax.swing.JDialog {
 
-    private final ProveedorRepository proveedorRepository;
-    private final ProveedorFrame parent;
+    private final ProveedorIndex parent;
+    private ProveedorCriteria pc;
 
-    public CrearProveedorModal(java.awt.Frame parent, ProveedorRepository proveedorRepository) {
+    public FilterProveedorModal(java.awt.Frame parent, ProveedorCriteria pc) {
         super(parent, true);
         initComponents();
-        this.parent = (ProveedorFrame) parent;
-        this.proveedorRepository = proveedorRepository;
+        this.parent = (ProveedorIndex) parent;
+        setCriteria(pc);
 
-        RealTimeValidator.addValidation(nombre, new ValidationRule(Proveedor::NombreValido, nombreError));
-        RealTimeValidator.addValidation(direccion, new ValidationRule(Proveedor::DireccionValida, direccionError));
-        RealTimeValidator.addValidation(telefono, new ValidationRule(Proveedor::TelefonoValido, telefonoError));
-        RealTimeValidator.addValidation(email, new ValidationRule(Proveedor::EmailValido, emailError));
+    }
 
+    public void setCriteria(ProveedorCriteria pc) {
+        this.pc = pc;
+
+        nombre.setText(pc.nombre);
+        direccion.setText(pc.direccion);
+        email.setText(pc.email);
+        telefono.setText(pc.telefono);
     }
 
     /**
@@ -45,35 +43,64 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
+        tituloLbl = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        cancelarBtn = new javax.swing.JButton();
+        filterBtn = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         proveedorlbl1 = new javax.swing.JLabel();
-        telefonoError = new javax.swing.JLabel();
         telefono = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        emailError = new javax.swing.JLabel();
         email = new javax.swing.JTextField();
         jPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        direccionError = new javax.swing.JLabel();
         direccion = new javax.swing.JTextField();
         nombrePanel = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        nombreError = new javax.swing.JLabel();
         nombre = new javax.swing.JTextField();
-        tituloLbl = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
-        cancelarBtn1 = new javax.swing.JButton();
-        agregarBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Agregar proveedor");
+        setTitle("Filtrar proveedor");
         setModal(true);
         setResizable(false);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(254, 254, 254));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        tituloLbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloLbl.setText("Filtrar proveedores");
+        jPanel2.add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 4, 700, 40));
+
+        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        cancelarBtn.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
+        cancelarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        cancelarBtn.setForeground(new java.awt.Color(255, 255, 255));
+        cancelarBtn.setText("Cancelar");
+        cancelarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cancelarBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cancelarBtnActionPerformed(evt);
+            }
+        });
+        jPanel6.add(cancelarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
+
+        filterBtn.setBackground(new java.awt.Color(56, 189, 248));
+        filterBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        filterBtn.setForeground(new java.awt.Color(255, 255, 255));
+        filterBtn.setText("Filtrar");
+        filterBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        filterBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterBtnActionPerformed(evt);
+            }
+        });
+        jPanel6.add(filterBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
+
+        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 474, 700, 110));
 
         jPanel5.setBackground(new java.awt.Color(254, 254, 254));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -83,12 +110,6 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         proveedorlbl1.setText("Teléfono");
         proveedorlbl1.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel5.add(proveedorlbl1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
-
-        telefonoError.setBackground(new java.awt.Color(254, 254, 254));
-        telefonoError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        telefonoError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        telefonoError.setOpaque(true);
-        jPanel5.add(telefonoError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         telefono.setToolTipText("");
         telefono.setActionCommand("<Not Set>");
@@ -107,12 +128,6 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         jLabel9.setText("Email");
         jLabel9.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
-
-        emailError.setBackground(new java.awt.Color(254, 254, 254));
-        emailError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        emailError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        emailError.setOpaque(true);
-        jPanel1.add(emailError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
 
         email.setToolTipText("");
         email.setActionCommand("<Not Set>");
@@ -133,12 +148,6 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         jLabel8.setPreferredSize(new java.awt.Dimension(250, 16));
         jPanel.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
-        direccionError.setBackground(new java.awt.Color(254, 254, 254));
-        direccionError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        direccionError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        direccionError.setOpaque(true);
-        jPanel.add(direccionError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
-
         direccion.setToolTipText("");
         direccion.setActionCommand("<Not Set>");
         direccion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
@@ -157,12 +166,6 @@ public class CrearProveedorModal extends javax.swing.JDialog {
         jLabel2.setPreferredSize(new java.awt.Dimension(250, 16));
         nombrePanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 40));
 
-        nombreError.setBackground(new java.awt.Color(254, 254, 254));
-        nombreError.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        nombreError.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        nombreError.setOpaque(true);
-        nombrePanel.add(nombreError, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 40, 400, 20));
-
         nombre.setToolTipText("");
         nombre.setActionCommand("<Not Set>");
         nombre.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
@@ -172,75 +175,50 @@ public class CrearProveedorModal extends javax.swing.JDialog {
 
         jPanel2.add(nombrePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 106, 700, -1));
 
-        tituloLbl.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        tituloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tituloLbl.setText("Agregar proveedor");
-        jPanel2.add(tituloLbl, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 4, 700, 40));
-
-        jPanel6.setBackground(new java.awt.Color(254, 254, 254));
-        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        cancelarBtn1.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Red"));
-        cancelarBtn1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        cancelarBtn1.setForeground(new java.awt.Color(255, 255, 255));
-        cancelarBtn1.setText("Cancelar");
-        cancelarBtn1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cancelarBtn1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarBtn1ActionPerformed(evt);
-            }
-        });
-        jPanel6.add(cancelarBtn1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 120, 30));
-
-        agregarBtn.setBackground(new java.awt.Color(129, 140, 248));
-        agregarBtn.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        agregarBtn.setForeground(new java.awt.Color(255, 255, 255));
-        agregarBtn.setText("Agregar");
-        agregarBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        agregarBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarBtnActionPerformed(evt);
-            }
-        });
-        jPanel6.add(agregarBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 30, 140, 30));
-
-        jPanel2.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 480, 700, 100));
-
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 580));
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 584, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
 
         setSize(new java.awt.Dimension(716, 588));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void agregarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBtnActionPerformed
-        Proveedor proveedor = new Proveedor();
-
-        try {
-            proveedor.setNombre(nombre.getText());
-            proveedor.setDireccion(direccion.getText());
-            proveedor.setEmail(email.getText());
-            proveedor.setTelefono(telefono.getText());
-            proveedorRepository.save(proveedor);
-
-            dispose();
-            parent.loadEntries();
-            MessageHandler.showSuccessMessage("Proveedor agregado correctamente", null);
-        } catch (SQLException | ValidationModelException ex) {
-            MessageHandler.showErrorMessage(ex.getMessage());
-        }
-    }//GEN-LAST:event_agregarBtnActionPerformed
-
-    private void cancelarBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtn1ActionPerformed
+    private void cancelarBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBtnActionPerformed
         dispose();
-    }//GEN-LAST:event_cancelarBtn1ActionPerformed
+    }//GEN-LAST:event_cancelarBtnActionPerformed
+
+    private void filterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterBtnActionPerformed
+        pc.nombre = nombre.getText().trim();
+        pc.direccion = direccion.getText().trim();
+        pc.email = email.getText().trim();
+        pc.telefono = telefono.getText().trim();
+        
+        parent.setCriteria(pc);
+        dispose();
+    }//GEN-LAST:event_filterBtnActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton agregarBtn;
-    private javax.swing.JButton cancelarBtn1;
+    private javax.swing.JButton cancelarBtn;
     private javax.swing.JTextField direccion;
-    private javax.swing.JLabel direccionError;
     private javax.swing.JTextField email;
-    private javax.swing.JLabel emailError;
+    private javax.swing.JButton filterBtn;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -250,11 +228,9 @@ public class CrearProveedorModal extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JTextField nombre;
-    private javax.swing.JLabel nombreError;
     private javax.swing.JPanel nombrePanel;
     private javax.swing.JLabel proveedorlbl1;
     private javax.swing.JTextField telefono;
-    private javax.swing.JLabel telefonoError;
     private javax.swing.JLabel tituloLbl;
     // End of variables declaration//GEN-END:variables
 }

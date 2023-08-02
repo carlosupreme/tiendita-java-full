@@ -4,7 +4,6 @@
  */
 package views;
 
-import user.infrastructure.LoginFrame;
 import db.SelectStatementMapper;
 import java.awt.BorderLayout;
 import java.awt.Toolkit;
@@ -23,8 +22,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import models.Venta;
+import supplier.infrastructure.ProveedorIndex;
+import user.infrastructure.LoginFrame;
 import views.inventario.InventarioFrame;
-import views.proveedor.ProveedorFrame;
 
 /**
  *
@@ -130,7 +130,7 @@ public class HomeFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void proveedoresBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_proveedoresBtnActionPerformed
-        new ProveedorFrame().setVisible(true);
+        new ProveedorIndex().setVisible(true);
     }//GEN-LAST:event_proveedoresBtnActionPerformed
 
     private void inventarioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inventarioBtnActionPerformed

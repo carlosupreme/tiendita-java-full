@@ -1,8 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
-package views.proveedor;
+package supplier.infrastructure;
 
 import exceptions.ValidationModelException;
 import java.sql.SQLException;
@@ -16,11 +12,6 @@ import views.tabla.TableActionCellEditor;
 import views.tabla.TableActionCellRender;
 import views.tabla.TableActionEvent;
 
-/**
- *
- * @author ili
- */
-@SuppressWarnings("serial")
 public final class ProveedorFrame extends javax.swing.JFrame {
 
     private final ProveedorRepository proveedorRepository;
@@ -69,11 +60,11 @@ public final class ProveedorFrame extends javax.swing.JFrame {
             @Override
             public void onShow(int row) {
                 long id = (long) model.getValueAt(row, 0);
-                try {
-                    new VerProveedorModal(ProveedorFrame.this, proveedorRepository.findById(id), proveedorRepository).setVisible(true);
-                } catch (SQLException | ValidationModelException ex) {
-                    MessageHandler.showErrorMessage(ex.getMessage());
-                }
+//                try {
+//                    new VerProveedorModal(ProveedorFrame.this, proveedorRepository.findById(id), proveedorRepository).setVisible(true);
+//                } catch (SQLException | ValidationModelException ex) {
+//                    MessageHandler.showErrorMessage(ex.getMessage());
+//                }
             }
         };
 
